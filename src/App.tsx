@@ -60,7 +60,7 @@ const example = {
 function App() {
   const [json, setJson] = useState<string>(JSON.stringify(example));
   const [valid, setValid] = useState(false);
-  const [barOpen, setBarOpen] = useState(false);
+  const [barOpen, setBarOpen] = useState(true);
   function parse() {
     try {
       const parsed = JSON.parse(json);

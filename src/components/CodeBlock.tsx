@@ -14,7 +14,6 @@ export function CodeBlock({
   onChange?: (value: string, viewUpdate: ViewUpdate) => void;
 }) {
   const codeMirrorRef = useRef<ReactCodeMirrorRef>(null);
-  const editor = codeMirrorRef.current;
 
   return (
     <CodeMirror
