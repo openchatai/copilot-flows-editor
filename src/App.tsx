@@ -12,15 +12,53 @@ const ajv = new Ajv({
 const validate = ajv.compile({
   type: "object",
   properties: {
-    foo: { type: "integer" },
-    bar: { type: "string" },
+    name: {
+      type: "string",
+      minLength: 1,
+    },
+    age: {
+      type: "number",
+      minimum: 0,
+    },
+    address: {
+      type: "object",
+      properties: {
+        street: {
+          type: "string",
+          minLength: 1,
+        },
+        city: {
+          type: "string",
+          minLength: 1,
+        },
+        state: {
+          type: "string",
+          minLength: 1,
+        },
+      },
+      required: ["city", "state"],
+    },
+    website: {
+      type: "string",
+      minLength: 1,
+      pattern: "^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})([/\\w .-]*)*/?$",
+    },
   },
-  required: ["foo", "bar"],
-  additionalProperties: false,
+  required: ["name", "age", "address", "website"],
 });
 
+const example = {
+  name: "Ahmad Hassan",
+  age: 22,
+  website: "https://falta.info",
+  address: {
+    city: "zagazig",
+    state: "Sharqia",
+  },
+};
+
 function App() {
-  const [json, setJson] = useState("{}");
+  const [json, setJson] = useState<string>(JSON.stringify(example));
   const [valid, setValid] = useState(false);
   const [barOpen, setBarOpen] = useState(false);
   function parse() {
@@ -38,7 +76,6 @@ function App() {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const isValid = useMemo(() => validate(parse()), [json]);
-  console.log(ajv.errors);
 
   return (
     <div className="min-h-screen max-h-screen h-screen bg-white font-sans">
@@ -55,7 +92,6 @@ function App() {
                 >
                   Format
                 </button>
-                <button>Validate</button>
               </div>
             </div>
           </div>
@@ -85,21 +121,34 @@ function App() {
                     barOpen ? "rotate-180" : "rotate-0"
                   }`}
                 />
-                <span className="inline-block text-rose-500 text-xs">
-                  ( {ajv.errors?.length} )
-                </span>
+                {validate.errors ? (
+                  <span className="inline-block text-rose-500 text-xs">
+                    ( {validate.errors?.length} )
+                  </span>
+                ) : (
+                  ""
+                )}
               </button>
 
-              <div className="w-full h-full p-4">
-                <ul>
-                  {ajv.errors?.map((error) => {
-                    return (
-                      <li className="">
-                        <div className="font-mono text-sm">{error.message}</div>
-                      </li>
-                    );
-                  })}
-                </ul>
+              <div className="w-full h-full max-h-full overflow-auto">
+                {validate.errors ? (
+                  <ul className="p-4">
+                    {validate.errors?.map((error) => {
+                      return (
+                        <li className="flex items-center text-sm gap-2">
+                          <span className="font-semibold">
+                            {error.instancePath}
+                          </span>
+                          <div className="font-mono">{error.message}</div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : (
+                  <div className="bg-emerald-500 text-white text-lg text-center p-2 m-2">
+                    <span>No Errors, all clear</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
