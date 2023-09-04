@@ -60,7 +60,7 @@ const example = {
 function App() {
   const [json, setJson] = useState<string>(JSON.stringify(example));
   const [valid, setValid] = useState(false);
-  const [barOpen, setBarOpen] = useState(true);
+  const [barOpen, setBarOpen] = useState(false);
   function parse() {
     try {
       const parsed = JSON.parse(json);
@@ -81,8 +81,10 @@ function App() {
     <div className="min-h-screen max-h-screen h-screen bg-white font-sans">
       <div className="flex flex-col w-full h-full">
         <header className="w-full sticky top-0 left-0 z-40 bg-white h-14 flex items-center">
-          <div className="container flex items-center justify-between px-4">
-            <div className="font-bold text-lg">Parser</div>
+          <div className="container flex items-center justify-between">
+            <div className="font-bold text-lg">
+              <img src="https://mintlify.s3-us-west-1.amazonaws.com/openchat/logo/dark.png" className="w-9" alt=""/>
+            </div>
             <div className="nav flex-1">
               <div className="flex items-center justify-end gap-5">
                 <button
