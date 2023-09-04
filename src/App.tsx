@@ -233,7 +233,7 @@ function App() {
                   </ul>
                 ) : (
                   <div className="bg-emerald-500 text-white text-lg text-center p-2 m-2">
-                    <span>No Errors, all clear</span>
+                    <span>Your OpenCopilot flows definition is valid</span>
                   </div>
                 )}
               </div>
