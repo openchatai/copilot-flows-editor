@@ -9,52 +9,133 @@ const ajv = new Ajv({
   strict: true,
 });
 
-const validate = ajv.compile({
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-      minLength: 1,
+const validate = ajv.compile( {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "opencopilot": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$"
     },
-    age: {
-      type: "number",
-      minimum: 0,
-    },
-    address: {
-      type: "object",
-      properties: {
-        street: {
-          type: "string",
-          minLength: 1,
+    "info": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
         },
-        city: {
-          type: "string",
-          minLength: 1,
-        },
-        state: {
-          type: "string",
-          minLength: 1,
-        },
+        "version": {
+          "type": "string"
+        }
       },
-      required: ["city", "state"],
+      "required": ["title", "version"]
     },
-    website: {
-      type: "string",
-      minLength: 1,
-      pattern: "^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})([/\\w .-]*)*/?$",
-    },
+    "flows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "requires_confirmation": {
+            "type": "boolean"
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stepId": {
+                  "type": "string"
+                },
+                "operation": {
+                  "type": "string"
+                },
+                "open_api_operation_id": {
+                  "type": "string"
+                },
+                "parameters": {
+                  "type": "object"
+                }
+              },
+              "required": ["operation", "open_api_operation_id"]
+            }
+          },
+          "on_success": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "handler": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "on_failure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "handler": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": ["name", "description", "requires_confirmation", "steps", "on_success", "on_failure"]
+      }
+    }
   },
-  required: ["name", "age", "address", "website"],
+  "required": ["opencopilot", "info", "flows"]
 });
 
 const example = {
-  name: "Jhon Doe",
-  age: 22,
-  website: "https://falta.info",
-  address: {
-    city: "some place in chicago",
-    state: "chicago",
+  "opencopilot": "0.1",
+  "info": {
+    "title": "My OpenCopilot definition",
+    "version": "1.0.0"
   },
+  "flows": [
+    {
+      "name": "user registration",
+      "description": "The needed API flow to register a user into the system",
+      "requires_confirmation": false,
+      "steps": [
+        {
+          "stepId": "xxx",
+          "operation": "call",
+          "open_api_operation_id": "operationId1"
+        },
+        {
+          "stepId": "xxx",
+          "operation": "call",
+          "open_api_operation_id": "operationId2",
+          "parameters": {
+            "user_verification": "xx.response.some_key"
+          }
+        },
+        {
+          "operation": "call",
+          "open_api_operation_id": "operationId3"
+        }
+      ],
+      "on_success": [
+        {
+          "handler": "plotOutcomeJsFunction"
+        }
+      ],
+      "on_failure": [
+        {
+          "handler": "plotOutcomeJsFunction"
+        }
+      ]
+    }
+  ]
 };
 
 function App() {
