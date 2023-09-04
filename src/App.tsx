@@ -48,12 +48,12 @@ const validate = ajv.compile({
 });
 
 const example = {
-  name: "Ahmad Hassan",
+  name: "Jhon Doe",
   age: 22,
   website: "https://falta.info",
   address: {
-    city: "zagazig",
-    state: "Sharqia",
+    city: "some place in chicago",
+    state: "chicago",
   },
 };
 
@@ -81,9 +81,13 @@ function App() {
     <div className="min-h-screen max-h-screen h-screen bg-white font-sans">
       <div className="flex flex-col w-full h-full">
         <header className="w-full sticky top-0 left-0 z-40 bg-white h-14 flex items-center">
-          <div className="container flex items-center justify-between">
+          <div className="container flex items-center justify-between px-4">
             <div className="font-bold text-lg">
-              <img src="https://mintlify.s3-us-west-1.amazonaws.com/openchat/logo/dark.png" className="w-9" alt=""/>
+              <img
+                src="https://mintlify.s3-us-west-1.amazonaws.com/openchat/logo/dark.png"
+                className="w-9 aspect-square"
+                alt="logo-dark"
+              />
             </div>
             <div className="nav flex-1">
               <div className="flex items-center justify-end gap-5">
