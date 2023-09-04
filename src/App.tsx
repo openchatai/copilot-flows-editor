@@ -84,7 +84,7 @@ function App() {
           <div className="container flex items-center justify-between px-4">
             <div className="font-bold text-lg">
               <img
-                src="https://mintlify.s3-us-west-1.amazonaws.com/openchat/logo/dark.png"
+                src="/logo-opencopilot.png"
                 className="w-9 aspect-square"
                 alt="logo-dark"
               />
