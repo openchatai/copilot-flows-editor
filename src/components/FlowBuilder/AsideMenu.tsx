@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { Paths, Swagger, TransformedPath } from "./types/Swagger";
-import { useActiveNode } from "./activeNodeProvider";
 import { useReactFlow, type Node, MarkerType, Edge } from "reactflow";
 import { genId } from "./utils/genId";
 import { useMode } from "../stores/ModeProvider";
@@ -21,9 +20,10 @@ function transformPaths(paths: Paths): TransformedPath[] {
 
 export default function AsideMenu() {
   const [endpoints, setEndpoints] = useState<Swagger>();
-  const { setNodes, getNodes, setEdges } = useReactFlow();
+  const { setNodes, getNodes, setEdges } = useReactFlow<TransformedPath>();
   const nodes = getNodes();
   const { mode, setMode } = useMode();
+
   function appendEndpoint(payload: TransformedPath) {
     const id = genId();
     const newNode: Node = {
@@ -101,21 +101,27 @@ export default function AsideMenu() {
     setNodes(updateNodePositions(newNodes, Y));
     console.log(newNodes);
   }
+
   async function fetchEndpoints() {
     const _ = await fetch("/example-swagger.json");
     const data: Swagger = await _.json();
     setEndpoints(data);
   }
+
   useEffect(() => {
     fetchEndpoints();
   }, []);
+
   const paths = transformPaths(endpoints?.paths ?? {});
   // TODO: separate button component for endpoint
+  const isAdd = mode.type === "append-node" || mode.type === "add-node-between";
+  const isEdit = mode.type === "edit-node";
   return (
     <aside className="h-full max-w-sm w-full bg-white z-50 shadow-lg py-2">
       <div
         data-container="select-node"
-        className="w-full h-full flex items-start flex-col [&>*]:w-full gap-5"
+        data-hidden={!isAdd}
+        className="w-full h-full flex items-start flex-col data-[hidden=true]:hidden data-[hidden=true]:animate-out data-[hidden=true]:slide-out-to-left-full animate-in [&>*]:w-full gap-5"
       >
         <div className="p-2">
           <h2 className="text-xl font-semibold text-slate-700">
@@ -184,8 +190,33 @@ export default function AsideMenu() {
           </ul>
         </div>
       </div>
-      <div className="w-full h-full" data-container="edit-node" hidden>
-        Edit Node
+      <div
+        className="w-full h-full data-[hidden=true]:animate-out animate-in data-[hidden=true]:hidden data-[hidden=true]:slide-out-to-right-full"
+        data-container="edit-node"
+        data-hidden={!isEdit}
+      >
+        <div className="p-2">
+          <h2 className="text-xl font-semibold text-slate-700">
+            Edit Endpoint
+          </h2>
+          <p className="text-sm font-medium text-gray-700 mt-1">
+            Edit the endpoint you selected
+          </p>
+        </div>
+        <div>
+          {mode.type === "edit-node" && (
+            <div className="p-2">
+              <h3 className="text-lg font-semibold text-slate-700">
+                {mode.node.data.path}
+              </h3>
+              <p className="text-sm font-medium text-gray-700 mt-1">
+                {mode.node.data.methods
+                  .map((method) => method.method)
+                  .join(", ")}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </aside>
   );

@@ -40,7 +40,9 @@ export function NodeEdge({
           <button
             className={cn(
               "rounded bg-[#ddd]",
-              activeEdge?.id === props.id ? "ring-4 ring-offset-1 ring-offset-indigo-300 ring-indigo-500" : ""
+              activeEdge?.id === props.id
+                ? "ring-4 ring-offset-1 ring-offset-indigo-300 ring-indigo-500"
+                : ""
             )}
           >
             <PlusIcon strokeWidth={3} />

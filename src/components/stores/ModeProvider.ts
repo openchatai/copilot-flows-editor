@@ -1,5 +1,6 @@
 import { createSafeContext } from "../../utils/create-safe-context";
 import type { Edge, Node } from "reactflow";
+import { TransformedPath } from "../FlowBuilder/types/Swagger";
 
 type AppendNodeMode = {
     type: "append-node";
@@ -10,7 +11,7 @@ type AddNodeBetweenMode = {
 }
 type EditNodeMode = {
     type: "edit-node";
-    node: Node;
+    node: Node<TransformedPath>;
 }
 
 export type Mode = AppendNodeMode | AddNodeBetweenMode | EditNodeMode;

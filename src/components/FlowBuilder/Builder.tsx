@@ -26,7 +26,7 @@ export default function ReactFlowBuilder() {
     }),
     []
   );
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [nodes, , onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [mode, setMode] = useState<Mode>({
     type: "append-node",
@@ -43,10 +43,12 @@ export default function ReactFlowBuilder() {
   ) {
     switch (node.type) {
       case "endpointNode":
-        setMode({
-          type: "edit-node",
-          node: node,
-        });
+        // if node already active and clicked again, switch to append. (user want to add another node)
+        if (mode.type === "edit-node" && mode.node.id === node.id) {
+          setMode({ type: "append-node" });
+        } else {
+          setMode({ type: "edit-node", node: node });
+        }
     }
   }
   return (
@@ -71,7 +73,7 @@ export default function ReactFlowBuilder() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
-            deleteKeyCode={["Delete", "Backspace"]}
+            deleteKeyCode={[]}
             fitView
           >
             <Background />

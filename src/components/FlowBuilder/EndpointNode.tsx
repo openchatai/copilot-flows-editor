@@ -20,7 +20,7 @@ export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
     } else {
       return false;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
   const isFirstNode = nodes?.[0]?.id === id;
 
