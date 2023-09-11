@@ -14,6 +14,7 @@ function transformPaths(paths: Paths): TransformedPath[] {
       .map(([method, operation]) => ({
         ...operation!,
         method: method.toUpperCase(),
+        operationId: operation!.operationId || "",
       })),
   }));
 }
@@ -117,7 +118,7 @@ export default function AsideMenu() {
   const isAdd = mode.type === "append-node" || mode.type === "add-node-between";
   const isEdit = mode.type === "edit-node";
   return (
-    <aside className="h-full max-w-sm w-full bg-white z-50 shadow-lg py-2">
+    <aside className="h-full max-w-sm w-full bg-white shadow-lg py-2">
       <div
         data-container="select-node"
         data-hidden={!isAdd}
