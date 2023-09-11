@@ -1,0 +1,232 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "OpenCopilot",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Pet store demo"
+        }
+    ],
+    "paths": {
+        "/pets": {
+            "get": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "List all pets",
+                "description": "Get a list of all available pets.",
+                "operationId": "listPets",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "Create a new pet",
+                "description": "Create a new pet with the provided details.",
+                "operationId": "createPet",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Max"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "Dog"
+                                            },
+                                            "breed": {
+                                                "type": "string",
+                                                "example": "Labrador Retriever"
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Friendly and playful"
+                                            },
+                                            "price": {
+                                                "type": "integer",
+                                                "example": 1000
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/pets/{id}": {
+            "get": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "Show a pet by ID",
+                "description": "Get details of a pet by its ID.",
+                "operationId": "getPetById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "Delete pet by ID",
+                "description": "Delete a pet by its ID.",
+                "operationId": "deletePetById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "Update pet by ID",
+                "description": "Update details of a pet by its ID.",
+                "operationId": "updatePetById",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/pets/data/search": {
+            "get": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "Search pets by anything",
+                "description": "Search for pets by names, price, quantity, breed or anything",
+                "operationId": "searchPets",
+                "parameters": [
+                    {
+                        "name": "searchTerm",
+                        "in": "query",
+                        "description": "Search term to filter pets.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/pets/data/analytics": {
+            "get": {
+                "tags": [
+                    "Pet store demo"
+                ],
+                "summary": "Get the monthly or daily or yearly or general analytics about pets including inventory and sales and numbers",
+                "description": "Get the monthly or daily or yearly or general analytics about pets including inventory and sales and numbers",
+                "operationId": "petsMonthlyDailyGeneralAnalytics",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
