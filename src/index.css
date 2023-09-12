@@ -8,3 +8,8 @@
     aspect-ratio: 1/1;
   }
 }
+
+.react-flow__node {
+  @apply !transition-all !ease-out !duration-300;
+}
+

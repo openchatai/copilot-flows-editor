@@ -102,7 +102,7 @@ function FLowBuilder_() {
         <div className="flex-1 h-full relative">
           {nodes.length === 0 && (
             <div
-              className="absolute inset-0 z-50 bg-black/10 group"
+              className="absolute inset-0 z-40 bg-black/10 group select-none"
               data-container="empty-state"
             >
               <div className="flex items-center justify-center h-full">
