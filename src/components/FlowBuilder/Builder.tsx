@@ -50,7 +50,7 @@ function FLowBuilder_() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-
+  console.log(nodes);
   function HandleNodeClick(
     event: React.MouseEvent<Element, MouseEvent>,
     node: Node
@@ -99,7 +99,19 @@ function FLowBuilder_() {
       )}
       <div className="flex-1 w-full flex items-center">
         <AsideMenu />
-        <div className="flex-1 h-full">
+        <div className="flex-1 h-full relative">
+          {nodes.length === 0 && (
+            <div
+              className="absolute inset-0 z-50 bg-black/10 group"
+              data-container="empty-state"
+            >
+              <div className="flex items-center justify-center h-full">
+                <div className="max-w-xs w-full p-2 rounded border opacity-50 group-hover:opacity-100 transition-opacity border-dashed text-neutral-800 text-center text-base border-neutral-500">
+                  Start by selecting an endpoint from the menu
+                </div>
+              </div>
+            </div>
+          )}
           <ReactFlow
             nodeTypes={nodeTypes}
             nodes={nodes}

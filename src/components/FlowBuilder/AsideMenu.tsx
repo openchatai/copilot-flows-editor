@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Paths, Swagger, TransformedPath } from "./types/Swagger";
 import { useReactFlow, type Node, MarkerType, Edge } from "reactflow";
 import { genId } from "./utils/genId";
@@ -6,6 +6,24 @@ import { useMode } from "../stores/ModeProvider";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
 import { DiscIcon, TrashIcon } from "@radix-ui/react-icons";
+
+function useLoadEndpoints() {
+  const [endpoints, setEndpoints] = useState<Swagger>();
+
+  async function fetchEndpoints() {
+    const _ = await fetch("/example-swagger.json");
+    const data: Swagger = await _.json();
+    setEndpoints(data);
+  }
+  useEffect(() => {
+    fetchEndpoints();
+  }, []);
+  const paths = useMemo(
+    () => transformPaths(endpoints?.paths ?? {}) ?? [],
+    [endpoints]
+  );
+  return { paths };
+}
 
 function transformPaths(paths: Paths): TransformedPath[] {
   return Object.entries(paths).map(([path, pathItem]) => ({
@@ -21,7 +39,7 @@ function transformPaths(paths: Paths): TransformedPath[] {
 }
 
 export default function AsideMenu() {
-  const [endpoints, setEndpoints] = useState<Swagger>();
+  const { paths } = useLoadEndpoints();
   const { setNodes, getNodes, setEdges, getEdges } =
     useReactFlow<TransformedPath>();
   const nodes = getNodes();
@@ -34,9 +52,10 @@ export default function AsideMenu() {
       type: "endpointNode",
       data: payload,
       draggable: false,
-      position: { x: 0, y: 120 * nodes.length },
+      position: { x: 0, y: Y * nodes.length },
     };
-    setNodes((nds) => [...nds, newNode]);
+
+    setNodes((nds) => updateNodePositions([...nds, newNode], Y));
     const previousNode = nodes?.[nodes.length - 1];
     if (previousNode) {
       setEdges((eds) =>
@@ -114,16 +133,6 @@ export default function AsideMenu() {
     console.log(newNodes);
   }
 
-  async function fetchEndpoints() {
-    const _ = await fetch("/example-swagger.json");
-    const data: Swagger = await _.json();
-    setEndpoints(data);
-  }
-
-  useEffect(() => {
-    fetchEndpoints();
-  }, []);
-
   function deleteNode(node: Node<TransformedPath>) {
     const nodeIndex = nodes.findIndex((nd) => nd.id === node.id);
     const previousNode = nodes[nodeIndex - 1];
@@ -149,7 +158,6 @@ export default function AsideMenu() {
     setEdges(newEdges);
   }
 
-  const paths = transformPaths(endpoints?.paths ?? {});
   // TODO: separate button component for endpoint
   const isAdd = mode.type === "append-node" || mode.type === "add-node-between";
   const isEdit = mode.type === "edit-node";
@@ -170,7 +178,7 @@ export default function AsideMenu() {
         </div>
         <div className="flex-1">
           <ul className="space-y-1 select-none">
-            {endpoints?.paths && (
+            {paths && paths.length > 0 && (
               <>
                 {paths.map((path) => (
                   <li key={path.path} className="w-full">
