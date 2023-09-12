@@ -107,6 +107,7 @@ export default function ReactFlowBuilder() {
             nodes={nodes}
             edges={edges}
             onEdgeClick={(event, edge) => {
+              event.stopPropagation();
               setMode({
                 type: "add-node-between",
                 edge: edge,

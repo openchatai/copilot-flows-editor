@@ -1,8 +1,9 @@
-import { Handle, NodeProps, Position, useNodes, useReactFlow } from "reactflow";
+import { Handle, NodeProps, Position, useNodeId, useNodes } from "reactflow";
 import { TransformedPath } from "./types/Swagger";
 import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
 import { useMemo } from "react";
+
 type CustomNodeData = TransformedPath;
 const HideHandleStyles = {
   background: "transparent",
@@ -13,17 +14,16 @@ const HideHandleStyles = {
 export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
   const nodes = useNodes();
   const { mode } = useMode();
-
+  const nodeId = useNodeId();
   const isActive = useMemo(() => {
     if (mode.type === "edit-node") {
-      return mode.node.id === id;
+      return mode.node.id === nodeId;
     } else {
       return false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
-  const isFirstNode = nodes?.[0]?.id === id;
-
+  const isFirstNode = nodes?.[0]?.id === nodeId;
   return (
     <>
       {!isFirstNode && (
@@ -36,7 +36,7 @@ export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
       )}
       <div
         className={cn(
-          "bg-white border duration-300  ease-in-out rounded w-[200px] min-h-[50px] select-none cursor-pointer transition-all",
+          "bg-white border group relative duration-300  ease-in-out rounded w-[200px] min-h-[50px] select-none cursor-pointer transition-all",
           isActive
             ? "border-indigo-500 [box-shadow:inset_0px_2.5px_0px_0px_theme(colors.indigo.500)]"
             : "border-slate-200 hover:shadow"

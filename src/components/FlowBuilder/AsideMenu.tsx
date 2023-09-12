@@ -5,6 +5,7 @@ import { genId } from "./utils/genId";
 import { useMode } from "../stores/ModeProvider";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
+import { DiscIcon, TrashIcon } from "@radix-ui/react-icons";
 
 function transformPaths(paths: Paths): TransformedPath[] {
   return Object.entries(paths).map(([path, pathItem]) => ({
@@ -192,11 +193,11 @@ export default function AsideMenu() {
         </div>
       </div>
       <div
-        className="w-full h-full data-[hidden=true]:animate-out animate-in data-[hidden=true]:hidden data-[hidden=true]:slide-out-to-right-full"
+        className="w-full h-full flex items-start flex-col data-[hidden=true]:animate-out animate-in data-[hidden=true]:hidden data-[hidden=true]:slide-out-to-right-full"
         data-container="edit-node"
         data-hidden={!isEdit}
       >
-        <div className="p-2">
+        <div className="p-2 w-full">
           <h2 className="text-xl font-semibold text-slate-700">
             Edit Endpoint
           </h2>
@@ -204,9 +205,9 @@ export default function AsideMenu() {
             Edit the endpoint you selected
           </p>
         </div>
-        <div>
-          {mode.type === "edit-node" && (
-            <div className="p-2">
+        {mode.type === "edit-node" && (
+          <>
+            <div className="p-2 flex-1 w-fullw">
               <h3 className="text-lg font-semibold text-slate-700">
                 {mode.node.data.path}
               </h3>
@@ -216,8 +217,18 @@ export default function AsideMenu() {
                   .join(", ")}
               </p>
             </div>
-          )}
-        </div>
+            <div className="text-lg flex items-center gap-2 p-2">
+              <button className="flex items-center gap-1 text-rose-500">
+                <span>Delete</span>
+                <TrashIcon className="text-rose-700" />
+              </button>
+              <button className="flex items-center gap-1 text-indigo-500">
+                <span>Save</span>
+                <DiscIcon className="text-indigo-700" />
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </aside>
   );

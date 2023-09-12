@@ -4,6 +4,7 @@ import Ajv from "ajv";
 import { formatCode } from "../utils/format-json";
 import { CodeBlock } from "../components/CodeBlock";
 import cn from "../utils/cn";
+import { Link } from "react-router-dom";
 const ajv = new Ajv({
   allErrors: true,
   verbose: true,
@@ -189,6 +190,7 @@ export default function Validator() {
             <div className="nav flex-1">
               <div className="flex items-center justify-end gap-5">
                 <button onClick={_formatCode}>Format</button>
+                <Link to="/flow">Api Flow</Link>
               </div>
             </div>
           </div>
