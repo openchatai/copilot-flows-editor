@@ -22,9 +22,10 @@ function transformPaths(paths: Paths): TransformedPath[] {
 
 export default function AsideMenu() {
   const [endpoints, setEndpoints] = useState<Swagger>();
-  const { setNodes, getNodes, setEdges } = useReactFlow<TransformedPath>();
+  const { setNodes, getNodes, setEdges, getEdges } =
+    useReactFlow<TransformedPath>();
   const nodes = getNodes();
-  const { mode, setMode } = useMode();
+  const { mode, setMode, reset } = useMode();
 
   function appendEndpoint(payload: TransformedPath) {
     const id = genId();
@@ -85,18 +86,27 @@ export default function AsideMenu() {
         source: sourceNode.id,
         target: newNode.id,
         type: "endpointEdge",
+        markerStart: {
+          type: MarkerType.ArrowClosed,
+        },
       },
       {
         id: genId(),
         source: newNode.id,
         target: targetNode.id,
         type: "endpointEdge",
+        markerStart: {
+          type: MarkerType.ArrowClosed,
+        },
       },
       {
         id: genId(),
         source: newNode.id,
         target: targetNode.id,
         type: "endpointEdge",
+        markerStart: {
+          type: MarkerType.ArrowClosed,
+        },
       },
     ];
     setEdges((eds) => eds.concat(newEdges));
@@ -113,6 +123,31 @@ export default function AsideMenu() {
   useEffect(() => {
     fetchEndpoints();
   }, []);
+
+  function deleteNode(node: Node<TransformedPath>) {
+    const nodeIndex = nodes.findIndex((nd) => nd.id === node.id);
+    const previousNode = nodes[nodeIndex - 1];
+    const nextNode = nodes[nodeIndex + 1];
+    const newNodes = nodes.filter((nd) => nd.id !== node.id);
+    reset();
+    setNodes(updateNodePositions(newNodes, Y));
+    // reconnect edges the to before and after nodes
+
+    const edges = getEdges();
+    const allExceptConnectedEdges = edges.filter(
+      (ed) => ed.source !== node.id && ed.target !== node.id
+    );
+    const newEdges = allExceptConnectedEdges.concat({
+      id: genId(),
+      source: nextNode?.id ?? "",
+      target: previousNode?.id ?? "",
+      type: "endpointEdge",
+      markerStart: {
+        type: MarkerType.ArrowClosed,
+      },
+    });
+    setEdges(newEdges);
+  }
 
   const paths = transformPaths(endpoints?.paths ?? {});
   // TODO: separate button component for endpoint
@@ -217,14 +252,17 @@ export default function AsideMenu() {
                   .join(", ")}
               </p>
             </div>
-            <div className="text-lg flex items-center gap-2 p-2">
-              <button className="flex items-center gap-1 text-rose-500">
+            <div className="text-base flex items-center gap-2 p-2">
+              <button
+                onClick={() => deleteNode(mode.node)}
+                className="flex items-center gap-1 border-rose-500 active:opacity-80 transition-opacity text-rose-500 border rounded px-2 py-1"
+              >
                 <span>Delete</span>
-                <TrashIcon className="text-rose-700" />
+                <TrashIcon />
               </button>
-              <button className="flex items-center gap-1 text-indigo-500">
+              <button className="flex items-center gap-1 bg-indigo-500 active:opacity-80 transition-opacity text-white px-2 py-1 rounded">
                 <span>Save</span>
-                <DiscIcon className="text-indigo-700" />
+                <DiscIcon />
               </button>
             </div>
           </>
