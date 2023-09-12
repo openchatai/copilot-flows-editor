@@ -11,11 +11,11 @@ import "reactflow/dist/style.css";
 import { NodeEdge } from "./EndpointEdge";
 import { EndpointNode } from "./EndpointNode";
 import AsideMenu from "./AsideMenu";
-import { Mode, ModeProvider } from "../stores/ModeProvider";
+import { ModeProvider, useMode } from "../stores/ModeProvider";
 import { TransformedPath } from "./types/Swagger";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
-export default function ReactFlowBuilder() {
+function FLowBuilder_() {
   const nodeTypes = useMemo(
     () => ({
       endpointNode: EndpointNode,
@@ -45,9 +45,7 @@ export default function ReactFlowBuilder() {
   }, []);
   const [nodes, , onNodesChange] = useNodesState<TransformedPath>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [mode, setMode] = useState<Mode>({
-    type: "append-node",
-  });
+  const { mode, setMode, reset: resetMode } = useMode();
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
@@ -61,14 +59,14 @@ export default function ReactFlowBuilder() {
       case "endpointNode":
         // if node already active and clicked again, switch to append. (user want to add another node)
         if (mode.type === "edit-node" && mode.node.id === node.id) {
-          setMode({ type: "append-node" });
+          resetMode();
         } else {
           setMode({ type: "edit-node", node: node });
         }
     }
   }
   return (
-    <ModeProvider value={{ mode, setMode }}>
+    <>
       {isCodeSidebarOpen && (
         <>
           <div className="fixed inset-0 backdrop-blur-sm bg-slate-500/50 z-50">
@@ -108,6 +106,7 @@ export default function ReactFlowBuilder() {
             edges={edges}
             onEdgeClick={(event, edge) => {
               event.stopPropagation();
+              event.bubbles = false;
               setMode({
                 type: "add-node-between",
                 edge: edge,
@@ -127,6 +126,14 @@ export default function ReactFlowBuilder() {
           </ReactFlow>
         </div>
       </div>
+    </>
+  );
+}
+
+export default function ReactFlowBuilder() {
+  return (
+    <ModeProvider>
+      <FLowBuilder_ />
     </ModeProvider>
   );
 }
