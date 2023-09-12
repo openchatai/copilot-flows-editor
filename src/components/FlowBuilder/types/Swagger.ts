@@ -36,19 +36,11 @@ interface Operation {
     // ... Add other properties as needed
 }
 
-// PathItem Object
-interface PathItem {
-    get?: Operation;
-    post?: Operation;
-    put?: Operation;
-    delete?: Operation;
-}
-
+export const methods = ['get', 'post', 'put', 'delete', 'options', 'head', 'patch', 'trace'] as const;
+export type Method = typeof methods[number];
+type PathItem = Record<Method, Operation>;
 // Paths Object
-export type Paths = {
-    [path: string]: PathItem;
-};
-
+export type Paths = Record<string, PathItem>
 // Definitions Object (Schema)
 interface Definitions {
     [name: string]: any; // You can define more specific types based on your needs
@@ -73,10 +65,9 @@ export interface Swagger<TPaths extends Paths = Paths, TDefinitions extends Defi
 
 // transformation types
 
-type ExtendedOperation = Operation & {
+export type ExtendedOperation = Operation & {
     method: string;
-    operationId: string;
-  };
+};
 
 export type TransformedPath = {
     path: string;

@@ -1,42 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import type { Paths, Swagger, TransformedPath } from "./types/Swagger";
+import type { TransformedPath } from "./types/Swagger";
 import { useReactFlow, type Node, MarkerType, Edge } from "reactflow";
 import { genId } from "./utils/genId";
 import { useMode } from "../stores/ModeProvider";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
 import { DiscIcon, TrashIcon } from "@radix-ui/react-icons";
+import { useLoadEndpoints } from "./useLoadEndpoints";
 
-function useLoadEndpoints() {
-  const [endpoints, setEndpoints] = useState<Swagger>();
-
-  async function fetchEndpoints() {
-    const _ = await fetch("/example-swagger.json");
-    const data: Swagger = await _.json();
-    setEndpoints(data);
-  }
-  useEffect(() => {
-    fetchEndpoints();
-  }, []);
-  const paths = useMemo(
-    () => transformPaths(endpoints?.paths ?? {}) ?? [],
-    [endpoints]
-  );
-  return { paths };
-}
-
-function transformPaths(paths: Paths): TransformedPath[] {
-  return Object.entries(paths).map(([path, pathItem]) => ({
-    path,
-    methods: Object.entries(pathItem)
-      .filter(([, operation]) => Boolean(operation))
-      .map(([method, operation]) => ({
-        ...operation!,
-        method: method.toUpperCase(),
-        operationId: operation!.operationId || "",
-      })),
-  }));
-}
 
 export default function AsideMenu() {
   const { paths } = useLoadEndpoints();
