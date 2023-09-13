@@ -13,7 +13,7 @@ import { NodeEdge } from "./EndpointEdge";
 import { EndpointNode } from "./EndpointNode";
 import AsideMenu from "./AsideMenu";
 import { ModeProvider, useMode } from "../stores/ModeProvider";
-import { TransformedPath } from "./types/Swagger";
+import type { NodeData } from "./types/Swagger";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
 function FLowBuilder_() {
@@ -30,7 +30,7 @@ function FLowBuilder_() {
     []
   );
   const [isCodeSidebarOpen, setIsCodeSidebarOpen] = useState(false);
-  const [nodes, , onNodesChange] = useNodesState<TransformedPath>([]);
+  const [nodes, , onNodesChange] = useNodesState<NodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setMode } = useMode();
 
@@ -40,6 +40,10 @@ function FLowBuilder_() {
 
   // auto connect nodes
   useEffect(() => {
+    if (nodes.length === 0) {
+      setMode({ type: "append-node" });
+      return;
+    }
     const newEdges = nodes
       .map((v, i, a) => {
         const curr = v;
@@ -58,7 +62,6 @@ function FLowBuilder_() {
         }
       })
       .filter((v) => typeof v !== "undefined") as Edge[];
-    console.log(newEdges);
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes]);
@@ -79,6 +82,8 @@ function FLowBuilder_() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
+
+  const data = useMemo(() => nodes.map((node) => node.data), [nodes]);
 
   return (
     <>
@@ -104,7 +109,7 @@ function FLowBuilder_() {
                     className="outline-none h-full resize-none w-full p-3"
                     rows={4}
                   >
-                    {JSON.stringify(nodes)}
+                    {JSON.stringify(data)}
                   </textarea>
                 </div>
               </div>

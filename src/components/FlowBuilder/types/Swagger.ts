@@ -74,6 +74,6 @@ export type TransformedPath = {
 };
 
 
-export type NodeData = {
+export type NodeData = ExtendedOperation & {
     path: string;
-} & ExtendedOperation;
+}

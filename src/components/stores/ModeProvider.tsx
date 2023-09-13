@@ -1,6 +1,6 @@
 import { createSafeContext } from "../../utils/create-safe-context";
-import type { Edge, Node } from "reactflow";
-import { NodeData, TransformedPath } from "../FlowBuilder/types/Swagger";
+import { type Edge, type Node } from "reactflow";
+import { NodeData } from "../FlowBuilder/types/Swagger";
 import { useState } from "react";
 
 type AppendNodeMode = {

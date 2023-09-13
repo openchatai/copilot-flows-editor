@@ -1,18 +1,19 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import { Method } from "./types/Swagger";
 import cn from "../../utils/cn";
+// BG colors for method buttons
 const methodStyles = (method: Method) => {
   switch (method.toUpperCase()) {
     case "GET":
-      return "bg-green-500";
+      return "bg-green-400";
     case "POST":
-      return "bg-blue-500";
+      return "bg-blue-400";
     case "PUT":
-      return "bg-yellow-500";
+      return "bg-yellow-400";
     case "DELETE":
-      return "bg-red-500";
+      return "bg-red-400";
     default:
-      return "bg-gray-500";
+      return "bg-gray-400";
   }
 };
 export const MethodBtn = forwardRef<
@@ -22,7 +23,7 @@ export const MethodBtn = forwardRef<
   <button
     {...props}
     className={cn(
-      "rounded px-2 py-1 flex items-center justify-center text-white text-sm",
+      "rounded px-2 py-1 flex items-center justify-center font-medium text-white text-sm",
       methodStyles(method),
       className
     )}

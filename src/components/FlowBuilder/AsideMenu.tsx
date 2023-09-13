@@ -1,98 +1,12 @@
-import type { NodeData, TransformedPath } from "./types/Swagger";
-import { useReactFlow, type Node, Edge } from "reactflow";
-import { genId } from "./utils/genId";
 import { useMode } from "../stores/ModeProvider";
-import { updateNodePositions } from "./utils/updateNodePosition";
-import { Y } from "./consts";
 import { DiscIcon } from "@radix-ui/react-icons";
 import { useLoadEndpoints } from "./useLoadEndpoints";
-import { MethodBtn } from "./MethodRenderer";
-
-function PathButton({ path }: { path: TransformedPath }) {
-  const { mode, reset } = useMode();
-  const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
-  const nodes = getNodes();
-  function appendNode(payload: NodeData) {
-    const id = genId();
-    const newNode: Node = {
-      id: id,
-      type: "endpointNode",
-      data: payload,
-      draggable: false,
-      position: { x: 0, y: Y * nodes.length },
-    };
-
-    setNodes((nds) => updateNodePositions([...nds, newNode], Y));
-  }
-
-  function addNodeBetween(edge: Edge, payload: NodeData) {
-    const targetNode = nodes.find((node) => node.id === edge.target);
-    const sourceNode = nodes.find((node) => node.id === edge.source);
-    if (!targetNode || !sourceNode) {
-      return;
-    }
-    // delete the edge
-    setEdges((eds) => eds.filter((ed) => ed.id !== edge.id));
-    // add the new node
-    const id = genId();
-    const newNode: Node = {
-      id: id,
-      type: "endpointNode",
-      data: payload,
-      draggable: false,
-      position: {
-        x: 0,
-        y: (sourceNode.position.y + targetNode.position.y) / 2,
-      },
-    };
-    // put the new node in the middle of the two nodes that were connected (make sure the node is sorted in array too)
-    const sourceIndex = nodes.findIndex((node) => node.id === sourceNode.id);
-    const newNodes = nodes
-      .slice(0, sourceIndex)
-      .concat(newNode)
-      .concat(nodes.slice(sourceIndex));
-    setNodes(updateNodePositions(newNodes, Y));
-  }
-
-  return (
-    <div>
-      <div className="text-start h-full p-2 hover:bg-gray-100 transition-colors w-full">
-        <span className="text-black/80 text-lg font-medium">{path.path}</span>
-        <span className="flex w-full items-center gap-1 mt-2">
-          {path.methods.map((method) => {
-            return (
-              <MethodBtn
-                key={method.method}
-                method={method.method}
-                onClick={() => {
-                  const newNode: NodeData = {
-                    ...path,
-                    ...method,
-                  };
-                  if (mode.type === "append-node") {
-                    appendNode(newNode);
-                  } else if (mode.type === "add-node-between") {
-                    addNodeBetween(mode.edge, newNode);
-                    reset();
-                  }
-                }}
-              >
-                {method.method}
-              </MethodBtn>
-            );
-          })}
-        </span>
-      </div>
-    </div>
-  );
-}
+import { PathButton } from "./PathButton";
 
 export default function AsideMenu() {
   const { paths } = useLoadEndpoints();
   const { mode, isAdd, isEdit } = useMode();
-
-  // TODO: separate button component for endpoint
-
+  console.log(mode);
   return (
     <aside className="h-full max-w-sm w-full bg-white shadow-lg py-2">
       <div
