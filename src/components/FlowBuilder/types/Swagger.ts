@@ -33,7 +33,6 @@ interface Operation {
     responses: {
         [statusCode: string]: Response;
     };
-    // ... Add other properties as needed
 }
 
 export const methods = ['get', 'post', 'put', 'delete', 'options', 'head', 'patch', 'trace'] as const;

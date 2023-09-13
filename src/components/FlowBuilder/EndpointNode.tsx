@@ -3,8 +3,10 @@ import { TransformedPath } from "./types/Swagger";
 import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
 import { useMemo } from "react";
+import { Step } from "./types/Flow";
 
-type CustomNodeData = TransformedPath;
+type CustomNodeData = TransformedPath & Step;
+
 const HideHandleStyles = {
   background: "transparent",
   fill: "transparent",
@@ -12,6 +14,7 @@ const HideHandleStyles = {
   border: "none",
 };
 export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
+  const { path, parameters } = data;
   const nodes = useNodes();
   const { mode } = useMode();
   const nodeId = useNodeId();
