@@ -65,10 +65,15 @@ export interface Swagger<TPaths extends Paths = Paths, TDefinitions extends Defi
 // transformation types
 
 export type ExtendedOperation = Operation & {
-    method: string;
+    method: Method;
 };
 
 export type TransformedPath = {
     path: string;
     methods: ExtendedOperation[];
 };
+
+
+export type NodeData = {
+    path: string;
+} & ExtendedOperation;

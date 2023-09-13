@@ -5,19 +5,15 @@ import {
   useNodeId,
   useNodes,
   NodeToolbar,
-  Node,
   useReactFlow,
 } from "reactflow";
-import { TransformedPath } from "./types/Swagger";
+import { NodeData } from "./types/Swagger";
 import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
 import { useMemo } from "react";
-import { Step } from "./types/Flow";
 import { Y } from "./consts";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { TrashIcon } from "@radix-ui/react-icons";
-
-type CustomNodeData = TransformedPath & Step;
 
 const HideHandleStyles = {
   background: "transparent",
@@ -25,8 +21,8 @@ const HideHandleStyles = {
   color: "transparent",
   border: "none",
 };
-export function EndpointNode({ data }: NodeProps<CustomNodeData>) {
-  const nodes = useNodes<CustomNodeData>();
+export function EndpointNode({ data }: NodeProps<NodeData>) {
+  const nodes = useNodes<NodeData>();
   const { setNodes } = useReactFlow();
   const nodeId = useNodeId();
   const nodeObj = nodes.find((n) => n.id === nodeId);
@@ -61,7 +57,10 @@ export function EndpointNode({ data }: NodeProps<CustomNodeData>) {
   return (
     <>
       <NodeToolbar align="center" position={Position.Left}>
-        <button onClick={deleteNode} className="p-2 rounded-full text-rose-500 text-lg bg-neutral-100 hover:bg-neutral-200 transition-colors">
+        <button
+          onClick={deleteNode}
+          className="p-2 rounded-full text-rose-500 text-lg bg-neutral-100 hover:bg-neutral-200 transition-colors"
+        >
           <TrashIcon />
         </button>
       </NodeToolbar>
@@ -85,7 +84,7 @@ export function EndpointNode({ data }: NodeProps<CustomNodeData>) {
         <div className="p-2">
           <span className="block">{data.path}</span>
           <span className="uppercase text-xs font-bold text-indigo-500">
-            METHOD
+            {data.method}
           </span>
         </div>
       </div>

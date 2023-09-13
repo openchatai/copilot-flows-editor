@@ -1,4 +1,4 @@
-import type { TransformedPath } from "./types/Swagger";
+import type { NodeData, TransformedPath } from "./types/Swagger";
 import { useReactFlow, type Node, Edge } from "reactflow";
 import { genId } from "./utils/genId";
 import { useMode } from "../stores/ModeProvider";
@@ -6,12 +6,13 @@ import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
 import { DiscIcon } from "@radix-ui/react-icons";
 import { useLoadEndpoints } from "./useLoadEndpoints";
+import { MethodBtn } from "./MethodRenderer";
 
 function PathButton({ path }: { path: TransformedPath }) {
   const { mode, reset } = useMode();
-  const { setNodes, getNodes, setEdges } = useReactFlow<TransformedPath>();
+  const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
   const nodes = getNodes();
-  function appendEndpoint(payload: TransformedPath) {
+  function appendNode(payload: NodeData) {
     const id = genId();
     const newNode: Node = {
       id: id,
@@ -24,7 +25,7 @@ function PathButton({ path }: { path: TransformedPath }) {
     setNodes((nds) => updateNodePositions([...nds, newNode], Y));
   }
 
-  function addNodeBetween(edge: Edge, newNodeData: TransformedPath) {
+  function addNodeBetween(edge: Edge, payload: NodeData) {
     const targetNode = nodes.find((node) => node.id === edge.target);
     const sourceNode = nodes.find((node) => node.id === edge.source);
     if (!targetNode || !sourceNode) {
@@ -37,7 +38,7 @@ function PathButton({ path }: { path: TransformedPath }) {
     const newNode: Node = {
       id: id,
       type: "endpointNode",
-      data: newNodeData,
+      data: payload,
       draggable: false,
       position: {
         x: 0,
@@ -52,53 +53,37 @@ function PathButton({ path }: { path: TransformedPath }) {
       .concat(nodes.slice(sourceIndex));
     setNodes(updateNodePositions(newNodes, Y));
   }
+
   return (
-    <>
-      <button
-        onClick={() => {
-          if (mode.type === "append-node") {
-            appendEndpoint(path);
-          } else if (mode.type === "add-node-between") {
-            addNodeBetween(mode.edge, path);
-            reset();
-          }
-        }}
-        className="text-start h-full p-2 hover:bg-gray-100 transition-colors w-full"
-      >
-        <span className="text-black/80 text-lg font-medium block">
-          {path.path}
-        </span>
+    <div>
+      <div className="text-start h-full p-2 hover:bg-gray-100 transition-colors w-full">
+        <span className="text-black/80 text-lg font-medium">{path.path}</span>
         <span className="flex w-full items-center gap-1 mt-2">
           {path.methods.map((method) => {
-            const color = (() => {
-              switch (method.method.toUpperCase()) {
-                case "GET":
-                  return "bg-green-500";
-                case "POST":
-                  return "bg-blue-500";
-                case "PUT":
-                  return "bg-yellow-500";
-                case "DELETE":
-                  return "bg-red-500";
-                default:
-                  return "bg-gray-500";
-              }
-            })();
             return (
-              <span
+              <MethodBtn
                 key={method.method}
-                className={
-                  "text-center text-white text-xs font-semibold rounded py-1 px-2 " +
-                  color
-                }
+                method={method.method}
+                onClick={() => {
+                  const newNode: NodeData = {
+                    ...path,
+                    ...method,
+                  };
+                  if (mode.type === "append-node") {
+                    appendNode(newNode);
+                  } else if (mode.type === "add-node-between") {
+                    addNodeBetween(mode.edge, newNode);
+                    reset();
+                  }
+                }}
               >
                 {method.method}
-              </span>
+              </MethodBtn>
             );
           })}
         </span>
-      </button>
-    </>
+      </div>
+    </div>
   );
 }
 
@@ -156,11 +141,6 @@ export default function AsideMenu() {
               <h3 className="text-lg font-semibold text-slate-700">
                 {mode.node.data.path}
               </h3>
-              <p className="text-sm font-medium text-gray-700 mt-1">
-                {mode.node.data.methods
-                  .map((method) => method.method)
-                  .join(", ")}
-              </p>
             </div>
             <div className="text-base flex items-center gap-2 p-2">
               <button className="flex items-center gap-1 bg-indigo-500 active:opacity-80 transition-opacity text-white px-2 py-1 rounded">
