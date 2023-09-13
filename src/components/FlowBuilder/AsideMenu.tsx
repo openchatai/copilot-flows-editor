@@ -1,20 +1,16 @@
 import type { TransformedPath } from "./types/Swagger";
-import { useReactFlow, type Node, MarkerType, Edge } from "reactflow";
+import { useReactFlow, type Node, Edge } from "reactflow";
 import { genId } from "./utils/genId";
 import { useMode } from "../stores/ModeProvider";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
-import { DiscIcon, TrashIcon } from "@radix-ui/react-icons";
+import { DiscIcon } from "@radix-ui/react-icons";
 import { useLoadEndpoints } from "./useLoadEndpoints";
 
-
-export default function AsideMenu() {
-  const { paths } = useLoadEndpoints();
-  const { setNodes, getNodes, setEdges, getEdges } =
-    useReactFlow<TransformedPath>();
+function PathButton({ path }: { path: TransformedPath }) {
+  const { mode, reset } = useMode();
+  const { setNodes, getNodes, setEdges } = useReactFlow<TransformedPath>();
   const nodes = getNodes();
-  const { mode, setMode, reset } = useMode();
-
   function appendEndpoint(payload: TransformedPath) {
     const id = genId();
     const newNode: Node = {
@@ -26,20 +22,6 @@ export default function AsideMenu() {
     };
 
     setNodes((nds) => updateNodePositions([...nds, newNode], Y));
-    const previousNode = nodes?.[nodes.length - 1];
-    if (previousNode) {
-      setEdges((eds) =>
-        eds.concat({
-          id: id,
-          target: previousNode.id,
-          source: newNode.id,
-          type: "endpointEdge",
-          markerStart: {
-            type: MarkerType.ArrowClosed,
-          },
-        })
-      );
-    }
   }
 
   function addNodeBetween(edge: Edge, newNodeData: TransformedPath) {
@@ -60,7 +42,7 @@ export default function AsideMenu() {
       position: {
         x: 0,
         y: (sourceNode.position.y + targetNode.position.y) / 2,
-      }, // @todo - calculate the position
+      },
     };
     // put the new node in the middle of the two nodes that were connected (make sure the node is sorted in array too)
     const sourceIndex = nodes.findIndex((node) => node.id === sourceNode.id);
@@ -68,69 +50,64 @@ export default function AsideMenu() {
       .slice(0, sourceIndex)
       .concat(newNode)
       .concat(nodes.slice(sourceIndex));
-
-    const newEdges = [
-      {
-        id: genId(),
-        source: sourceNode.id,
-        target: newNode.id,
-        type: "endpointEdge",
-        markerStart: {
-          type: MarkerType.ArrowClosed,
-        },
-      },
-      {
-        id: genId(),
-        source: newNode.id,
-        target: targetNode.id,
-        type: "endpointEdge",
-        markerStart: {
-          type: MarkerType.ArrowClosed,
-        },
-      },
-      {
-        id: genId(),
-        source: newNode.id,
-        target: targetNode.id,
-        type: "endpointEdge",
-        markerStart: {
-          type: MarkerType.ArrowClosed,
-        },
-      },
-    ];
-    setEdges((eds) => eds.concat(newEdges));
     setNodes(updateNodePositions(newNodes, Y));
-    console.log(newNodes);
   }
+  return (
+    <>
+      <button
+        onClick={() => {
+          if (mode.type === "append-node") {
+            appendEndpoint(path);
+          } else if (mode.type === "add-node-between") {
+            addNodeBetween(mode.edge, path);
+            reset();
+          }
+        }}
+        className="text-start h-full p-2 hover:bg-gray-100 transition-colors w-full"
+      >
+        <span className="text-black/80 text-lg font-medium block">
+          {path.path}
+        </span>
+        <span className="flex w-full items-center gap-1 mt-2">
+          {path.methods.map((method) => {
+            const color = (() => {
+              switch (method.method.toUpperCase()) {
+                case "GET":
+                  return "bg-green-500";
+                case "POST":
+                  return "bg-blue-500";
+                case "PUT":
+                  return "bg-yellow-500";
+                case "DELETE":
+                  return "bg-red-500";
+                default:
+                  return "bg-gray-500";
+              }
+            })();
+            return (
+              <span
+                key={method.method}
+                className={
+                  "text-center text-white text-xs font-semibold rounded py-1 px-2 " +
+                  color
+                }
+              >
+                {method.method}
+              </span>
+            );
+          })}
+        </span>
+      </button>
+    </>
+  );
+}
 
-  function deleteNode(node: Node<TransformedPath>) {
-    const nodeIndex = nodes.findIndex((nd) => nd.id === node.id);
-    const previousNode = nodes[nodeIndex - 1];
-    const nextNode = nodes[nodeIndex + 1];
-    const newNodes = nodes.filter((nd) => nd.id !== node.id);
-    reset();
-    setNodes(updateNodePositions(newNodes, Y));
-    // reconnect edges the to before and after nodes
-
-    const edges = getEdges();
-    const allExceptConnectedEdges = edges.filter(
-      (ed) => ed.source !== node.id && ed.target !== node.id
-    );
-    const newEdges = allExceptConnectedEdges.concat({
-      id: genId(),
-      source: nextNode?.id ?? "",
-      target: previousNode?.id ?? "",
-      type: "endpointEdge",
-      markerStart: {
-        type: MarkerType.ArrowClosed,
-      },
-    });
-    setEdges(newEdges);
-  }
+export default function AsideMenu() {
+  const { paths } = useLoadEndpoints();
+  const { mode, isAdd, isEdit } = useMode();
 
   // TODO: separate button component for endpoint
-  const isAdd = mode.type === "append-node" || mode.type === "add-node-between";
-  const isEdit = mode.type === "edit-node";
+
   return (
     <aside className="h-full max-w-sm w-full bg-white shadow-lg py-2">
       <div
@@ -152,52 +129,7 @@ export default function AsideMenu() {
               <>
                 {paths.map((path) => (
                   <li key={path.path} className="w-full">
-                    <button
-                      onClick={() => {
-                        if (mode.type === "append-node") {
-                          appendEndpoint(path);
-                        } else if (mode.type === "add-node-between") {
-                          addNodeBetween(mode.edge, path);
-                          setMode({
-                            type: "append-node",
-                          });
-                        }
-                      }}
-                      className="text-start h-full p-2 hover:bg-gray-100 transition-colors w-full"
-                    >
-                      <span className="text-black/80 text-lg font-medium block">
-                        {path.path}
-                      </span>
-                      <span className="flex w-full items-center gap-1 mt-2">
-                        {path.methods.map((method) => {
-                          const color = (() => {
-                            switch (method.method.toUpperCase()) {
-                              case "GET":
-                                return "bg-green-500";
-                              case "POST":
-                                return "bg-blue-500";
-                              case "PUT":
-                                return "bg-yellow-500";
-                              case "DELETE":
-                                return "bg-red-500";
-                              default:
-                                return "bg-gray-500";
-                            }
-                          })();
-                          return (
-                            <span
-                              key={method.method}
-                              className={
-                                "text-center text-white text-xs font-semibold rounded py-1 px-2 " +
-                                color
-                              }
-                            >
-                              {method.method}
-                            </span>
-                          );
-                        })}
-                      </span>
-                    </button>
+                    <PathButton path={path} />
                   </li>
                 ))}
               </>
@@ -231,13 +163,6 @@ export default function AsideMenu() {
               </p>
             </div>
             <div className="text-base flex items-center gap-2 p-2">
-              <button
-                onClick={() => deleteNode(mode.node)}
-                className="flex items-center gap-1 border-rose-500 active:opacity-80 transition-opacity text-rose-500 border rounded px-2 py-1"
-              >
-                <span>Delete</span>
-                <TrashIcon />
-              </button>
               <button className="flex items-center gap-1 bg-indigo-500 active:opacity-80 transition-opacity text-white px-2 py-1 rounded">
                 <span>Save</span>
                 <DiscIcon />

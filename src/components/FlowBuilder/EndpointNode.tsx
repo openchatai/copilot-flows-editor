@@ -1,9 +1,21 @@
-import { Handle, NodeProps, Position, useNodeId, useNodes } from "reactflow";
+import {
+  Handle,
+  NodeProps,
+  Position,
+  useNodeId,
+  useNodes,
+  NodeToolbar,
+  Node,
+  useReactFlow,
+} from "reactflow";
 import { TransformedPath } from "./types/Swagger";
 import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
 import { useMemo } from "react";
 import { Step } from "./types/Flow";
+import { Y } from "./consts";
+import { updateNodePositions } from "./utils/updateNodePosition";
+import { TrashIcon } from "@radix-ui/react-icons";
 
 type CustomNodeData = TransformedPath & Step;
 
@@ -13,11 +25,12 @@ const HideHandleStyles = {
   color: "transparent",
   border: "none",
 };
-export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
-  const { path, parameters } = data;
-  const nodes = useNodes();
-  const { mode } = useMode();
+export function EndpointNode({ data }: NodeProps<CustomNodeData>) {
+  const nodes = useNodes<CustomNodeData>();
+  const { setNodes } = useReactFlow();
   const nodeId = useNodeId();
+  const nodeObj = nodes.find((n) => n.id === nodeId);
+  const { mode, setMode, reset: resetMode } = useMode();
   const isActive = useMemo(() => {
     if (mode.type === "edit-node") {
       return mode.node.id === nodeId;
@@ -27,8 +40,31 @@ export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
   const isFirstNode = nodes?.[0]?.id === nodeId;
+  function clickHandler() {
+    // if node already active and clicked again, switch to append. (user want to add another node)
+    if (mode.type === "edit-node" && mode.node.id === nodeId) {
+      resetMode();
+    } else {
+      nodeObj && setMode({ type: "edit-node", node: nodeObj });
+    }
+  }
+
+  function deleteNode() {
+    setNodes(
+      updateNodePositions(
+        nodes.filter((nd) => nd.id !== nodeId),
+        Y
+      )
+    );
+    resetMode();
+  }
   return (
     <>
+      <NodeToolbar align="center" position={Position.Left}>
+        <button onClick={deleteNode} className="p-2 rounded-full text-rose-500 text-lg bg-neutral-100 hover:bg-neutral-200 transition-colors">
+          <TrashIcon />
+        </button>
+      </NodeToolbar>
       {!isFirstNode && (
         <Handle
           type="source"
@@ -38,6 +74,7 @@ export function EndpointNode({ data, id }: NodeProps<CustomNodeData>) {
         />
       )}
       <div
+        onClick={clickHandler}
         className={cn(
           "bg-white border group relative duration-300  ease-in-out rounded w-[200px] min-h-[50px] select-none cursor-pointer transition-all",
           isActive

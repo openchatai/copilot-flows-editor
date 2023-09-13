@@ -8,7 +8,7 @@ export default function FlowBuilderPage() {
     <ReactFlowProvider>
       <div className="w-full h-screen relative flex items-start flex-col">
         <header className="h-14 w-full bg-neutral-100">
-          <div className="w-full h-full flex items-center justify-between container px-2">
+          <div className="w-full h-full flex items-center justify-between px-2">
             <div className="flex items-center gap-2">
               <Link
                 to="/"

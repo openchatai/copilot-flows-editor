@@ -1,10 +1,11 @@
 import ReactFlow, {
   Background,
-  Node,
   OnConnect,
   addEdge,
   useNodesState,
   useEdgesState,
+  MarkerType,
+  Edge,
 } from "reactflow";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "reactflow/dist/style.css";
@@ -29,9 +30,39 @@ function FLowBuilder_() {
     []
   );
   const [isCodeSidebarOpen, setIsCodeSidebarOpen] = useState(false);
+  const [nodes, , onNodesChange] = useNodesState<TransformedPath>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const { setMode } = useMode();
+
   function toogleCodeSidebar() {
     setIsCodeSidebarOpen(!isCodeSidebarOpen);
   }
+
+  // auto connect nodes
+  useEffect(() => {
+    const newEdges = nodes
+      .map((v, i, a) => {
+        const curr = v;
+        const next = a.at(i + 1);
+        if (curr && next) {
+          const id = curr.id + "-" + next.id;
+          return {
+            id: id,
+            target: curr.id,
+            source: next.id,
+            type: "endpointEdge",
+            markerStart: {
+              type: MarkerType.ArrowClosed,
+            },
+          };
+        }
+      })
+      .filter((v) => typeof v !== "undefined") as Edge[];
+    console.log(newEdges);
+    setEdges(newEdges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes]);
+
   useEffect(() => {
     const codeToggler = document.getElementById(
       "show-code-btn"
@@ -43,28 +74,12 @@ function FLowBuilder_() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [nodes, , onNodesChange] = useNodesState<TransformedPath>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { mode, setMode, reset: resetMode } = useMode();
+
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-  console.log(nodes);
-  function HandleNodeClick(
-    event: React.MouseEvent<Element, MouseEvent>,
-    node: Node
-  ) {
-    switch (node.type) {
-      case "endpointNode":
-        // if node already active and clicked again, switch to append. (user want to add another node)
-        if (mode.type === "edit-node" && mode.node.id === node.id) {
-          resetMode();
-        } else {
-          setMode({ type: "edit-node", node: node });
-        }
-    }
-  }
+
   return (
     <>
       {isCodeSidebarOpen && (
@@ -124,7 +139,6 @@ function FLowBuilder_() {
                 edge: edge,
               });
             }}
-            onNodeClick={HandleNodeClick}
             edgeTypes={edgeTypes}
             maxZoom={1}
             minZoom={1}

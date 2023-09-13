@@ -21,10 +21,14 @@ const [ModeSafeProvider, useMode] = createSafeContext<{
   mode: Mode;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
   reset: () => void;
+  isAdd: boolean;
+  isEdit: boolean;
 }>({
   mode: { type: "append-node" },
   setMode: () => {},
   reset: () => {},
+  isAdd: true,
+  isEdit: false,
 });
 const DEFAULT: Mode = { type: "append-node" };
 function ModeProvider({ children }: { children: React.ReactNode }) {
@@ -32,8 +36,11 @@ function ModeProvider({ children }: { children: React.ReactNode }) {
   function reset() {
     setMode(DEFAULT);
   }
+
+  const isAdd = mode.type === "append-node" || mode.type === "add-node-between";
+  const isEdit = mode.type === "edit-node";
   return (
-    <ModeSafeProvider value={{ mode, setMode, reset }}>
+    <ModeSafeProvider value={{ mode, setMode, reset, isAdd, isEdit }}>
       {children}
     </ModeSafeProvider>
   );
