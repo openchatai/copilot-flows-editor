@@ -12,7 +12,7 @@ export function transformPaths(paths: Paths): TransformedPath[] {
             const operation = endpoint[method as Method];
             operation && methods.add({
                 ...operation,
-                method
+                method: method as Method
             });
         });
         trasnformedPaths.add({
