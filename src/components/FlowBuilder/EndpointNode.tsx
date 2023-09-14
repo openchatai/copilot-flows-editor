@@ -14,7 +14,6 @@ import { useMemo } from "react";
 import { Y } from "./consts";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { TrashIcon } from "@radix-ui/react-icons";
-
 const HideHandleStyles = {
   background: "transparent",
   fill: "transparent",
@@ -22,6 +21,7 @@ const HideHandleStyles = {
   border: "none",
 };
 export function EndpointNode({ data }: NodeProps<NodeData>) {
+  console.log(data);
   const nodes = useNodes<NodeData>();
   const { setNodes } = useReactFlow();
   const nodeId = useNodeId();

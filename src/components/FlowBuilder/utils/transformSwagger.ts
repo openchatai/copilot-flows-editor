@@ -11,8 +11,8 @@ export function transformPaths(paths: Paths): TransformedPath[] {
         endpoint && Object.keys(endpoint).forEach((method) => {
             const operation = endpoint[method as Method];
             operation && methods.add({
-                ...operation,
-                method: method as Method
+                method: method as Method,
+                ...operation
             });
         });
         trasnformedPaths.add({

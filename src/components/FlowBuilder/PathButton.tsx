@@ -8,6 +8,7 @@ import { useMode } from "../stores/ModeProvider";
 import { useCallback } from "react";
 
 export function PathButton({ path }: { path: TransformedPath }) {
+  console.log("path =>", path);
   const { mode, reset } = useMode();
   const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
   const nodes = getNodes();
@@ -60,7 +61,7 @@ export function PathButton({ path }: { path: TransformedPath }) {
         node.data.path === path.path &&
         node.data.method.toLowerCase() === method.toLowerCase()
       );
-    })
+    });
   }
   return (
     <div>
@@ -79,7 +80,7 @@ export function PathButton({ path }: { path: TransformedPath }) {
                     return;
                   }
                   const newNode: NodeData = {
-                    ...path,
+                    path: path.path,
                     ...method,
                   };
                   if (mode.type === "append-node") {
