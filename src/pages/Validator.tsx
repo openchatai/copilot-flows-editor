@@ -179,7 +179,7 @@ export default function Validator() {
     <div className="min-h-screen max-h-screen h-screen bg-white font-sans">
       <div className="flex flex-col w-full h-full">
         <header className="w-full sticky top-0 left-0 z-40 bg-white min-h-fit p-2 flex items-center">
-          <div className="container flex items-center justify-between">
+          <div className="flex items-center justify-between w-full">
             <div className="font-bold text-lg">
               <img
                 src="/logo-opencopilot.png"

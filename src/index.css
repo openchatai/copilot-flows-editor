@@ -10,6 +10,6 @@
 }
 
 .react-flow__node {
-  @apply !transition-all !ease-out !duration-300;
+  @apply !transition-all !ease-out !duration-300 origin-center;
 }
 

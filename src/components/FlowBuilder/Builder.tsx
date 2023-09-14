@@ -15,7 +15,9 @@ import AsideMenu from "./AsideMenu";
 import { ModeProvider, useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";
 import { Cross2Icon } from "@radix-ui/react-icons";
-
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { atelierPlateauLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { js } from "js-beautify";
 function FLowBuilder_() {
   const nodeTypes = useMemo(
     () => ({
@@ -35,7 +37,7 @@ function FLowBuilder_() {
   const { setMode } = useMode();
 
   function toogleCodeSidebar() {
-    setIsCodeSidebarOpen(!isCodeSidebarOpen);
+    setIsCodeSidebarOpen((v) => !v);
   }
 
   // auto connect nodes
@@ -91,26 +93,25 @@ function FLowBuilder_() {
         <>
           <div className="fixed inset-0 backdrop-blur-sm bg-slate-500/50 z-50">
             <div className="flex items-center justify-center w-full h-full p-5">
-              <div className="max-w-md w-full min-h-fit bg-white aspect-square rounded flex flex-col">
+              <div className="max-w-lg w-full min-h-fit bg-white max-h-full rounded flex flex-col">
                 <header className="p-3 border-b border-b-gray-400 flex items-center justify-between">
                   <div>
                     <h2>Flow Code</h2>
-                    <span>not the actual code</span>
                   </div>
-                  <button
-                    className=""
-                    onClick={() => setIsCodeSidebarOpen(false)}
-                  >
+                  <button onClick={() => setIsCodeSidebarOpen(false)}>
                     <Cross2Icon />
                   </button>
                 </header>
-                <div className="flex-1">
-                  <textarea
-                    className="outline-none h-full resize-none w-full p-3"
+                <div className="flex-1 overflow-hidden overflow-y-auto">
+                  <SyntaxHighlighter
+                    className="outline-none h-full resize-none w-full max-h-full p-3 max-w-full "
                     rows={4}
+                    language="json"
+                    wrapLongLines
+                    style={atelierPlateauLight}
                   >
-                    {JSON.stringify(data)}
-                  </textarea>
+                    {js(JSON.stringify(data))}
+                  </SyntaxHighlighter>
                 </div>
               </div>
             </div>
