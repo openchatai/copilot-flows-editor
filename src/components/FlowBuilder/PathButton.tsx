@@ -6,9 +6,14 @@ import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
 import { useMode } from "../stores/ModeProvider";
 import { useCallback } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ToolTip";
 
 export function PathButton({ path }: { path: TransformedPath }) {
-  console.log("path =>", path);
   const { mode, reset } = useMode();
   const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
   const nodes = getNodes();
@@ -26,7 +31,6 @@ export function PathButton({ path }: { path: TransformedPath }) {
     },
     [nodes.length, setNodes]
   );
-
   function addNodeBetween(edge: Edge, payload: NodeData) {
     const targetNode = nodes.find((node) => node.id === edge.target);
     const sourceNode = nodes.find((node) => node.id === edge.source);
@@ -63,38 +67,46 @@ export function PathButton({ path }: { path: TransformedPath }) {
       );
     });
   }
+
   return (
-    <div>
-      <div className="text-start h-full p-2 hover:bg-gray-100 transition-colors w-full">
+    <div className="animate-in fade-in">
+      <div className="text-start h-full p-3 rounded hover:bg-stone-100 transition-colors w-full border border-stone-200">
         <span className="text-black/80 text-lg font-medium">{path.path}</span>
         <span className="flex w-full items-center gap-1 mt-2">
-          {path.methods.map((method) => {
-            return (
-              <MethodBtn
-                key={method.method}
-                method={method.method}
-                className="data-[present=true]:pointer-events-none data-[present=true]:opacity-50"
-                data-present={isPresentInNodes(method.method)}
-                onClick={() => {
-                  if (isPresentInNodes(method.method)) {
-                    return;
-                  }
-                  const newNode: NodeData = {
-                    path: path.path,
-                    ...method,
-                  };
-                  if (mode.type === "append-node") {
-                    appendNode(newNode);
-                  } else if (mode.type === "add-node-between") {
-                    addNodeBetween(mode.edge, newNode);
-                    reset();
-                  }
-                }}
-              >
-                {method.method.toUpperCase()}
-              </MethodBtn>
-            );
-          })}
+          <TooltipProvider>
+            {path.methods.map((method,i) => {
+              return (
+                <Tooltip key={i}>
+                  <TooltipContent>{method.description}</TooltipContent>
+                  <TooltipTrigger asChild>
+                    <MethodBtn
+                      key={method.method}
+                      method={method.method}
+                      className="data-[present=true]:pointer-events-none data-[present=true]:opacity-50"
+                      data-present={isPresentInNodes(method.method)}
+                      onClick={() => {
+                        if (isPresentInNodes(method.method)) {
+                          return;
+                        }
+                        const newNode: NodeData = {
+                          path: path.path,
+                          ...method,
+                        };
+                        if (mode.type === "append-node") {
+                          appendNode(newNode);
+                        } else if (mode.type === "add-node-between") {
+                          addNodeBetween(mode.edge, newNode);
+                          reset();
+                        }
+                      }}
+                    >
+                      {method.method.toUpperCase()}
+                    </MethodBtn>
+                  </TooltipTrigger>
+                </Tooltip>
+              );
+            })}
+          </TooltipProvider>
         </span>
       </div>
     </div>

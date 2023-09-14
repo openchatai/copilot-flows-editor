@@ -9,7 +9,15 @@ export default {
       center: true,
     },
     extend: {
-
+      fontFamily: {
+        "system-ui": [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+        ],
+        openSans: ['Open Sans Variable', 'sans-serif']
+      }
     },
   },
   plugins: [

@@ -6,7 +6,7 @@ import { ReactFlowProvider } from "reactflow";
 export default function FlowBuilderPage() {
   return (
     <ReactFlowProvider>
-      <div className="w-full h-screen relative flex items-start flex-col">
+      <div className="w-full h-screen relative flex items-start flex-col font-openSans overflow-hidden">
         <header className="h-14 w-full bg-neutral-100">
           <div className="w-full h-full flex items-center justify-between px-2">
             <div className="flex items-center gap-2">

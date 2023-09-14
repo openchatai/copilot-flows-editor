@@ -39,13 +39,12 @@ export function NodeEdge({
         >
           <button
             className={cn(
-              "rounded bg-[#ddd]",
-              activeEdge?.id === props.id
-                ? "ring-4 ring-offset-1 ring-offset-indigo-300 ring-indigo-500"
-                : ""
+              "rounded bg-[#ddd] text-sm p-0.5 transition-all duration-300 ease-in-out",
+              activeEdge?.id === props.id &&
+                "bg-indigo-400 ring-indigo-200 ring-4 ring-offset-transparent text-indigo-400"
             )}
           >
-            <PlusIcon strokeWidth={3} />
+            <PlusIcon />
           </button>
         </div>
       </EdgeLabelRenderer>

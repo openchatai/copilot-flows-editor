@@ -18,6 +18,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierPlateauLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { js } from "js-beautify";
+import { BUILDER_SCALE } from "./consts";
 function FLowBuilder_() {
   const nodeTypes = useMemo(
     () => ({
@@ -118,7 +119,7 @@ function FLowBuilder_() {
           </div>
         </>
       )}
-      <div className="flex-1 w-full flex items-center">
+      <div className="flex-1 w-full flex items-center overflow-hidden">
         <AsideMenu />
         <div className="flex-1 h-full relative">
           {nodes.length === 0 && (
@@ -145,9 +146,10 @@ function FLowBuilder_() {
                 edge: edge,
               });
             }}
+            className="transition-all duration-300 origin-center"
             edgeTypes={edgeTypes}
-            maxZoom={1}
-            minZoom={1}
+            maxZoom={BUILDER_SCALE}
+            minZoom={BUILDER_SCALE}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
