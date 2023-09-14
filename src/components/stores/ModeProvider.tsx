@@ -22,6 +22,7 @@ export type Mode =
   | AddNodeBetweenMode
   | EditNodeMode
   | IdleMode;
+const DEFAULT: Mode = { type: "idle" };
 
 const [ModeSafeProvider, useMode] = createSafeContext<{
   mode: Mode;
@@ -31,14 +32,13 @@ const [ModeSafeProvider, useMode] = createSafeContext<{
   isEdit: boolean;
   isIdle: boolean;
 }>({
-  mode: { type: "append-node" },
+  mode: DEFAULT,
   setMode: () => {},
   reset: () => {},
   isAdd: true,
   isEdit: false,
   isIdle: false,
 });
-const DEFAULT: Mode = { type: "append-node" };
 function ModeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<Mode>(DEFAULT);
 
