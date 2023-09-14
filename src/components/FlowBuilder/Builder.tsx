@@ -14,7 +14,7 @@ import { EndpointNode } from "./EndpointNode";
 import AsideMenu from "./AsideMenu";
 import { ModeProvider, useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierPlateauLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { js } from "js-beautify";
@@ -35,7 +35,7 @@ function FLowBuilder_() {
   const [isCodeSidebarOpen, setIsCodeSidebarOpen] = useState(false);
   const [nodes, , onNodesChange] = useNodesState<NodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { setMode } = useMode();
+  const { setMode, isIdle } = useMode();
 
   function toogleCodeSidebar() {
     setIsCodeSidebarOpen((v) => !v);
@@ -119,7 +119,15 @@ function FLowBuilder_() {
           </div>
         </>
       )}
-      <div className="flex-1 w-full flex items-center overflow-hidden">
+      <div className="flex-1 w-full flex items-center overflow-hidden relative">
+        {isIdle && (
+          <button
+            onClick={() => setMode({ type: "append-node" })}
+            className="absolute animate-in fade-in p-2 rounded-full text-lg border border-stone-400 text-slate-800 top-3 left-3 z-50"
+          >
+            <HamburgerMenuIcon />
+          </button>
+        )}
         <AsideMenu />
         <div className="flex-1 h-full relative">
           {nodes.length === 0 && (
