@@ -16,12 +16,12 @@ export default function FlowBuilderPage() {
               >
                 <ChevronLeftIcon />
               </Link>
-              <div className="left text-black/80 text-xl font-medium">
+              <div className="left text-slate-700 text-xl font-semibold">
                 <span>untitled-flow</span>
               </div>
             </div>
             <div className="middle">
-              <h1 className="text-xl font-bold text-black">Flow Editor</h1>
+              <h1 className="text-xl font-bold text-slate-800">Flow Editor</h1>
             </div>
             <div className="right">
               <button
