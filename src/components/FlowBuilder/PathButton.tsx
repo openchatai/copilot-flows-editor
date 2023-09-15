@@ -74,7 +74,7 @@ export function PathButton({ path }: { path: TransformedPath }) {
         <span className="text-black/80 text-lg font-medium">{path.path}</span>
         <span className="flex w-full items-center gap-1 mt-2">
           <TooltipProvider>
-            {path.methods.map((method,i) => {
+            {path.methods.map((method, i) => {
               return (
                 <Tooltip key={i}>
                   <TooltipContent>{method.description}</TooltipContent>
@@ -96,7 +96,6 @@ export function PathButton({ path }: { path: TransformedPath }) {
                           appendNode(newNode);
                         } else if (mode.type === "add-node-between") {
                           addNodeBetween(mode.edge, newNode);
-                          reset();
                         }
                       }}
                     >

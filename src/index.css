@@ -13,3 +13,7 @@
   @apply !transition-all !ease-out !duration-300 origin-center;
 }
 
+.btn,
+.a {
+  @apply px-2 py-1 rounded text-sm font-semibold text-slate-500 bg-stone-200 hover:bg-stone-300 hover:text-slate-600 transition;
+}

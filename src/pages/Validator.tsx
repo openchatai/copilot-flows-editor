@@ -188,9 +188,9 @@ export default function Validator() {
               />
             </div>
             <div className="nav flex-1">
-              <div className="flex items-center justify-end gap-5">
-                <button onClick={_formatCode}>Format</button>
-                <Link to="/flow">Api Flow</Link>
+              <div className="flex items-center justify-end gap-4">
+                <button className="btn" onClick={_formatCode}>Format</button>
+                <Link className="a" to="/flow">Flow Editor</Link>
               </div>
             </div>
           </div>

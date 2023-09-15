@@ -15,6 +15,15 @@ import { Y, nodedimensions } from "./consts";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { MethodBtn } from "./MethodRenderer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "../AletDialog";
 const HideHandleStyles = {
   background: "transparent",
   fill: "transparent",
@@ -26,7 +35,7 @@ export function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
   const { setNodes } = useReactFlow();
   const nodeId = useNodeId();
   const nodeObj = nodes.find((n) => n.id === nodeId);
-  const { mode, setMode, reset: resetMode, isEdit } = useMode();
+  const { mode, setMode, reset: resetMode } = useMode();
 
   const isActive = useMemo(() => {
     if (mode.type === "edit-node") {
@@ -39,24 +48,43 @@ export function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
 
   const isFirstNode = nodes?.[0]?.id === nodeId;
   const isLastNode = nodes?.[nodes.length - 1]?.id === nodeId;
-  function deleteNode() {
-    setNodes(
-      updateNodePositions(
-        nodes.filter((nd) => nd.id !== nodeId),
-        Y
-      )
-    );
-    resetMode();
+  async function deleteNode() {
+    setTimeout(() => {
+      setNodes(
+        updateNodePositions(
+          nodes.filter((nd) => nd.id !== nodeId),
+          Y
+        )
+      );
+      resetMode();
+    }, 500);
   }
   return (
     <>
       <NodeToolbar align="center" isVisible={isActive} position={Position.Left}>
-        <button
-          onClick={deleteNode}
-          className="p-2 rounded-full text-rose-500 text-lg bg-neutral-100 hover:bg-neutral-200 transition-colors"
-        >
-          <TrashIcon />
-        </button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button className="p-2 rounded-full text-rose-500 text-lg bg-neutral-100 hover:bg-neutral-200 transition-colors">
+              <TrashIcon />
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              Are you sure you want to delete this node?
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction
+                onClick={deleteNode}
+                className="font-semibold text-white bg-rose-500 px-1.5 py-1 text-sm rounded"
+              >
+                Yup!
+              </AlertDialogAction>
+              <AlertDialogCancel className=" font-semibold px-1.5 py-1 text-slate-500 border border-stone-500 text-sm rounded">
+                Nope!
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </NodeToolbar>
       {!isFirstNode && (
         <Handle
