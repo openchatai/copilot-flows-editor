@@ -1,7 +1,7 @@
-import FlowBuilder from "../components/FlowBuilder/Builder";
+import FlowArena from "../components/FlowBuilder/FlowArena";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { ReactFlowProvider } from "reactflow";
-import { CodePreview } from "./Validator";
+import { CodePreview } from "./CodePreview";
 
 export default function FlowBuilderPage() {
   return (
@@ -21,17 +21,12 @@ export default function FlowBuilderPage() {
               <h1 className="text-xl font-bold text-slate-800">Flow Editor</h1>
             </div>
             <div className="right">
-              <button
-                id="show-code-btn"
-                className="p-2 hover:bg-black/20 text-gray-500 hover:text-gray-800 rounded transition text-sm font-semibold border-gray-300 hover:border-transparent border"
-              >
-                Show Code
-              </button>
+
             </div>
           </div>
         </header>
         <div className="flex items-start justify-between w-full flex-1 overflow-hidden">
-          <FlowBuilder />
+          <FlowArena />
           <CodePreview />
         </div>
       </div>

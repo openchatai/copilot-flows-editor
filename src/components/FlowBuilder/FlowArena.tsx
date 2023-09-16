@@ -7,7 +7,7 @@ import ReactFlow, {
   MarkerType,
   Edge,
 } from "reactflow";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import "reactflow/dist/style.css";
 import { NodeEdge } from "./EndpointEdge";
 import { EndpointNode } from "./EndpointNode";
@@ -30,15 +30,9 @@ function FLowBuilder_() {
     }),
     []
   );
-  const [isCodeSidebarOpen, setIsCodeSidebarOpen] = useState(false);
   const [nodes, , onNodesChange] = useNodesState<NodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setMode, isIdle } = useMode();
-
-  function toogleCodeSidebar() {
-    setIsCodeSidebarOpen((v) => !v);
-  }
-
   // auto connect nodes
   useEffect(() => {
     if (nodes.length === 0) {
@@ -66,18 +60,6 @@ function FLowBuilder_() {
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes]);
-
-  useEffect(() => {
-    const codeToggler = document.getElementById(
-      "show-code-btn"
-    ) as HTMLButtonElement;
-
-    codeToggler.addEventListener("click", toogleCodeSidebar);
-    return () => {
-      codeToggler.removeEventListener("click", toogleCodeSidebar);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
@@ -141,7 +123,7 @@ function FLowBuilder_() {
   );
 }
 
-export default function ReactFlowBuilder() {
+export default function FlowArena() {
   return (
     <ModeProvider>
       <FLowBuilder_ />

@@ -175,14 +175,14 @@ export function CodePreview() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="relative min-h-full h-full bg-white font-sans w-full max-w-md">
+    <div className="relative min-h-full h-full font-sans w-full max-w-md">
       <div
         className="absolute h-24 bottom-0 inset-x-0 w-full z-50 transform transition-transform shadow"
         style={{
           transform: `translateY(${!barOpen ? "100%" : 0})`,
         }}
       >
-        <div className="w-full relative h-full bg-white border-t border-gray-600">
+        <div className="w-full relative h-full bg-white border-t border-stone-500">
           <button
             onClick={() => setBarOpen(!barOpen)}
             className="flex items-center gap-2 border-l-0 absolute top-0 border border-b-transparent border-inherit -translate-y-full left-0 bg-white rounded-t-lg px-4 py-1"

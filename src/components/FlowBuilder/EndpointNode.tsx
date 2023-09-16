@@ -112,9 +112,9 @@ export function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
               : "border-slate-200 hover:shadow"
           )}
         >
-          <div className="p-2 space-y-2">
+          <div className="p-2 space-y-1">
             <code className="block text-sm text-slate-800">{data.path}</code>
-            <p className="text-[8px] ms-2 text-slate-600 font-medium line-clamp-2">
+            <p className="text-xs ms-2 text-slate-600 font-medium line-clamp-2">
               {data.description}
             </p>
             <MethodBtn
