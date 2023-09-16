@@ -14,12 +14,9 @@ import { EndpointNode } from "./EndpointNode";
 import AsideMenu from "./AsideMenu";
 import { ModeProvider, useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";
-import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { atelierPlateauLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { js } from "js-beautify";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { BUILDER_SCALE } from "./consts";
-import { Dialog, DialogContent, DialogHeader } from "../Dialog";
+
 function FLowBuilder_() {
   const nodeTypes = useMemo(
     () => ({
@@ -91,48 +88,7 @@ function FLowBuilder_() {
 
   return (
     <>
-      {isCodeSidebarOpen && (
-        <>
-          <Dialog
-            open={isCodeSidebarOpen}
-            onOpenChange={(o) => setIsCodeSidebarOpen(o)}
-          >
-            <DialogContent className="p-0">
-              <div className="overflow-auto w-full">
-                <SyntaxHighlighter
-                  className="w-full h-fit p-3 max-w-full"
-                  rows={4}
-                  language="json"
-                  wrapLongLines
-                  style={atelierPlateauLight}
-                >
-                  {js(JSON.stringify(data), {
-                    indent_size: 2,
-                  })}
-                </SyntaxHighlighter>
-              </div>
-            </DialogContent>
-          </Dialog>
-          {/* <div className="fixed inset-0 backdrop-blur-sm bg-slate-500/50 z-50">
-            <div className="flex items-center justify-center w-full h-full p-5">
-              <div className="max-w-lg w-full min-h-fit bg-white max-h-[60dvh] rounded flex flex-col overflow-hidden">
-                <header className="p-3 border-b border-b-gray-400 flex items-center justify-between">
-                  <div>
-                    <h2>Flow Code</h2>
-                  </div>
-                  <button onClick={() => setIsCodeSidebarOpen(false)}>
-                    <Cross2Icon />
-                  </button>
-                </header>
-                <div className="flex-1 overflow-hidden overflow-y-auto">
-
-                </div>
-              </div>
-            </div>
-          </div> */}
-        </>
-      )}
-      <div className="flex-1 w-full flex items-center overflow-hidden relative">
+      <div className="flex-1 h-full flex items-center overflow-hidden relative">
         {isIdle && (
           <button
             onClick={() => setMode({ type: "append-node" })}
@@ -167,7 +123,7 @@ function FLowBuilder_() {
                 edge: edge,
               });
             }}
-            className="transition-all duration-300 origin-center"
+            className="transition-all duration-300 origin-center flex-1"
             edgeTypes={edgeTypes}
             maxZoom={BUILDER_SCALE}
             minZoom={BUILDER_SCALE}

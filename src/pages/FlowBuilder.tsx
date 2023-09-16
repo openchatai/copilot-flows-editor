@@ -1,7 +1,7 @@
 import FlowBuilder from "../components/FlowBuilder/Builder";
-import { Link } from "react-router-dom";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { ReactFlowProvider } from "reactflow";
+import { CodePreview } from "./Validator";
 
 export default function FlowBuilderPage() {
   return (
@@ -10,12 +10,9 @@ export default function FlowBuilderPage() {
         <header className="h-14 w-full bg-neutral-100">
           <div className="w-full h-full flex items-center justify-between px-2">
             <div className="flex items-center gap-2">
-              <Link
-                to="/"
-                className="text-2xl rounded-full p-2 hover:bg-gray-300 transition-colors text-black"
-              >
+              <button className="text-2xl rounded-full p-2 hover:bg-gray-300 transition-colors text-black">
                 <ChevronLeftIcon />
-              </Link>
+              </button>
               <div className="left text-slate-700 text-xl font-semibold">
                 <span>untitled-flow</span>
               </div>
@@ -33,7 +30,10 @@ export default function FlowBuilderPage() {
             </div>
           </div>
         </header>
-        <FlowBuilder />
+        <div className="flex items-start justify-between w-full flex-1 overflow-hidden">
+          <FlowBuilder />
+          <CodePreview />
+        </div>
       </div>
     </ReactFlowProvider>
   );
