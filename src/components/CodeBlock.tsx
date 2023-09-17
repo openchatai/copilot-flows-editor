@@ -19,25 +19,28 @@ export function CodeBlock({
     <CodeMirror
       ref={codeMirrorRef}
       height="100%"
-      className="w-full h-full text-base min-h-full min-w-full max-w-full max-h-full"
+      className="w-full h-full [&_.cm-lineNumbers]:!hidden [&_.cm-gutters]:px-1.5 text-base min-h-full min-w-full max-w-full max-h-full"
       value={initialValue}
       theme={basicLight}
       onChange={onChange}
       extensions={[
-        basicSetup({
-          foldGutter: false,
-          dropCursor: false,
-          allowMultipleSelections: false,
-          autocompletion: true,
-          syntaxHighlighting: true,
-          lineNumbers: false,
-          lintKeymap: true,
-          highlightActiveLineGutter: true,
-        }),
         jsonLang(),
         EditorView.lineWrapping,
         linter(jsonParseLinter(), {
           delay: 500,
+        }),
+        basicSetup({
+          syntaxHighlighting: true,
+          foldGutter: false,
+          lineNumbers: false,
+          tabSize: 2,
+          indentOnInput: true,
+          autocompletion: true,
+          drawSelection: true,
+          allowMultipleSelections: true,
+          bracketMatching: true,
+          closeBrackets: true,
+          searchKeymap: true,
         }),
       ]}
     />

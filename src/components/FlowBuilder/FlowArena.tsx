@@ -12,12 +12,12 @@ import "reactflow/dist/style.css";
 import { NodeEdge } from "./EndpointEdge";
 import { EndpointNode } from "./EndpointNode";
 import AsideMenu from "./AsideMenu";
-import { ModeProvider, useMode } from "../stores/ModeProvider";
+import { useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { BUILDER_SCALE } from "./consts";
 
-function FLowBuilder_() {
+export function FlowArena() {
   const nodeTypes = useMemo(
     () => ({
       endpointNode: EndpointNode,
@@ -120,13 +120,5 @@ function FLowBuilder_() {
         </div>
       </div>
     </>
-  );
-}
-
-export default function FlowArena() {
-  return (
-    <ModeProvider>
-      <FLowBuilder_ />
-    </ModeProvider>
   );
 }
