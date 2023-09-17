@@ -90,24 +90,28 @@ export default function AsideMenu() {
               ) : (
                 <div className="w-full p-5 text-center">
                   <span className="text-2xl text-stone-500">¯\_(ツ)_/¯</span>
-                  <input
-                    type="file"
-                    className="hidden"
-                    id="swagger-file-input"
-                    multiple={false}
-                    accept="application/json"
-                    onChange={(ev) => setFile(ev.target.files)}
-                  />
-                  <div className="mt-4">
-                    <label
-                      aria-role="button"
-                      htmlFor="swagger-file-input"
-                      className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
-                    >
-                      <span>Load from Swagger</span>
-                      <PlusIcon className="inline" />
-                    </label>
-                  </div>
+                  {paths.length < 0 && (
+                    <>
+                      <input
+                        type="file"
+                        className="hidden"
+                        id="swagger-file-input"
+                        multiple={false}
+                        accept="application/json"
+                        onChange={(ev) => setFile(ev.target.files)}
+                      />
+                      <div className="mt-4">
+                        <label
+                          aria-role="button"
+                          htmlFor="swagger-file-input"
+                          className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
+                        >
+                          <span>Load from Swagger</span>
+                          <PlusIcon className="inline" />
+                        </label>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </ul>
