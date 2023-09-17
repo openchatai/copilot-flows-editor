@@ -105,7 +105,7 @@ export default function AsideMenu() {
                       className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
                     >
                       <span>Load from Swagger</span>
-                      <PlusIcon />
+                      <PlusIcon className="inline" />
                     </label>
                   </div>
                 </div>
