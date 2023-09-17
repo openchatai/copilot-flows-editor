@@ -1,13 +1,13 @@
 import { useMode } from "../stores/ModeProvider";
-import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { useLoadEndpoints } from "./useLoadEndpoints";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { PathButton } from "./PathButton";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useMemo, useState } from "react";
 import { MethodBtn } from "./MethodRenderer";
 import cn from "../../utils/cn";
+import { usePaths } from "../stores/PathsProvider";
 export default function AsideMenu() {
-  const { paths } = useLoadEndpoints();
+  const { paths } = usePaths();
   const { mode, isAdd, setMode, isEdit, isIdle } = useMode();
   const [search, setSearch] = useState("");
   const renderedPaths = useMemo(
@@ -37,7 +37,10 @@ export default function AsideMenu() {
             <h1 className="text-base font-semibold flex-1 text-slate-800">
               Select Step
             </h1>
-            <button className="text-xl rounded-full p-2 hover:bg-stone-200" onClick={setIdle}>
+            <button
+              className="text-xl rounded-full p-2 hover:bg-stone-200"
+              onClick={setIdle}
+            >
               <Cross2Icon />
             </button>
           </div>

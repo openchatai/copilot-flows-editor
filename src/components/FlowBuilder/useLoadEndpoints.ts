@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { transformPaths } from "./utils/transformSwagger";
 import type { Swagger } from "./types/Swagger";
-
+// loads example swagger file
 export function useLoadEndpoints() {
     const [endpoints, setEndpoints] = useState<Swagger>();
 

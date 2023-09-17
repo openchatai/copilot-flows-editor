@@ -10,7 +10,7 @@ import ReactFlow, {
 import { useCallback, useEffect, useMemo } from "react";
 import "reactflow/dist/style.css";
 import { NodeEdge } from "./EndpointEdge";
-import { EndpointNode } from "./EndpointNode";
+import EndpointNode from "./EndpointNode";
 import AsideMenu from "./AsideMenu";
 import { useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";

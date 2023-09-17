@@ -10,7 +10,7 @@ import {
 import { NodeData } from "./types/Swagger";
 import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { Y, nodedimensions } from "./consts";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
@@ -30,8 +30,9 @@ const HideHandleStyles = {
   color: "transparent",
   border: "none",
 };
-export function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
+function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
   const nodes = useNodes<NodeData>();
+  console.log(data);
   const { setNodes } = useReactFlow();
   const nodeId = useNodeId();
   const nodeObj = nodes.find((n) => n.id === nodeId);
@@ -57,7 +58,7 @@ export function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
         )
       );
       resetMode();
-    }, 500);
+    }, 300);
   }
   return (
     <>
@@ -157,3 +158,6 @@ export function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
     </>
   );
 }
+
+const MemoizedEndpointNode = memo(EndpointNode);
+export default MemoizedEndpointNode;

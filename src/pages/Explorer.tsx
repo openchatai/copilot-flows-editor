@@ -2,41 +2,39 @@ import { CubeIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useLocalStorage } from "../hooks/use-storage";
 import { LS_KEY } from "../constants";
 import { Link } from "react-router-dom";
+import { genId } from "../components/FlowBuilder/utils/genId";
+import { FormEvent, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTrigger,
 } from "../components/Dialog";
-import { useForm, SubmitHandler } from "react-hook-form";
+
 export type FlowType = {
   id: string;
   name: string;
   description: string;
   steps: [];
 };
-import { genId } from "../components/FlowBuilder/utils/genId";
-import { useState } from "react";
 export function Explorer() {
   const [flows, setFlows] = useLocalStorage<FlowType[]>({
     key: LS_KEY,
     initialValue: [],
   });
   const [modalOpen, setModalOpen] = useState(false);
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: "New Flow",
-      description: "A flow that does something",
-    },
-  });
-  const onSubmit: SubmitHandler<{
-    name: string;
-    description: string;
-  }> = (data) => {
+  const onSubmit = (evnet: FormEvent) => {
+    evnet.preventDefault();
+    const data = Object.fromEntries(
+      new FormData(evnet.target as HTMLFormElement)
+    ) as {
+      name: string;
+      description: string;
+    };
     const newFlow: FlowType = {
       id: genId(),
-      ...data,
       steps: [],
+      ...data,
     };
     setFlows([...flows, newFlow]);
     setModalOpen(false);
@@ -46,7 +44,7 @@ export function Explorer() {
   }
   return (
     <div className="w-screen h-screen flex items-center justify-center p-5">
-      <div className="w-full max-w-2xl rounded shadow-lg bg-zinc-50 border border-stone-300">
+      <div className="w-full max-w-2xl rounded shadow-lg bg-zinc-50 border border-stone-300 max-h-full min-h-60 h-fit">
         <div className="p-5">
           <header className="flex items-center justify-between mb-5">
             <div>
@@ -61,22 +59,24 @@ export function Explorer() {
                   <DialogHeader className="text-lg font-semibold">
                     New Flow
                   </DialogHeader>
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <form onSubmit={onSubmit}>
                     <label htmlFor="name-input">Name</label>
                     <input
                       required
                       id="name-input"
+                      defaultValue={"New Flow"}
                       className="block text-sm font-medium rounded border border-stone-300 w-full p-2 text-stone-800 mb-4"
                       type="text"
-                      {...register("name")}
+                      name="name"
                     />
                     <label htmlFor="name-input">Description</label>
                     <input
                       required
+                      defaultValue={"A flow that does something"}
                       id="description-input"
                       className="block text-sm font-medium rounded border border-stone-300 w-full p-2 text-stone-800"
                       type="text"
-                      {...register("description")}
+                      name="description"
                     />
                     <div className="w-full flex items-center justify-end mt-4">
                       <button
