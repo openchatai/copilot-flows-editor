@@ -14,7 +14,7 @@ import {
 } from "../ToolTip";
 
 export function PathButton({ path }: { path: TransformedPath }) {
-  const { mode, reset } = useMode();
+  const { mode } = useMode();
   const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
   const nodes = getNodes();
   const appendNode = useCallback(

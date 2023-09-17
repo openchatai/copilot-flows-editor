@@ -2,31 +2,14 @@ import { FlowArena } from "../components/FlowBuilder/FlowArena";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { ReactFlowProvider } from "reactflow";
 import { CodePreview } from "../components/CodePreview";
-import { useMemo, useState } from "react";
-import { parse } from "../hooks/helpers";
-import { LS_KEY } from "../constants";
 import { Link, useParams } from "react-router-dom";
 import { ModeProvider } from "../components/stores/ModeProvider";
-import type { TransformedPath } from "../components/FlowBuilder/types/Swagger";
 import { PathsProvider } from "../components/stores/PathsProvider";
-import { useLoadEndpoints } from "../components/FlowBuilder/useLoadEndpoints";
 
 export default function FlowBuilderPage() {
   const { id } = useParams();
-  // const [paths, setPaths] = useState<TransformedPath[]>([]);
-  const flowData = useMemo(() => {
-    const $flow = parse(localStorage.getItem(LS_KEY) || "");
-    if (Array.isArray($flow)) {
-      return $flow.filter((f) => f.id === id)?.[0];
-    }
-  }, [id]);
-  const { paths } = useLoadEndpoints();
   return (
-    <PathsProvider
-      value={{
-        paths,
-      }}
-    >
+    <PathsProvider>
       <ModeProvider>
         <ReactFlowProvider>
           <div className="w-full h-screen relative flex items-start flex-col font-openSans overflow-hidden">
@@ -40,7 +23,7 @@ export default function FlowBuilderPage() {
                     <ChevronLeftIcon />
                   </Link>
                   <div className="left text-slate-700 text-xl font-semibold">
-                    <span>{flowData.name}</span>
+                    <span>untitled flow</span>
                   </div>
                 </div>
                 <div className="middle">

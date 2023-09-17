@@ -1,15 +1,17 @@
 import { useMode } from "../stores/ModeProvider";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { PathButton } from "./PathButton";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MethodBtn } from "./MethodRenderer";
 import cn from "../../utils/cn";
 import { usePaths } from "../stores/PathsProvider";
+import { parse } from "../../hooks/helpers";
 export default function AsideMenu() {
-  const { paths } = usePaths();
+  const { paths, load } = usePaths();
   const { mode, isAdd, setMode, isEdit, isIdle } = useMode();
   const [search, setSearch] = useState("");
+  const [file, setFile] = useState<FileList | null>(null);
   const renderedPaths = useMemo(
     () =>
       search.trim().length > 0
@@ -17,6 +19,23 @@ export default function AsideMenu() {
         : paths,
     [search, paths]
   );
+  useEffect(() => {
+    if (file && file.length > 0) {
+      const $file = file.item(0);
+      if ($file) {
+        const reader = new FileReader();
+        reader.readAsText($file);
+        reader.onload = (e) => {
+          const text = e.target?.result;
+          if (typeof text === "string") {
+            const json = parse(text);
+            load(json.paths);
+          }
+        };
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
   function setIdle() {
     setMode({ type: "idle" });
   }
@@ -69,8 +88,26 @@ export default function AsideMenu() {
                   ))}
                 </>
               ) : (
-                <div className="w-full p-5 text-center text-2xl text-stone-500">
-                  <span>¯\_(ツ)_/¯</span>
+                <div className="w-full p-5 text-center">
+                  <span className="text-2xl text-stone-500">¯\_(ツ)_/¯</span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    id="swagger-file-input"
+                    multiple={false}
+                    accept="application/json"
+                    onChange={(ev) => setFile(ev.target.files)}
+                  />
+                  <div className="mt-4">
+                    <label
+                      aria-role="button"
+                      htmlFor="swagger-file-input"
+                      className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
+                    >
+                      <span>Load from Swagger</span>
+                      <PlusIcon />
+                    </label>
+                  </div>
                 </div>
               )}
             </ul>

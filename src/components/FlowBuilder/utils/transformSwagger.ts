@@ -20,6 +20,5 @@ export function transformPaths(paths: Paths): TransformedPath[] {
             methods: Array.from(methods)
         });
     });
-    console.log(trasnformedPaths)
     return Array.from(trasnformedPaths);
 }
