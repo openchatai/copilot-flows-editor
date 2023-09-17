@@ -15,15 +15,14 @@ export type FlowType = {
   description: string;
   steps: [];
 };
-import { useNavigate } from "react-router-dom";
-import { randomUUID } from "crypto";
 import { genId } from "../components/FlowBuilder/utils/genId";
+import { useState } from "react";
 export function Explorer() {
   const [flows, setFlows] = useLocalStorage<FlowType[]>({
     key: LS_KEY,
     initialValue: [],
   });
-  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: "New Flow",
@@ -40,8 +39,11 @@ export function Explorer() {
       steps: [],
     };
     setFlows([...flows, newFlow]);
-    navigate("/edit/" + newFlow.id);
+    setModalOpen(false);
   };
+  function removeFlow(id: string) {
+    setFlows(flows.filter((flow) => flow.id !== id));
+  }
   return (
     <div className="w-screen h-screen flex items-center justify-center p-5">
       <div className="w-full max-w-2xl rounded shadow-lg bg-zinc-50 border border-stone-300">
@@ -54,7 +56,7 @@ export function Explorer() {
               </h1>
             </div>
             <div>
-              <Dialog>
+              <Dialog open={modalOpen} onOpenChange={(e) => setModalOpen(e)}>
                 <DialogContent className="h-fit">
                   <DialogHeader className="text-lg font-semibold">
                     New Flow
@@ -109,8 +111,7 @@ export function Explorer() {
                 </tr>
               </thead>
               <tbody>
-                {flows &&
-                  flows.length > 0 &&
+                {flows && flows.length > 0 ? (
                   flows.map((flow, i) => (
                     <tr key={i} className="animate-in fade-in">
                       <td className="text-base font-medium text-slate-800">
@@ -119,13 +120,26 @@ export function Explorer() {
                       <td className="text-base font-medium text-slate-800">
                         {flow.description}
                       </td>
-                      <td>
+                      <td className="space-x-2">
                         <Link to={"/edit/" + flow.id} className="btn">
-                          Edit
+                          Go
                         </Link>
+                        <button
+                          className="btn !text-rose-500"
+                          onClick={() => removeFlow(flow.id)}
+                        >
+                          delete
+                        </button>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                ) : (
+                  <tr className="border-none">
+                    <td colSpan={3} className="text-center text-xl p-5">
+                      ¯\_(ツ)_/¯
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
