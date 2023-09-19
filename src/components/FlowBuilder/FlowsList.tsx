@@ -2,10 +2,30 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../Dialog";
 import { ChevronRightIcon, CubeIcon, PlusIcon } from "@radix-ui/react-icons";
 import cn from "../../utils/cn";
+import { useController } from "../stores/Controller";
 
 export function FlowsList() {
   const [flowsPanelOpened, setFlowsPanel] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const {
+    createFlow,
+    state: { flows },
+  } = useController();
+  console.log(flows);
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const data = new FormData(e.currentTarget);
+    const [name, description] = [data.get("name"), data.get("description")];
+    console.log(name, description);
+    if (name && description) {
+      createFlow({
+        createdAt: Date.now(),
+        name: name.toString(),
+        description: description.toString(),
+      });
+      setModalOpen(false);
+    }
+    e.preventDefault();
+  }
   return (
     <div className="block absolute transition bottom-0 inset-x-0 bg-white shadow-lg">
       <div className="flex items-center justify-between border-y-4 border-neutral-100 px-2 py-1">
@@ -26,7 +46,7 @@ export function FlowsList() {
             <DialogHeader className="text-lg font-semibold">
               New Flow
             </DialogHeader>
-            <form>
+            <form onSubmit={onSubmit}>
               <label htmlFor="name-input">Name</label>
               <input
                 required
@@ -64,23 +84,23 @@ export function FlowsList() {
       </div>
       <div
         className={cn(
-          "block transition-transform",
-          flowsPanelOpened ? "scale-y-100 h-52" : "scale-y-0 h-0"
+          "block transition-all overflow-auto",
+          flowsPanelOpened
+            ? "h-52 animate-in fade-in"
+            : "h-0 animate-out fade-out"
         )}
       >
         <ul className="space-y-1 divide-y [&_>li]:p-2">
-          <li>
-            <button className="space-x-2 text-base">
-              <CubeIcon className="inline" />
-              <span>Flow 1</span>
-            </button>
-          </li>
-          <li>
-            <button className="space-x-2 text-base">
-              <CubeIcon className="inline" />
-              <span>Flow 1</span>
-            </button>
-          </li>
+          {flows?.map((flow, i) => {
+            return (
+              <li key={flow.id} data-flow-id={flow.id} title={flow.description}>
+                <button className="space-x-2 text-base">
+                  <CubeIcon className="inline" />
+                  <span>{flow.name}</span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

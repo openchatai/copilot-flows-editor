@@ -10,7 +10,7 @@ import { useController } from "../stores/Controller";
 import { parse } from "../../hooks/helpers";
 import { transformPaths } from "./utils/transformSwagger";
 
-export default function AsideMenu() {
+export function AsideMenu() {
   const {
     state: { paths },
     loadPaths,
@@ -92,7 +92,7 @@ export default function AsideMenu() {
               </span>
             </div>
           </div>
-          <div className="flex-1 px-4 overflow-auto">
+          <div className="flex-1 px-4 overflow-auto pb-8">
             <ul className="space-y-1 select-none h-fit">
               {renderedPaths.length > 0 ? (
                 <>

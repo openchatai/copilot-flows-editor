@@ -4,7 +4,6 @@ import { CodePreview } from "../components/CodePreview";
 import { ModeProvider } from "../components/stores/ModeProvider";
 import { PathsProvider } from "../components/stores/PathsProvider";
 import { Controller } from "../components/stores/Controller";
-// here is the state store for the whole flow builder
 
 export default function FlowBuilder() {
   return (

@@ -11,7 +11,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import "reactflow/dist/style.css";
 import { NodeEdge } from "./EndpointEdge";
 import EndpointNode from "./EndpointNode";
-import AsideMenu from "./AsideMenu";
+import { AsideMenu } from "./AsideMenu";
 import { useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
@@ -65,8 +65,6 @@ export function FlowArena() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-
-  const data = useMemo(() => nodes.map((node) => node.data), [nodes]);
 
   return (
     <>

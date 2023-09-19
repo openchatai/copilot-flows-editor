@@ -5,7 +5,7 @@ import { MethodBtn } from "./MethodRenderer";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
 import { useMode } from "../stores/ModeProvider";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -16,7 +16,7 @@ import {
 export function PathButton({ path }: { path: TransformedPath }) {
   const { mode } = useMode();
   const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
-  const nodes = getNodes();
+  const nodes = useMemo(() => getNodes(), [getNodes]);
   const appendNode = useCallback(
     (payload: NodeData) => {
       const id = genId();
@@ -31,42 +31,50 @@ export function PathButton({ path }: { path: TransformedPath }) {
     },
     [nodes.length, setNodes]
   );
-  function addNodeBetween(edge: Edge, payload: NodeData) {
-    const targetNode = nodes.find((node) => node.id === edge.target);
-    const sourceNode = nodes.find((node) => node.id === edge.source);
-    if (!targetNode || !sourceNode) {
-      return;
-    }
-    // delete the edge
-    setEdges((eds) => eds.filter((ed) => ed.id !== edge.id));
-    // add the new node
-    const id = genId();
-    const newNode: Node = {
-      id: id,
-      type: "endpointNode",
-      data: payload,
-      draggable: false,
-      position: {
-        x: 0,
-        y: (sourceNode.position.y + targetNode.position.y) / 2,
-      },
-    };
-    // put the new node in the middle of the two nodes that were connected (make sure the node is sorted in array too)
-    const sourceIndex = nodes.findIndex((node) => node.id === sourceNode.id);
-    const newNodes = nodes
-      .slice(0, sourceIndex)
-      .concat(newNode)
-      .concat(nodes.slice(sourceIndex));
-    setNodes(updateNodePositions(newNodes, Y));
-  }
-  function isPresentInNodes(method: Method) {
-    return !!nodes.find((node) => {
-      return (
-        node.data.path === path.path &&
-        node.data.method.toLowerCase() === method.toLowerCase()
-      );
-    });
-  }
+
+  const addNodeBetween = useCallback(
+    (edge: Edge, payload: NodeData) => {
+      const targetNode = nodes.find((node) => node.id === edge.target);
+      const sourceNode = nodes.find((node) => node.id === edge.source);
+      if (!targetNode || !sourceNode) {
+        return;
+      }
+      // delete the edge
+      setEdges((eds) => eds.filter((ed) => ed.id !== edge.id));
+      // add the new node
+      const id = genId();
+      const newNode: Node = {
+        id: id,
+        type: "endpointNode",
+        data: payload,
+        draggable: false,
+        position: {
+          x: 0,
+          y: (sourceNode.position.y + targetNode.position.y) / 2,
+        },
+      };
+      // put the new node in the middle of the two nodes that were connected (make sure the node is sorted in array too)
+      const sourceIndex = nodes.findIndex((node) => node.id === sourceNode.id);
+      const newNodes = nodes
+        .slice(0, sourceIndex)
+        .concat(newNode)
+        .concat(nodes.slice(sourceIndex));
+      setNodes(updateNodePositions(newNodes, Y));
+    },
+    [nodes, setEdges, setNodes]
+  );
+
+  const isPresentInNodes = useCallback(
+    (method: Method) => {
+      return !!nodes.find((node) => {
+        return (
+          node.data.path === path.path &&
+          node.data.method.toLowerCase() === method.toLowerCase()
+        );
+      });
+    },
+    [nodes, path]
+  );
 
   return (
     <div className="animate-in fade-in">
