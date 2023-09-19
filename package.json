@@ -23,6 +23,7 @@
     "@uiw/codemirror-themes-all": "^4.21.13",
     "@uiw/react-codemirror": "^4.21.13",
     "ajv": "^8.12.0",
+    "immer": "^10.0.2",
     "js-beautify": "^1.14.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

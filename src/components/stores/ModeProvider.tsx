@@ -1,7 +1,7 @@
 import { createSafeContext } from "../../utils/create-safe-context";
 import { type Edge, type Node } from "reactflow";
 import { NodeData } from "../FlowBuilder/types/Swagger";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 type IdleMode = {
   type: "idle";
 };
@@ -23,32 +23,28 @@ export type Mode =
   | EditNodeMode
   | IdleMode;
 const DEFAULT: Mode = { type: "idle" };
-
-const [ModeSafeProvider, useMode] = createSafeContext<{
+type ModeContextType = {
   mode: Mode;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
   reset: () => void;
   isAdd: boolean;
   isEdit: boolean;
   isIdle: boolean;
-}>({
-  mode: DEFAULT,
-  setMode: () => {},
-  reset: () => {},
-  isAdd: true,
-  isEdit: false,
-  isIdle: false,
-});
+};
+
+const [ModeSafeProvider, useMode] = createSafeContext<ModeContextType>(
+  {} as ModeContextType
+);
 function ModeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<Mode>(DEFAULT);
-
-  function reset() {
-    setMode(DEFAULT);
-  }
-
-  const isAdd = mode.type === "append-node" || mode.type === "add-node-between";
-  const isEdit = mode.type === "edit-node";
-  const isIdle = mode.type === "idle";
+  const [mode, $setMode] = useState<Mode>(DEFAULT);
+  const reset = useCallback(() => $setMode(DEFAULT), []);
+  const setMode = useCallback($setMode, [$setMode]);
+  const isAdd = useMemo(
+    () => mode.type === "append-node" || mode.type === "add-node-between",
+    [mode]
+  );
+  const isIdle = useMemo(() => mode.type === "idle", [mode]);
+  const isEdit = useMemo(() => mode.type === "edit-node", [mode]);
   return (
     <ModeSafeProvider value={{ mode, setMode, reset, isAdd, isEdit, isIdle }}>
       {children}

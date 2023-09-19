@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, CodeIcon } from "@radix-ui/react-icons";
 import Ajv from "ajv";
 import { formatCode } from "../utils/format-json";
 import { CodeBlock } from "../components/CodeBlock";
 import cn from "../utils/cn";
+import { useController } from "./stores/Controller";
 const ajv = new Ajv({
   allErrors: true,
   verbose: true,
@@ -147,9 +148,14 @@ const example = {
 };
 
 export function CodePreview() {
+  // this will preview the whole code for the flows.
   const [json, setJson] = useState<string>(JSON.stringify(example));
   const [valid, setValid] = useState(false);
   const [barOpen, setBarOpen] = useState(false);
+  const {
+    state: { codeExpanded },
+    toggleCodeExpanded,
+  } = useController();
   function parse() {
     try {
       const parsed = JSON.parse(json);
@@ -175,7 +181,17 @@ export function CodePreview() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="relative min-h-full h-full font-sans w-full max-w-md">
+    <div
+      className={cn(
+        "absolute right-0 transition-transform min-h-full h-full font-sans w-full max-w-md z-50",
+        codeExpanded ? "translate-x-0" : "translate-x-full"
+      )}
+    >
+      <div className="absolute top-1/2 left-0 -translate-x-full bg-white rounded-l">
+        <button className="p-2 text-xl shadow-xl" onClick={toggleCodeExpanded}>
+          <CodeIcon />
+        </button>
+      </div>
       <div
         className="absolute h-24 bottom-0 inset-x-0 w-full z-50 transform transition-transform shadow"
         style={{

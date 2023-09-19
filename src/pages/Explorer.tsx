@@ -1,7 +1,6 @@
 import { CubeIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useLocalStorage } from "../hooks/use-storage";
 import { LS_KEY } from "../constants";
-import { Link } from "react-router-dom";
 import { genId } from "../components/FlowBuilder/utils/genId";
 import { FormEvent, useState } from "react";
 import {
@@ -121,9 +120,6 @@ export function Explorer() {
                         {flow.description}
                       </td>
                       <td className="space-x-2">
-                        <Link to={"/edit/" + flow.id} className="btn">
-                          Go
-                        </Link>
                         <button
                           className="btn !text-rose-500"
                           onClick={() => removeFlow(flow.id)}

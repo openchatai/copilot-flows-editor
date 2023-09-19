@@ -5,13 +5,24 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect, useMemo, useState } from "react";
 import { MethodBtn } from "./MethodRenderer";
 import cn from "../../utils/cn";
-import { usePaths } from "../stores/PathsProvider";
+import { FlowsList } from "./FlowsList";
+import { useController } from "../stores/Controller";
 import { parse } from "../../hooks/helpers";
+import { transformPaths } from "./utils/transformSwagger";
+
 export default function AsideMenu() {
-  const { paths, load } = usePaths();
+  const {
+    state: { paths },
+    loadPaths,
+  } = useController();
+  console.log(paths);
+  
   const { mode, isAdd, setMode, isEdit, isIdle } = useMode();
+  
   const [search, setSearch] = useState("");
+
   const [file, setFile] = useState<FileList | null>(null);
+
   const renderedPaths = useMemo(
     () =>
       search.trim().length > 0
@@ -20,6 +31,7 @@ export default function AsideMenu() {
     [search, paths]
   );
   useEffect(() => {
+    console.log(file, "file");
     if (file && file.length > 0) {
       const $file = file.item(0);
       if ($file) {
@@ -29,16 +41,19 @@ export default function AsideMenu() {
           const text = e.target?.result;
           if (typeof text === "string") {
             const json = parse(text);
-            load(json.paths);
+            loadPaths(transformPaths(json.paths));
+            console.log("paths loaded");
           }
         };
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
+
   function setIdle() {
     setMode({ type: "idle" });
   }
+
   return (
     <aside
       className={cn(
@@ -90,28 +105,28 @@ export default function AsideMenu() {
               ) : (
                 <div className="w-full p-5 text-center">
                   <span className="text-2xl text-stone-500">¯\_(ツ)_/¯</span>
-                  {paths.length < 0 && (
-                    <>
-                      <input
-                        type="file"
-                        className="hidden"
-                        id="swagger-file-input"
-                        multiple={false}
-                        accept="application/json"
-                        onChange={(ev) => setFile(ev.target.files)}
-                      />
-                      <div className="mt-4">
-                        <label
-                          aria-role="button"
-                          htmlFor="swagger-file-input"
-                          className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
-                        >
-                          <span>Load from Swagger</span>
-                          <PlusIcon className="inline" />
-                        </label>
-                      </div>
-                    </>
-                  )}
+                  {/* {paths.length < 0 && ( */}
+                  <>
+                    <input
+                      type="file"
+                      className="hidden"
+                      id="swagger-file-input"
+                      multiple={false}
+                      accept="application/json"
+                      onChange={(ev) => setFile(ev.target.files)}
+                    />
+                    <div className="mt-4">
+                      <label
+                        htmlFor="swagger-file-input"
+                        role="button"
+                        className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
+                      >
+                        <span>Load from Swagger</span>
+                        <PlusIcon className="inline" />
+                      </label>
+                    </div>
+                  </>
+                  {/* )} */}
                 </div>
               )}
             </ul>
@@ -152,6 +167,7 @@ export default function AsideMenu() {
           )}
         </div>
       </div>
+      <FlowsList />
     </aside>
   );
 }

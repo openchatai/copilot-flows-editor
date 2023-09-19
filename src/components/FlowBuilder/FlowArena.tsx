@@ -30,8 +30,8 @@ export function FlowArena() {
     }),
     []
   );
-  const [nodes, , onNodesChange] = useNodesState<NodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, , onNodesChange] = useNodesState<NodeData>([]);
   const { setMode, isIdle } = useMode();
   // auto connect nodes
   useEffect(() => {
