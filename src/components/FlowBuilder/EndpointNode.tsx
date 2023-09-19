@@ -10,7 +10,7 @@ import {
 import { NodeData } from "./types/Swagger";
 import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { Y, nodedimensions } from "./consts";
 import { updateNodePositions } from "./utils/updateNodePosition";
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
@@ -32,7 +32,6 @@ const HideHandleStyles = {
 };
 function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
   const nodes = useNodes<NodeData>();
-  console.log(data);
   const { setNodes } = useReactFlow();
   const nodeId = useNodeId();
   const nodeObj = nodes.find((n) => n.id === nodeId);
@@ -49,7 +48,7 @@ function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
 
   const isFirstNode = nodes?.[0]?.id === nodeId;
   const isLastNode = nodes?.[nodes.length - 1]?.id === nodeId;
-  async function deleteNode() {
+  const deleteNode = useCallback(() => {
     setTimeout(() => {
       setNodes(
         updateNodePositions(
@@ -59,7 +58,8 @@ function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
       );
       resetMode();
     }, 300);
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <NodeToolbar align="center" isVisible={isActive} position={Position.Left}>

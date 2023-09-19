@@ -1,8 +1,11 @@
-import { useReducer, type ReactNode, useCallback } from "react";
+import { useReducer, type ReactNode, useCallback, useMemo } from "react";
 import { createSafeContext } from "../../utils/create-safe-context";
 import { NodeData, TransformedPath } from "../FlowBuilder/types/Swagger";
 import { produce } from "immer";
 import { genId } from "../FlowBuilder/utils/genId";
+import { Node } from "reactflow";
+
+type EndpointNodeType = Node<NodeData>;
 
 type StateShape = {
   paths: TransformedPath[];
@@ -12,17 +15,19 @@ type StateShape = {
     name: string;
     description?: string;
     createdAt: number;
-    steps: NodeData[];
+    steps: EndpointNodeType[];
     id: string;
   }[];
 };
 
 type ControllerContextType = {
-  // paths, loadPaths, flows, createFlow
   loadPaths: (paths: TransformedPath[]) => void;
   state: StateShape;
+  activeNodes?: EndpointNodeType[];
   toggleCodeExpanded: () => void;
   createFlow: (data: CreateFlowPayload) => void;
+  setActiveFlow: (id: string) => void;
+  setNodes: (nodes: Node[]) => void;
 };
 
 type ActionType =
@@ -38,7 +43,9 @@ type ActionType =
         createdAt: number;
       };
     }
-  | { type: "set-flows"; pyload: StateShape["flows"] };
+  | { type: "set-flows"; pyload: StateShape["flows"] }
+  | { type: "set-nodes"; payload: Node[] };
+
 type CreateFlowPayload = Extract<ActionType, { type: "create-flow" }>["pyload"];
 
 const initialStateValue: StateShape = {
@@ -50,33 +57,39 @@ const [SafeProvider, useController] = createSafeContext<ControllerContextType>(
   {} as ControllerContextType
 );
 function stateReducer(state: StateShape, action: ActionType) {
-  switch (action.type) {
-    case "init":
-      return state;
-    case "load-paths":
-      return produce(state, (draft) => {
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case "init":
+        break;
+      case "load-paths":
         draft.paths = action.pyload;
-      });
-    case "toggle-code-expanded":
-      return produce(state, (draft) => {
+        break;
+      case "toggle-code-expanded":
         draft.codeExpanded = !state.codeExpanded;
-      });
-    case "set-active-flow":
-      return produce(state, (draft) => {
+        break;
+      case "set-active-flow":
         draft.activeFlowId = action.pyload;
-      });
-    case "create-flow":
-      return produce(state, (draft) => {
-        console.log(action.pyload);
+        break;
+      case "create-flow":
         draft.flows.push({
           ...action.pyload,
           steps: [],
           id: genId(),
         });
-      });
-    default:
-      return state;
-  }
+        break;
+      case "set-nodes":
+        {
+          const flow = draft.flows.find((f) => f.id === state.activeFlowId);
+          if (!flow) return;
+          console.log(flow);
+          console.log(action.payload);
+          flow.steps = action.payload;
+        }
+        break;
+      default:
+        break;
+    }
+  });
 }
 
 function Controller({ children }: { children: ReactNode }) {
@@ -102,6 +115,29 @@ function Controller({ children }: { children: ReactNode }) {
       }),
     []
   );
+  const setActiveFlow = useCallback(
+    (id: string) =>
+      dispatch({
+        type: "set-active-flow",
+        pyload: id,
+      }),
+    []
+  );
+  const activeNodes = useMemo(() => {
+    if (!state.activeFlowId) return undefined;
+    const flow = state.flows.find((f) => f.id === state.activeFlowId);
+    if (!flow) return undefined;
+    return flow.steps;
+  }, [state.activeFlowId, state.flows]);
+
+  const setNodes = useCallback(
+    (nodes: Node[]) =>
+      dispatch({
+        type: "set-nodes",
+        payload: nodes,
+      }),
+    []
+  );
   return (
     <SafeProvider
       value={{
@@ -109,6 +145,9 @@ function Controller({ children }: { children: ReactNode }) {
         state,
         toggleCodeExpanded,
         createFlow,
+        setActiveFlow,
+        activeNodes,
+        setNodes,
       }}
     >
       {children}

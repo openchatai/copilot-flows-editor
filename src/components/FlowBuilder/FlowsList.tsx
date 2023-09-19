@@ -9,9 +9,9 @@ export function FlowsList() {
   const [modalOpen, setModalOpen] = useState(false);
   const {
     createFlow,
-    state: { flows },
+    state: { flows, activeFlowId },
+    setActiveFlow,
   } = useController();
-  console.log(flows);
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     const data = new FormData(e.currentTarget);
     const [name, description] = [data.get("name"), data.get("description")];
@@ -92,9 +92,16 @@ export function FlowsList() {
       >
         <ul className="space-y-1 divide-y [&_>li]:p-2">
           {flows?.map((flow, i) => {
+            const isActive = flow.id === activeFlowId;
             return (
               <li key={flow.id} data-flow-id={flow.id} title={flow.description}>
-                <button className="space-x-2 text-base">
+                <button
+                  className={cn(
+                    "space-x-2 text-base block rounded-md w-full text-left font-semibold p-2 transition-all duration-300 ease-in-out hover:bg-slate-100",
+                    isActive ? "bg-slate-100" : ""
+                  )}
+                  onClick={() => setActiveFlow(flow.id)}
+                >
                   <CubeIcon className="inline" />
                   <span>{flow.name}</span>
                 </button>

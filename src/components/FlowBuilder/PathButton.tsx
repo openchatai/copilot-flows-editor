@@ -16,7 +16,8 @@ import {
 export function PathButton({ path }: { path: TransformedPath }) {
   const { mode } = useMode();
   const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
-  const nodes = useMemo(() => getNodes(), [getNodes]);
+  const nodes = getNodes();
+
   const appendNode = useCallback(
     (payload: NodeData) => {
       const id = genId();

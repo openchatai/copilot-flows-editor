@@ -6,6 +6,9 @@ import ReactFlow, {
   useEdgesState,
   MarkerType,
   Edge,
+  applyNodeChanges,
+  NodeChange,
+  Node,
 } from "reactflow";
 import { useCallback, useEffect, useMemo } from "react";
 import "reactflow/dist/style.css";
@@ -16,6 +19,7 @@ import { useMode } from "../stores/ModeProvider";
 import type { NodeData } from "./types/Swagger";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { BUILDER_SCALE } from "./consts";
+import { useController } from "../stores/Controller";
 
 export function FlowArena() {
   const nodeTypes = useMemo(
@@ -31,15 +35,17 @@ export function FlowArena() {
     []
   );
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [nodes, , onNodesChange] = useNodesState<NodeData>([]);
+  // the state will be derived from the global controller state
+  const { activeNodes, setNodes } = useController();
   const { setMode, isIdle } = useMode();
   // auto connect nodes
   useEffect(() => {
-    if (nodes.length === 0) {
+    if (!activeNodes) return;
+    if (activeNodes.length === 0) {
       setMode({ type: "append-node" });
       return;
     }
-    const newEdges = nodes
+    const newEdges = activeNodes
       .map((v, i, a) => {
         const curr = v;
         const next = a.at(i + 1);
@@ -59,13 +65,20 @@ export function FlowArena() {
       .filter((v) => typeof v !== "undefined") as Edge[];
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes]);
+  }, [activeNodes]);
 
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      const _ = applyNodeChanges(changes, activeNodes || []);
+      console.log("nodes changed", _);
+      setNodes(_);
+    },
+    [setNodes, activeNodes]
+  );
   return (
     <>
       <div className="flex-1 h-full flex items-center overflow-hidden relative">
@@ -79,7 +92,7 @@ export function FlowArena() {
         )}
         <AsideMenu />
         <div className="flex-1 h-full relative">
-          {nodes.length === 0 && (
+          {activeNodes && activeNodes.length === 0 && (
             <div
               className="absolute inset-0 z-40 bg-black/10 group select-none"
               data-container="empty-state"
@@ -93,7 +106,7 @@ export function FlowArena() {
           )}
           <ReactFlow
             nodeTypes={nodeTypes}
-            nodes={nodes}
+            nodes={activeNodes}
             edges={edges}
             onEdgeClick={(event, edge) => {
               event.stopPropagation();
