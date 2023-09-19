@@ -28,10 +28,11 @@ type ControllerContextType = {
   createFlow: (data: CreateFlowPayload) => void;
   setActiveFlow: (id: string) => void;
   setNodes: (nodes: Node[]) => void;
+  reset: () => void;
 };
 
 type ActionType =
-  | { type: "init" }
+  | { type: "reset" }
   | { type: "load-paths"; pyload: TransformedPath[] }
   | { type: "toggle-code-expanded" }
   | { type: "set-active-flow"; pyload: string }
@@ -59,7 +60,8 @@ const [SafeProvider, useController] = createSafeContext<ControllerContextType>(
 function stateReducer(state: StateShape, action: ActionType) {
   return produce(state, (draft) => {
     switch (action.type) {
-      case "init":
+      case "reset":
+        draft = initialStateValue;
         break;
       case "load-paths":
         draft.paths = action.pyload;
@@ -81,8 +83,6 @@ function stateReducer(state: StateShape, action: ActionType) {
         {
           const flow = draft.flows.find((f) => f.id === state.activeFlowId);
           if (!flow) return;
-          console.log(flow);
-          console.log(action.payload);
           flow.steps = action.payload;
         }
         break;
@@ -138,6 +138,8 @@ function Controller({ children }: { children: ReactNode }) {
       }),
     []
   );
+
+  const reset = useCallback(() => dispatch({ type: "reset" }), []);
   return (
     <SafeProvider
       value={{
@@ -148,6 +150,7 @@ function Controller({ children }: { children: ReactNode }) {
         setActiveFlow,
         activeNodes,
         setNodes,
+        reset,
       }}
     >
       {children}

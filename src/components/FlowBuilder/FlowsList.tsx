@@ -3,10 +3,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../Dialog";
 import { ChevronRightIcon, CubeIcon, PlusIcon } from "@radix-ui/react-icons";
 import cn from "../../utils/cn";
 import { useController } from "../stores/Controller";
+import { useMode } from "../stores/ModeProvider";
 
 export function FlowsList() {
   const [flowsPanelOpened, setFlowsPanel] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const { reset } = useMode();
+
   const {
     createFlow,
     state: { flows, activeFlowId },
@@ -90,7 +93,7 @@ export function FlowsList() {
             : "h-0 animate-out fade-out"
         )}
       >
-        <ul className="space-y-1 divide-y [&_>li]:p-2">
+        <ul className="[&_>li]:p-2">
           {flows?.map((flow, i) => {
             const isActive = flow.id === activeFlowId;
             return (
@@ -100,7 +103,11 @@ export function FlowsList() {
                     "space-x-2 text-base block rounded-md w-full text-left font-semibold p-2 transition-all duration-300 ease-in-out hover:bg-slate-100",
                     isActive ? "bg-slate-100" : ""
                   )}
-                  onClick={() => setActiveFlow(flow.id)}
+                  onClick={() => {
+                    if (isActive) return;
+                    setActiveFlow(flow.id);
+                    reset();
+                  }}
                 >
                   <CubeIcon className="inline" />
                   <span>{flow.name}</span>

@@ -2,13 +2,12 @@ import ReactFlow, {
   Background,
   OnConnect,
   addEdge,
-  useNodesState,
   useEdgesState,
   MarkerType,
   Edge,
   applyNodeChanges,
   NodeChange,
-  Node,
+  useReactFlow,
 } from "reactflow";
 import { useCallback, useEffect, useMemo } from "react";
 import "reactflow/dist/style.css";
@@ -16,7 +15,6 @@ import { NodeEdge } from "./EndpointEdge";
 import EndpointNode from "./EndpointNode";
 import { AsideMenu } from "./AsideMenu";
 import { useMode } from "../stores/ModeProvider";
-import type { NodeData } from "./types/Swagger";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { BUILDER_SCALE } from "./consts";
 import { useController } from "../stores/Controller";
@@ -34,6 +32,7 @@ export function FlowArena() {
     }),
     []
   );
+  const { fitView } = useReactFlow();
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   // the state will be derived from the global controller state
   const { activeNodes, setNodes } = useController();
@@ -45,6 +44,7 @@ export function FlowArena() {
       setMode({ type: "append-node" });
       return;
     }
+    fitView();
     const newEdges = activeNodes
       .map((v, i, a) => {
         const curr = v;

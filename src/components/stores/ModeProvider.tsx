@@ -22,7 +22,7 @@ export type Mode =
   | AddNodeBetweenMode
   | EditNodeMode
   | IdleMode;
-const DEFAULT: Mode = { type: "idle" };
+const DEFAULT: Mode = { type: "append-node" };
 type ModeContextType = {
   mode: Mode;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;

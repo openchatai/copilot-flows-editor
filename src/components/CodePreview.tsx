@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronDownIcon, CodeIcon } from "@radix-ui/react-icons";
 import Ajv from "ajv";
-import { formatCode } from "../utils/format-json";
+import { js } from "js-beautify";
 import { CodeBlock } from "../components/CodeBlock";
 import cn from "../utils/cn";
 import { useController } from "./stores/Controller";
@@ -103,83 +103,31 @@ const validate = ajv.compile({
   required: ["opencopilot", "info", "flows"],
 });
 
-const example = {
-  opencopilot: "0.1",
-  info: {
-    title: "My OpenCopilot definition",
-    version: "1.0.0",
-  },
-  flows: [
-    {
-      name: "user registration",
-      description: "The needed API flow to register a user into the system",
-      requires_confirmation: false,
-      steps: [
-        {
-          stepId: "xxx",
-          operation: "call",
-          open_api_operation_id: "operationId1",
-        },
-        {
-          stepId: "xxx",
-          operation: "call",
-          open_api_operation_id: "operationId2",
-          parameters: {
-            user_verification: "xx.response.some_key",
-          },
-        },
-        {
-          operation: "call",
-          open_api_operation_id: "operationId3",
-        },
-      ],
-      on_success: [
-        {
-          handler: "plotOutcomeJsFunction",
-        },
-      ],
-      on_failure: [
-        {
-          handler: "plotOutcomeJsFunction",
-        },
-      ],
-    },
-  ],
-};
-
 export function CodePreview() {
   // this will preview the whole code for the flows.
-  const [json, setJson] = useState<string>(JSON.stringify(example));
-  const [valid, setValid] = useState(false);
-  const [barOpen, setBarOpen] = useState(false);
   const {
-    state: { codeExpanded },
+    state: { flows, codeExpanded },
     toggleCodeExpanded,
   } = useController();
-  function parse() {
-    try {
-      const parsed = JSON.parse(json);
-      setValid(true);
-      return parsed;
-    } catch (e: unknown) {
-      if (e instanceof SyntaxError) {
-        console.log(e.message);
-        setValid(false);
-      }
-    }
-    return {};
-  }
-  async function _formatCode() {
-    const formatted = await formatCode(json);
-    setJson(formatted);
-  }
+  const json = useMemo(
+    () =>
+      js(
+        JSON.stringify({
+          opencopilot: "0.1",
+          info: {
+            title: "My OpenCopilot definition",
+            version: "1.0.0",
+          },
+          flows: flows,
+        }),
+        {
+          indent_size: 2,
+        }
+      ),
+    [flows]
+  );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useMemo(() => validate(parse()), [json]);
-  useEffect(() => {
-    _formatCode();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [barOpen, setBarOpen] = useState(false);
   return (
     <div
       className={cn(
@@ -240,12 +188,7 @@ export function CodePreview() {
           </div>
         </div>
       </div>
-      <CodeBlock
-        initialValue={json}
-        onChange={(value) => {
-          setJson(value);
-        }}
-      />
+      <CodeBlock initialValue={json} />
     </div>
   );
 }

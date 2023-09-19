@@ -19,7 +19,7 @@ export function CodeBlock({
     <CodeMirror
       ref={codeMirrorRef}
       height="100%"
-      className="w-full h-full [&_.cm-lineNumbers]:!hidden [&_.cm-gutters]:px-1.5 text-base min-h-full min-w-full max-w-full max-h-full"
+      className="w-full h-full [&_.cm-lineNumbers]:!hidden [&_.cm-gutters]:px-1.5 text-sm min-h-full min-w-full max-w-full max-h-full"
       value={initialValue}
       theme={basicLight}
       onChange={onChange}

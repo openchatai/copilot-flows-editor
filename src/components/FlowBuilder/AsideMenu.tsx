@@ -15,10 +15,9 @@ export function AsideMenu() {
     state: { paths },
     loadPaths,
   } = useController();
-  console.log(paths);
-  
-  const { mode, isAdd, setMode, isEdit, isIdle } = useMode();
-  
+
+  const { mode, isEdit } = useMode();
+
   const [search, setSearch] = useState("");
 
   const [file, setFile] = useState<FileList | null>(null);
@@ -50,33 +49,22 @@ export function AsideMenu() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
-  function setIdle() {
-    setMode({ type: "idle" });
-  }
-
   return (
     <aside
       className={cn(
-        "z-50 h-full max-h-full absolute max-w-sm w-full transition-transform overflow-hidden ease-in-out origin-right bg-white border-r-4 border-neutral-100 shadow-lg",
-        isIdle ? "-translate-x-full" : "translate-x-0"
+        "z-50 h-full max-h-full absolute translate-x-0 max-w-sm w-full transition-transform overflow-hidden ease-in-out origin-right bg-white border-r-4 border-neutral-100 shadow-lg"
       )}
     >
       <div className="w-full h-full py-2">
         <div
           data-container="select-node"
-          data-hidden={!isAdd}
+          data-hidden={isEdit}
           className="w-full h-full max-h-full overflow-hidden flex items-start flex-col data-[hidden=true]:hidden data-[hidden=true]:animate-out data-[hidden=true]:slide-out-to-left-full animate-in [&>*]:w-full gap-5"
         >
           <div className="px-4 pt-4 flex items-center">
             <h1 className="text-base font-semibold flex-1 text-slate-800">
               Select Step
             </h1>
-            <button
-              className="text-xl rounded-full p-2 hover:bg-stone-200"
-              onClick={setIdle}
-            >
-              <Cross2Icon />
-            </button>
           </div>
           <div className="w-full px-4">
             <div className="flex items-center border border-black/50 rounded overflow-hidden focus-within:ring-1 ring-indigo-500">
@@ -105,7 +93,6 @@ export function AsideMenu() {
               ) : (
                 <div className="w-full p-5 text-center">
                   <span className="text-2xl text-stone-500">¯\_(ツ)_/¯</span>
-                  {/* {paths.length < 0 && ( */}
                   <>
                     <input
                       type="file"
@@ -137,11 +124,6 @@ export function AsideMenu() {
           data-container="edit-node"
           data-hidden={!isEdit}
         >
-          <div className="px-4 flex items-center justify-end w-full">
-            <button onClick={setIdle}>
-              <Cross2Icon />
-            </button>
-          </div>
           {mode.type === "edit-node" && (
             <div className="px-4 space-y-2">
               <div className="w-full">
