@@ -93,7 +93,7 @@ export function FlowsList() {
             : "h-0 animate-out fade-out"
         )}
       >
-        <ul className="[&_>li]:p-2">
+        <ul className="space-y-1 p-2">
           {flows?.map((flow, i) => {
             const isActive = flow.id === activeFlowId;
             return (

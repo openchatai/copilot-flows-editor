@@ -9,7 +9,6 @@ type EndpointNodeType = Node<NodeData>;
 
 type StateShape = {
   paths: TransformedPath[];
-  codeExpanded: boolean;
   activeFlowId?: string;
   flows: {
     name: string;
@@ -24,7 +23,6 @@ type ControllerContextType = {
   loadPaths: (paths: TransformedPath[]) => void;
   state: StateShape;
   activeNodes?: EndpointNodeType[];
-  toggleCodeExpanded: () => void;
   createFlow: (data: CreateFlowPayload) => void;
   setActiveFlow: (id: string) => void;
   setNodes: (nodes: Node[]) => void;
@@ -34,7 +32,6 @@ type ControllerContextType = {
 type ActionType =
   | { type: "reset" }
   | { type: "load-paths"; pyload: TransformedPath[] }
-  | { type: "toggle-code-expanded" }
   | { type: "set-active-flow"; pyload: string }
   | {
       type: "create-flow";
@@ -51,8 +48,8 @@ type CreateFlowPayload = Extract<ActionType, { type: "create-flow" }>["pyload"];
 
 const initialStateValue: StateShape = {
   paths: [],
-  codeExpanded: false,
   flows: [],
+  activeFlowId: undefined,
 };
 const [SafeProvider, useController] = createSafeContext<ControllerContextType>(
   {} as ControllerContextType
@@ -65,9 +62,6 @@ function stateReducer(state: StateShape, action: ActionType) {
         break;
       case "load-paths":
         draft.paths = action.pyload;
-        break;
-      case "toggle-code-expanded":
-        draft.codeExpanded = !state.codeExpanded;
         break;
       case "set-active-flow":
         draft.activeFlowId = action.pyload;
@@ -101,10 +95,6 @@ function Controller({ children }: { children: ReactNode }) {
         type: "load-paths",
         pyload: paths,
       }),
-    []
-  );
-  const toggleCodeExpanded = useCallback(
-    () => dispatch({ type: "toggle-code-expanded" }),
     []
   );
   const createFlow = useCallback(
@@ -145,7 +135,6 @@ function Controller({ children }: { children: ReactNode }) {
       value={{
         loadPaths,
         state,
-        toggleCodeExpanded,
         createFlow,
         setActiveFlow,
         activeNodes,
