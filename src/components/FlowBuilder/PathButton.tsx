@@ -12,12 +12,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ToolTip";
+import { useController } from "../stores/Controller";
 
 export function PathButton({ path }: { path: TransformedPath }) {
   const { mode } = useMode();
   const { setNodes, getNodes, setEdges } = useReactFlow<NodeData>();
   const nodes = getNodes();
-
+  const {
+    state: { activeFlowId },
+  } = useController();
   const appendNode = useCallback(
     (payload: NodeData) => {
       const id = genId();
@@ -95,6 +98,10 @@ export function PathButton({ path }: { path: TransformedPath }) {
                       data-present={isPresentInNodes(method.method)}
                       onClick={() => {
                         if (isPresentInNodes(method.method)) {
+                          return;
+                        }
+                        if (!activeFlowId) {
+                          alert("Please create a flow first");
                           return;
                         }
                         const newNode: NodeData = {

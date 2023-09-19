@@ -55,11 +55,9 @@ const [SafeProvider, useController] = createSafeContext<ControllerContextType>(
   {} as ControllerContextType
 );
 function stateReducer(state: StateShape, action: ActionType) {
+  if (action.type === "reset") return initialStateValue;
   return produce(state, (draft) => {
     switch (action.type) {
-      case "reset":
-        draft = initialStateValue;
-        break;
       case "load-paths":
         draft.paths = action.pyload;
         break;
@@ -118,7 +116,7 @@ function Controller({ children }: { children: ReactNode }) {
     const flow = state.flows.find((f) => f.id === state.activeFlowId);
     if (!flow) return undefined;
     return flow.steps;
-  }, [state.activeFlowId, state.flows]);
+  }, [state]);
 
   const setNodes = useCallback(
     (nodes: Node[]) =>
@@ -128,7 +126,7 @@ function Controller({ children }: { children: ReactNode }) {
       }),
     []
   );
-
+  // TODO: @bug: when we reset, the nodes(in the arena) are not reset
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
   return (
     <SafeProvider

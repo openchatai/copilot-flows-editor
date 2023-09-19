@@ -13,13 +13,15 @@ function Header() {
   const activeFlow = flows.find((f) => f.id === activeFlowId);
   return (
     <header className="h-14 w-full bg-neutral-100">
-      <div className="w-full h-full flex items-center justify-between px-2">
+      <div className="w-full h-full flex items-center justify-between lg:px-4 px-2">
         <div className="select-none align-middle flex items-center">
           <h1 className="text-xl font-bold text-slate-800">Flow Editor</h1>
           {activeFlow && (
             <>
               <span className="text-2xl font-bold mx-1">/</span>
-              <span className="text-base tracking-tight">{activeFlow.name}</span>
+              <span className="text-base tracking-tight">
+                {activeFlow.name}
+              </span>
             </>
           )}
         </div>
@@ -38,7 +40,7 @@ function Header() {
           </button>
           <a
             href="https://github.com/openchatai/copilot-flows-editor"
-            className="text-lg p-2 inline hover:bg-slate-50 rounded cursor-pointer font-medium"
+            className="text-lg p-2 inline rounded cursor-pointer font-medium"
           >
             <GitHubLogoIcon className="inline" />
           </a>

@@ -4,6 +4,7 @@ import { ChevronRightIcon, CubeIcon, PlusIcon } from "@radix-ui/react-icons";
 import cn from "../../utils/cn";
 import { useController } from "../stores/Controller";
 import { useMode } from "../stores/ModeProvider";
+import { EmptyState } from "../EmptyState";
 
 export function FlowsList() {
   const [flowsPanelOpened, setFlowsPanel] = useState(false);
@@ -93,29 +94,37 @@ export function FlowsList() {
             : "h-0 animate-out fade-out"
         )}
       >
-        <ul className="space-y-1 p-2">
-          {flows?.map((flow, i) => {
-            const isActive = flow.id === activeFlowId;
-            return (
-              <li key={flow.id} data-flow-id={flow.id} title={flow.description}>
-                <button
-                  className={cn(
-                    "space-x-2 text-base block rounded-md w-full text-left font-semibold p-2 transition-all duration-300 ease-in-out hover:bg-slate-100",
-                    isActive ? "bg-slate-100" : ""
-                  )}
-                  onClick={() => {
-                    if (isActive) return;
-                    setActiveFlow(flow.id);
-                    reset();
-                  }}
+        {flows.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <ul className="space-y-1 p-2">
+            {flows?.map((flow, i) => {
+              const isActive = flow.id === activeFlowId;
+              return (
+                <li
+                  key={flow.id}
+                  data-flow-id={flow.id}
+                  title={flow.description}
                 >
-                  <CubeIcon className="inline" />
-                  <span>{flow.name}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                  <button
+                    className={cn(
+                      "space-x-2 text-base block rounded-md w-full text-left font-semibold p-2 transition-all duration-300 ease-in-out hover:bg-slate-100",
+                      isActive ? "bg-slate-100" : ""
+                    )}
+                    onClick={() => {
+                      if (isActive) return;
+                      setActiveFlow(flow.id);
+                      reset();
+                    }}
+                  >
+                    <CubeIcon className="inline" />
+                    <span>{flow.name}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );
