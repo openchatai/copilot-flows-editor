@@ -33,7 +33,6 @@ export function FlowArena() {
   );
   const { fitView } = useReactFlow();
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  // the state will be derived from the global controller state
   const {
     activeNodes,
     setNodes,
@@ -106,7 +105,7 @@ export function FlowArena() {
           )}
           <ReactFlow
             nodeTypes={nodeTypes}
-            nodes={activeNodes}
+            nodes={activeFlowId ? activeNodes : []}
             edges={edges}
             onEdgeClick={(event, edge) => {
               event.stopPropagation();

@@ -9,6 +9,8 @@ import { js } from "js-beautify";
 import { CodeBlock } from "../components/CodeBlock";
 import cn from "../utils/cn";
 import { useController } from "./stores/Controller";
+
+
 const ajv = new Ajv({
   allErrors: true,
   verbose: true,
@@ -98,8 +100,8 @@ const validate = ajv.compile({
           "description",
           "requires_confirmation",
           "steps",
-          "on_success",
-          "on_failure",
+          // "on_success",
+          // "on_failure",
         ],
       },
     },
@@ -133,20 +135,19 @@ export function CodePreview() {
         }),
       };
     });
-    const _$code = js(
-      JSON.stringify({
-        opencopilot: "0.1",
-        info: {
-          title: "My OpenCopilot definition",
-          version: "1.0.0",
-        },
-        flows: $flows,
-      }),
-      {
-        indent_size: 1,
-      }
-    );
-    $setCode(_$code);
+    const $code = {
+      opencopilot: "0.1",
+      info: {
+        title: "My OpenCopilot definition",
+        version: "1.0.0",
+      },
+      flows: $flows,
+    };
+    const $codeString = js(JSON.stringify($code), {
+      indent_size: 1,
+    });
+    $setCode($codeString);
+    validate($code);
   }, [flows]);
 
   const [barOpen, setBarOpen] = useState(false);
