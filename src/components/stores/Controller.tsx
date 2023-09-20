@@ -39,6 +39,7 @@ type ActionType =
         name: string;
         description?: string;
         createdAt: number;
+        focus: boolean;
       };
     }
   | { type: "set-flows"; pyload: StateShape["flows"] }
@@ -64,13 +65,17 @@ function stateReducer(state: StateShape, action: ActionType) {
       case "set-active-flow":
         draft.activeFlowId = action.pyload;
         break;
-      case "create-flow":
-        draft.flows.push({
+      case "create-flow": {
+        const id = genId();
+        const $newFlow = {
           ...action.pyload,
           steps: [],
-          id: genId(),
-        });
+          id,
+        };
+        draft.flows.push($newFlow);
+        if (action.pyload.focus) draft.activeFlowId = id;
         break;
+      }
       case "set-nodes":
         {
           const flow = draft.flows.find((f) => f.id === state.activeFlowId);

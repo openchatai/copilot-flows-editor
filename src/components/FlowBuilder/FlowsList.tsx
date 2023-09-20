@@ -29,12 +29,8 @@ export function FlowsList() {
         createdAt: Date.now(),
         name: name.toString(),
         description: description.toString(),
+        focus: focus === "on" ? true : false,
       });
-
-      if (focus === "on") {
-        const $lastFlow = flows[flows.length - 1];
-        if ($lastFlow) setActiveFlow($lastFlow.id);
-      }
       setModalOpen(false);
     }
   }
