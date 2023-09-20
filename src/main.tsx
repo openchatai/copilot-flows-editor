@@ -3,7 +3,7 @@ import App from "./App.tsx";
 import "./index.css";
 import * as Sentry from "@sentry/react";
 Sentry.init({
-  dsn: process.env.SENTRY_DSN,
+  dsn: import.meta.env.SENTRY_DSN,
   integrations: [
     new Sentry.BrowserTracing({
       tracePropagationTargets: ["localhost", "opencopilot.so"],

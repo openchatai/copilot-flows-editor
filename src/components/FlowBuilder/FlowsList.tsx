@@ -69,6 +69,8 @@ export function FlowsList() {
                 type="text"
                 name="description"
               />
+              <label htmlFor="focus-input" className="inline">Focus after creation?</label>
+              <input type="checkbox" id="focus-input" className="inline" defaultChecked />
               <div className="w-full flex items-center justify-end mt-4">
                 <button
                   type="submit"
