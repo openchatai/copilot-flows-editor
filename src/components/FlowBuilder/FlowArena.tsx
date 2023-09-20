@@ -15,7 +15,6 @@ import { NodeEdge } from "./EndpointEdge";
 import EndpointNode from "./EndpointNode";
 import { AsideMenu } from "./AsideMenu";
 import { useMode } from "../stores/ModeProvider";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { BUILDER_SCALE } from "./consts";
 import { useController } from "../stores/Controller";
 
@@ -35,8 +34,12 @@ export function FlowArena() {
   const { fitView } = useReactFlow();
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   // the state will be derived from the global controller state
-  const { activeNodes, setNodes } = useController();
-  const { setMode, isIdle } = useMode();
+  const {
+    activeNodes,
+    setNodes,
+    state: { activeFlowId },
+  } = useController();
+  const { setMode } = useMode();
   // auto connect nodes
   useEffect(() => {
     if (!activeNodes) return;
@@ -79,27 +82,24 @@ export function FlowArena() {
     },
     [setNodes, activeNodes]
   );
+  const empty = useMemo(() => {
+    return activeNodes?.length === 0 || activeFlowId === undefined;
+  }, [activeNodes, activeFlowId]);
   return (
     <>
       <div className="flex-1 h-full flex items-center overflow-hidden relative">
-        {isIdle && (
-          <button
-            onClick={() => setMode({ type: "append-node" })}
-            className="absolute animate-in fade-in p-2 rounded-full text-lg border border-stone-400 text-slate-800 top-3 left-3 z-50"
-          >
-            <HamburgerMenuIcon />
-          </button>
-        )}
         <AsideMenu />
         <div className="flex-1 h-full relative">
-          {activeNodes && activeNodes.length === 0 && (
+          {empty && (
             <div
               className="absolute inset-0 z-40 bg-black/10 group select-none"
               data-container="empty-state"
             >
               <div className="flex items-center justify-center h-full">
-                <div className="max-w-xs w-full p-2 rounded border opacity-50 group-hover:opacity-100 transition-opacity border-dashed text-neutral-800 text-center text-base border-neutral-500">
-                  Start by selecting an endpoint from the menu
+                <div className="max-w-xs w-full p-2 rounded border transition-opacity border-dashed text-neutral-800 text-center text-base border-neutral-500">
+                  {activeFlowId
+                    ? "Start by selecting an endpoint from the menu"
+                    : "Start by creating a flow"}
                 </div>
               </div>
             </div>
