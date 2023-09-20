@@ -95,14 +95,12 @@ function Controller({ children }: { children: ReactNode }) {
       }),
     []
   );
-  const createFlow = useCallback(
-    (data: CreateFlowPayload) =>
-      dispatch({
-        type: "create-flow",
-        pyload: data,
-      }),
-    []
-  );
+  const createFlow = useCallback((data: CreateFlowPayload) => {
+    dispatch({
+      type: "create-flow",
+      pyload: data,
+    });
+  }, []);
   const setActiveFlow = useCallback(
     (id: string) =>
       dispatch({

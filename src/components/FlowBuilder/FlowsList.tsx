@@ -17,18 +17,26 @@ export function FlowsList() {
     setActiveFlow,
   } = useController();
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const [name, description] = [data.get("name"), data.get("description")];
-    console.log(name, description);
+    const [name, description, focus] = [
+      data.get("name"),
+      data.get("description"),
+      data.get("focus"),
+    ];
     if (name && description) {
       createFlow({
         createdAt: Date.now(),
         name: name.toString(),
         description: description.toString(),
       });
+
+      if (focus === "on") {
+        const $lastFlow = flows[flows.length - 1];
+        if ($lastFlow) setActiveFlow($lastFlow.id);
+      }
       setModalOpen(false);
     }
-    e.preventDefault();
   }
   return (
     <div className="block absolute transition bottom-0 inset-x-0 bg-white shadow-lg">
@@ -69,8 +77,18 @@ export function FlowsList() {
                 type="text"
                 name="description"
               />
-              <label htmlFor="focus-input" className="inline">Focus after creation?</label>
-              <input type="checkbox" id="focus-input" className="inline" defaultChecked />
+              <div className="mt-2 space-x-1">
+                <input
+                  type="checkbox"
+                  id="focus-input"
+                  className="inline"
+                  defaultChecked
+                  name="focus"
+                />
+                <label htmlFor="focus-input" className="inline">
+                  Focus after creation?
+                </label>
+              </div>
               <div className="w-full flex items-center justify-end mt-4">
                 <button
                   type="submit"
