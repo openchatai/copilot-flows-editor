@@ -3,12 +3,13 @@ import App from "./App.tsx";
 import "./index.css";
 import * as Sentry from "@sentry/react";
 Sentry.init({
-  dsn: "https://f38dd7abb498fc03ce47acb1ea3003f6@o4505912426954752.ingest.sentry.io/4505912429117440",
+  dsn: process.env.SENTRY_DSN,
   integrations: [
     new Sentry.BrowserTracing({
-      tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+      tracePropagationTargets: ["localhost", "opencopilot.so"],
     }),
     new Sentry.Replay(),
+    new Sentry.BrowserProfilingIntegration(),
   ],
   tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
   replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
