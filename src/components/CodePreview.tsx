@@ -120,7 +120,17 @@ export function CodePreview() {
         name: flow.name,
         description: flow.description,
         requires_confirmation: true,
-        steps: flow.steps.map((step) => step.data),
+        steps: flow.steps.map((step) => {
+          const $step = step.data;
+          // TODO: add support for other operations
+          // TODO: better error handling for missing operationId
+          return {
+            operation: "call",
+            stepId: step.id,
+            open_api_operation_id: $step.operationId,
+            parameters: $step.parameters,
+          };
+        }),
       };
     });
     const _$code = js(
