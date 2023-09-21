@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 0.0.6
+
+### Patch Changes
+
+- c8aa0c2: fixed:styles issue
+
 ## 0.0.5
 
 ### Patch Changes
