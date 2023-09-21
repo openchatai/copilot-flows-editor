@@ -1,14 +1,19 @@
 {
   "name": "@openchat-ai/flow-builder",
+  "version": "0.0.0-development",
   "private": false,
-  "version": "1.0.0",
+  "description": "OpenChat Flow Builder for openCopilot",
   "type": "module",
+  "main": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "build:lib": "vite build -c vite.config.lib.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build:lib",
+    "semantic-release": "semantic-release"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -48,6 +53,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reactflow": "^11.8.3",
+    "semantic-release": "^22.0.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.3.3",
     "tailwindcss-animate": "^1.0.7",
@@ -58,5 +64,12 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ah7255703/schema-parser-ui.git"
+  }
 }

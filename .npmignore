@@ -1,0 +1,19 @@
+# Ignore development files
+node_modules/
+src/
+lib/
+*.ts
+*.tsx
+*.js
+*.jsx
+*.map
+vercel.json
+tailwind.config.ts
+vite.config.ts
+tsconfig.json
+tsconfig.build.json
+# Ignore build output
+dist/
+build/
+lib/
+.eslintcache

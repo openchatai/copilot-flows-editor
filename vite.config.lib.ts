@@ -15,11 +15,12 @@ export default defineConfig({
     base: './',
     build: {
         sourcemap: false,
+        copyPublicDir: false,
         lib: {
             entry: resolve(__dirname, 'lib/index.ts'),
             name: formattedName,
-            formats: ['es', 'umd'],
-            fileName: (format) => `${formattedName}.${format}.js`,
+            formats: ['umd'],
+            fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
             external: ['react', 'react/jsx-runtime', 'react-dom'],
