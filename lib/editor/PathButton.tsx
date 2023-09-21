@@ -1,18 +1,17 @@
-import type { Method, NodeData, TransformedPath } from "./types/Swagger";
 import { useReactFlow, type Node, Edge } from "reactflow";
-import { genId } from "./utils/genId";
 import { MethodBtn } from "./MethodRenderer";
-import { updateNodePositions } from "./utils/updateNodePosition";
 import { Y } from "./consts";
 import { useMode } from "../stores/ModeProvider";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
+import { useController } from "../stores/Controller";
+import { Method, NodeData, TransformedPath } from "../types/Swagger";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ToolTip";
-import { useController } from "../stores/Controller";
+} from "../components";
+import { genId, updateNodesPositions } from "../utils";
 
 export function PathButton({ path }: { path: TransformedPath }) {
   const { mode } = useMode();
@@ -31,7 +30,7 @@ export function PathButton({ path }: { path: TransformedPath }) {
         draggable: false,
         position: { x: 0, y: Y * nodes.length },
       };
-      setNodes((nds) => updateNodePositions([...nds, newNode], Y));
+      setNodes((nds) => updateNodesPositions([...nds, newNode], Y));
     },
     [nodes.length, setNodes]
   );
@@ -63,7 +62,7 @@ export function PathButton({ path }: { path: TransformedPath }) {
         .slice(0, sourceIndex)
         .concat(newNode)
         .concat(nodes.slice(sourceIndex));
-      setNodes(updateNodePositions(newNodes, Y));
+      setNodes(updateNodesPositions(newNodes, Y));
     },
     [nodes, setEdges, setNodes]
   );

@@ -1,7 +1,7 @@
-import { createSafeContext } from "../../utils/create-safe-context";
 import { type Edge, type Node } from "reactflow";
-import { NodeData } from "../FlowBuilder/types/Swagger";
 import { useCallback, useMemo, useState } from "react";
+import { NodeData } from "../types/Swagger";
+import { createSafeContext } from "../utils/create-safe-context";
 type IdleMode = {
   type: "idle";
 };

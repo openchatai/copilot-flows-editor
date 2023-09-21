@@ -6,10 +6,9 @@ import {
 } from "@radix-ui/react-icons";
 import Ajv from "ajv";
 import { js } from "js-beautify";
-import { CodeBlock } from "../components/CodeBlock";
 import cn from "../utils/cn";
-import { useController } from "./stores/Controller";
-
+import { useController } from "../stores/Controller";
+import { CodeEditor } from "../components";
 
 const ajv = new Ajv({
   allErrors: true,
@@ -232,7 +231,7 @@ export function CodePreview() {
           </div>
         </div>
       </div>
-      <CodeBlock initialValue={code} />
+      <CodeEditor initialValue={code} />
     </div>
   );
 }

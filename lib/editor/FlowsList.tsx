@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../Dialog";
 import { ChevronRightIcon, CubeIcon, PlusIcon } from "@radix-ui/react-icons";
-import cn from "../../utils/cn";
 import { useController } from "../stores/Controller";
 import { useMode } from "../stores/ModeProvider";
-import { EmptyState } from "../EmptyState";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+  EmptyState,
+} from "../components";
+import { cn } from "../utils";
 
 export function FlowsList() {
   const [flowsPanelOpened, setFlowsPanel] = useState(false);

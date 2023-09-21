@@ -7,14 +7,12 @@ import {
   NodeToolbar,
   useReactFlow,
 } from "reactflow";
-import { NodeData } from "./types/Swagger";
-import cn from "../../utils/cn";
 import { useMode } from "../stores/ModeProvider";
 import { memo, useCallback, useMemo } from "react";
 import { Y, nodedimensions } from "./consts";
-import { updateNodePositions } from "./utils/updateNodePosition";
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { MethodBtn } from "./MethodRenderer";
+import { NodeData } from "../types/Swagger";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,7 +21,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTrigger,
-} from "../AletDialog";
+} from "../components";
+import { cn, updateNodesPositions } from "../utils";
+
 const HideHandleStyles = {
   background: "transparent",
   fill: "transparent",
@@ -51,14 +51,14 @@ function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
   const deleteNode = useCallback(() => {
     setTimeout(() => {
       setNodes(
-        updateNodePositions(
+        updateNodesPositions(
           nodes.filter((nd) => nd.id !== nodeId),
           Y
         )
       );
       resetMode();
     }, 300);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

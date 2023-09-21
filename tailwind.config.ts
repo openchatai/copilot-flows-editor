@@ -3,6 +3,7 @@ export default {
   content: [
     "./src/**/*.html",
     "./src/**/*.tsx",
+    "./lib/**/*.tsx",
   ],
   theme: {
     container: {

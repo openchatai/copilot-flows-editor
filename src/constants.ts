@@ -1,1 +1,0 @@
-export const LS_KEY = 'opencopilot-flows';

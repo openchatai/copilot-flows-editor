@@ -1,23 +1,19 @@
-import CodeMirror, { ReactCodeMirrorRef } from "@uiw/react-codemirror";
+import CodeMirror from "@uiw/react-codemirror";
 import { basicSetup } from "@uiw/codemirror-extensions-basic-setup";
 import { EditorView, ViewUpdate } from "@codemirror/view";
 import { json as jsonLang, jsonParseLinter } from "@codemirror/lang-json";
 import { basicLight } from "@uiw/codemirror-themes-all";
 import { linter } from "@codemirror/lint";
-import { useRef } from "react";
 
-export function CodeBlock({
+export function CodeEditor({
   initialValue,
   onChange,
 }: {
   initialValue?: string;
   onChange?: (value: string, viewUpdate: ViewUpdate) => void;
 }) {
-  const codeMirrorRef = useRef<ReactCodeMirrorRef>(null);
-
   return (
     <CodeMirror
-      ref={codeMirrorRef}
       height="100%"
       className="w-full h-full [&_.cm-lineNumbers]:!hidden overflow-hidden [&_.cm-gutters]:px-1.5 text-sm min-h-full min-w-full max-w-full max-h-full"
       value={initialValue}

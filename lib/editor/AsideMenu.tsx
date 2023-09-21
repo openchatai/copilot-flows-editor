@@ -1,15 +1,13 @@
 import { useMode } from "../stores/ModeProvider";
-import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { PathButton } from "./PathButton";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect, useMemo, useState } from "react";
 import { MethodBtn } from "./MethodRenderer";
-import cn from "../../utils/cn";
 import { FlowsList } from "./FlowsList";
 import { useController } from "../stores/Controller";
-import { parse } from "../../hooks/helpers";
-import { transformPaths } from "./utils/transformSwagger";
-import { EmptyState } from "../EmptyState";
+import { EmptyState } from "../components";
+import { cn, parse, transformPaths } from "../utils";
 
 export function AsideMenu() {
   const {

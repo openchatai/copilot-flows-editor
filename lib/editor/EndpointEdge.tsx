@@ -7,7 +7,7 @@ import {
 } from "reactflow";
 import { useMode } from "../stores/ModeProvider";
 import { useMemo } from "react";
-import cn from "../../utils/cn";
+import { cn } from "../utils";
 
 export function NodeEdge({
   sourceX,

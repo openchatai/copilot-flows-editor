@@ -1,9 +1,10 @@
 import { useReducer, type ReactNode, useCallback, useMemo } from "react";
-import { createSafeContext } from "../../utils/create-safe-context";
-import { NodeData, TransformedPath } from "../FlowBuilder/types/Swagger";
 import { produce } from "immer";
-import { genId } from "../FlowBuilder/utils/genId";
 import { Node } from "reactflow";
+import { ModeProvider } from "./ModeProvider";
+import { NodeData, TransformedPath } from "../types/Swagger";
+import { createSafeContext } from "../utils/create-safe-context";
+import { genId } from "../utils";
 
 type EndpointNodeType = Node<NodeData>;
 
@@ -132,19 +133,21 @@ function Controller({ children }: { children: ReactNode }) {
   // TODO: @bug: when we reset, the nodes(in the arena) are not reset
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
   return (
-    <SafeProvider
-      value={{
-        loadPaths,
-        state,
-        createFlow,
-        setActiveFlow,
-        activeNodes,
-        setNodes,
-        reset,
-      }}
-    >
-      {children}
-    </SafeProvider>
+    <ModeProvider>
+      <SafeProvider
+        value={{
+          loadPaths,
+          state,
+          createFlow,
+          setActiveFlow,
+          activeNodes,
+          setNodes,
+          reset,
+        }}
+      >
+        {children}
+      </SafeProvider>
+    </ModeProvider>
   );
 }
 

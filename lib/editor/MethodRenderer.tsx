@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
-import { Method } from "./types/Swagger";
-import cn from "../../utils/cn";
+import { Method } from "../types/Swagger";
+import { cn } from "../utils";
 // BG colors for method buttons
 const methodStyles = (method: Method) => {
   switch (method.toUpperCase()) {
