@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 0.0.2
+
+### Patch Changes
+
+- 7e2b904: changed typo in `./package.json`
+
 ## 0.0.1
 
 ### Patch Changes
