@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 0.0.5
+
+### Patch Changes
+
+- edeaf86: reactflow provider issues
+
 ## 0.0.4
 
 ### Patch Changes
