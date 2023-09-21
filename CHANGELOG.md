@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 0.0.4
+
+### Patch Changes
+
+- 7011621: same issue
+
 ## 0.0.3
 
 ### Patch Changes
