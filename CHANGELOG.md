@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 0.0.3
+
+### Patch Changes
+
+- dc5f18c: updatd exported types from package.json
+
 ## 0.0.2
 
 ### Patch Changes
