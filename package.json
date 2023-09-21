@@ -1,11 +1,14 @@
 {
   "name": "@openchatai/copilot-flows-editor",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": false,
   "description": "OpenChat Flow Builder for openCopilot",
   "type": "module",
   "main": "dist/index.umd.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "./index.css": "./dist/index.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
