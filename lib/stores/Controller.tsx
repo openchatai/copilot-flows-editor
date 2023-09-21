@@ -1,10 +1,17 @@
-import { useReducer, type ReactNode, useCallback, useMemo } from "react";
+import {
+  useReducer,
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useEffect,
+} from "react";
 import { produce } from "immer";
 import { Node } from "reactflow";
 import { ModeProvider } from "./ModeProvider";
 import { NodeData, TransformedPath } from "../types/Swagger";
 import { createSafeContext } from "../utils/create-safe-context";
 import { genId } from "../utils";
+import { ReactFlowProvider } from "reactflow";
 
 type EndpointNodeType = Node<NodeData>;
 
@@ -90,9 +97,20 @@ function stateReducer(state: StateShape, action: ActionType) {
   });
 }
 
-function Controller({ children }: { children: ReactNode }) {
+function Controller({
+  children,
+  onChange,
+  initilState,
+}: {
+  children: ReactNode;
+  initilState?: StateShape;
+  onChange?: (state: StateShape) => void;
+}) {
   const [state, dispatch] = useReducer(stateReducer, initialStateValue);
-  // @remember to wrap all functions with useCallback
+
+  useEffect(() => {
+    onChange?.(state);
+  }, [state, onChange]);
   const loadPaths = useCallback(
     (paths: TransformedPath[]) =>
       dispatch({
@@ -133,21 +151,23 @@ function Controller({ children }: { children: ReactNode }) {
   // TODO: @bug: when we reset, the nodes(in the arena) are not reset
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
   return (
-    <ModeProvider>
-      <SafeProvider
-        value={{
-          loadPaths,
-          state,
-          createFlow,
-          setActiveFlow,
-          activeNodes,
-          setNodes,
-          reset,
-        }}
-      >
-        {children}
-      </SafeProvider>
-    </ModeProvider>
+    <ReactFlowProvider>
+      <ModeProvider>
+        <SafeProvider
+          value={{
+            loadPaths,
+            state,
+            createFlow,
+            setActiveFlow,
+            activeNodes,
+            setNodes,
+            reset,
+          }}
+        >
+          {children}
+        </SafeProvider>
+      </ModeProvider>
+    </ReactFlowProvider>
   );
 }
 

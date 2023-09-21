@@ -1,4 +1,3 @@
-import { ReactFlowProvider } from "reactflow";
 import { GitHubLogoIcon, ResetIcon } from "@radix-ui/react-icons";
 import { CodePreview, Controller, FlowArena, useController } from "../lib";
 
@@ -49,16 +48,18 @@ function Header() {
 
 export default function FlowBuilder() {
   return (
-    <Controller>
-      <ReactFlowProvider>
-        <div className="w-full h-screen relative flex items-start flex-col font-openSans overflow-hidden">
-          <Header />
-          <div className="flex items-start justify-between relative w-full flex-1 overflow-hidden">
-            <FlowArena />
-            <CodePreview />
-          </div>
+    <Controller
+      onChange={(state) => {
+        console.log(state);
+      }}
+    >
+      <div className="w-full h-screen relative flex items-start flex-col font-openSans overflow-hidden">
+        <Header />
+        <div className="flex items-start justify-between relative w-full flex-1 overflow-hidden">
+          <FlowArena />
+          <CodePreview />
         </div>
-      </ReactFlowProvider>
+      </div>
     </Controller>
   );
 }

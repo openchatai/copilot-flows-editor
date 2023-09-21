@@ -14,12 +14,11 @@ export default defineConfig({
     mode: 'lib',
     base: './',
     build: {
-        sourcemap: false,
         copyPublicDir: false,
         lib: {
             entry: resolve(__dirname, 'lib/index.ts'),
             name: formattedName,
-            formats: ['umd'],
+            formats: ['umd', 'es'],
             fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
@@ -33,6 +32,5 @@ export default defineConfig({
             },
         }
     },
-    logLevel: "info",
 }
 )
