@@ -8,12 +8,11 @@ import {
 import { produce } from "immer";
 import { Node } from "reactflow";
 import { ModeProvider } from "./ModeProvider";
-import { NodeData, TransformedPath } from "../types/Swagger";
+import { TransformedPath } from "../types/Swagger";
 import { createSafeContext } from "../utils/create-safe-context";
 import { genId } from "../utils";
 import { ReactFlowProvider } from "reactflow";
-
-type EndpointNodeType = Node<NodeData>;
+import { EndpointNodeType } from "../types/Flow";
 
 type StateShape = {
   paths: TransformedPath[];

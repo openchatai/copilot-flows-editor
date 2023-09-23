@@ -1,3 +1,6 @@
+import type { Node } from "reactflow";
+import type { NodeData } from "./Swagger";
+
 export type Step = {
     stepId?: string;
     operation: string;
@@ -26,3 +29,5 @@ export type FlowSchema = {
         handler: string;
     }[];
 }
+
+export type EndpointNodeType = Node<NodeData>;
