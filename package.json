@@ -1,6 +1,6 @@
 {
   "name": "@openchatai/copilot-flows-editor",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "private": false,
   "description": "OpenChat Flow Builder for openCopilot",
   "type": "module",
@@ -16,13 +16,14 @@
     }
   },
   "scripts": {
-    "test": "vitest",
+    "test:watch": "vitest",
+    "test": "vitest --run",
     "dev": "vite",
     "build": "tsc && vite build",
     "build:lib": "vite build -c vite.config.lib.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build:lib",
+    "prepublishOnly": "npm run test && npm run build:lib",
     "semantic-release": "semantic-release",
     "cs": "changeset",
     "cs:v": "changeset version"

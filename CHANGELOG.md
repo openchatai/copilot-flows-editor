@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.0.0
+
+### Major Changes
+
+- 97d72bd: the first stable version, included with tests, and bug fixes.
+
 ## 0.0.6
 
 ### Patch Changes
