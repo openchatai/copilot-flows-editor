@@ -1,0 +1,2332 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`transformPaths > should match snapshot example 1 1`] = `
+[
+  {
+    "methods": [
+      {
+        "description": "Update an existing pet by Id",
+        "method": "put",
+        "operationId": "updatePet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet",
+              },
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet",
+              },
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet",
+              },
+            },
+          },
+          "description": "Update an existent pet in the store",
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet",
+                },
+              },
+            },
+            "description": "Successful operation",
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+          },
+          "404": {
+            "description": "Pet not found",
+          },
+          "405": {
+            "description": "Validation exception",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Update an existing pet",
+        "tags": [
+          "pet",
+        ],
+      },
+      {
+        "description": "Add a new pet to the store",
+        "method": "post",
+        "operationId": "addPet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet",
+              },
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet",
+              },
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet",
+              },
+            },
+          },
+          "description": "Create a new pet in the store",
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet",
+                },
+              },
+            },
+            "description": "Successful operation",
+          },
+          "405": {
+            "description": "Invalid input",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Add a new pet to the store",
+        "tags": [
+          "pet",
+        ],
+      },
+    ],
+    "path": "/pet",
+  },
+  {
+    "methods": [
+      {
+        "description": "Multiple status values can be provided with comma separated strings",
+        "method": "get",
+        "operationId": "findPetsByStatus",
+        "parameters": [
+          {
+            "description": "Status values that need to be considered for filter",
+            "explode": true,
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "default": "available",
+              "enum": [
+                "available",
+                "pending",
+                "sold",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Pet",
+                  },
+                  "type": "array",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Pet",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+          "400": {
+            "description": "Invalid status value",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Finds Pets by status",
+        "tags": [
+          "pet",
+        ],
+      },
+    ],
+    "path": "/pet/findByStatus",
+  },
+  {
+    "methods": [
+      {
+        "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        "method": "get",
+        "operationId": "findPetsByTags",
+        "parameters": [
+          {
+            "description": "Tags to filter by",
+            "explode": true,
+            "in": "query",
+            "name": "tags",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Pet",
+                  },
+                  "type": "array",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Pet",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+          "400": {
+            "description": "Invalid tag value",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Finds Pets by tags",
+        "tags": [
+          "pet",
+        ],
+      },
+    ],
+    "path": "/pet/findByTags",
+  },
+  {
+    "methods": [
+      {
+        "description": "Returns a single pet",
+        "method": "get",
+        "operationId": "getPetById",
+        "parameters": [
+          {
+            "description": "ID of pet to return",
+            "in": "path",
+            "name": "petId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+          },
+          "404": {
+            "description": "Pet not found",
+          },
+        },
+        "security": [
+          {
+            "api_key": [],
+          },
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Find pet by ID",
+        "tags": [
+          "pet",
+        ],
+      },
+      {
+        "description": "",
+        "method": "post",
+        "operationId": "updatePetWithForm",
+        "parameters": [
+          {
+            "description": "ID of pet that needs to be updated",
+            "in": "path",
+            "name": "petId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer",
+            },
+          },
+          {
+            "description": "Name of pet that needs to be updated",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Status of pet that needs to be updated",
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Updates a pet in the store with form data",
+        "tags": [
+          "pet",
+        ],
+      },
+      {
+        "description": "delete a pet",
+        "method": "delete",
+        "operationId": "deletePet",
+        "parameters": [
+          {
+            "description": "",
+            "in": "header",
+            "name": "api_key",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Pet id to delete",
+            "in": "path",
+            "name": "petId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer",
+            },
+          },
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "Deletes a pet",
+        "tags": [
+          "pet",
+        ],
+      },
+    ],
+    "path": "/pet/{petId}",
+  },
+  {
+    "methods": [
+      {
+        "description": "",
+        "method": "post",
+        "operationId": "uploadFile",
+        "parameters": [
+          {
+            "description": "ID of pet to update",
+            "in": "path",
+            "name": "petId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer",
+            },
+          },
+          {
+            "description": "Additional Metadata",
+            "in": "query",
+            "name": "additionalMetadata",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "format": "binary",
+                "type": "string",
+              },
+            },
+          },
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets",
+            ],
+          },
+        ],
+        "summary": "uploads an image",
+        "tags": [
+          "pet",
+        ],
+      },
+    ],
+    "path": "/pet/{petId}/uploadImage",
+  },
+  {
+    "methods": [
+      {
+        "description": "Returns a map of status codes to quantities",
+        "method": "get",
+        "operationId": "getInventory",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "format": "int32",
+                    "type": "integer",
+                  },
+                  "type": "object",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+        },
+        "security": [
+          {
+            "api_key": [],
+          },
+        ],
+        "summary": "Returns pet inventories by status",
+        "tags": [
+          "store",
+        ],
+      },
+    ],
+    "path": "/store/inventory",
+  },
+  {
+    "methods": [
+      {
+        "description": "Place a new order in the store",
+        "method": "post",
+        "operationId": "placeOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order",
+              },
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Order",
+              },
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Order",
+              },
+            },
+          },
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+          "405": {
+            "description": "Invalid input",
+          },
+        },
+        "summary": "Place an order for a pet",
+        "tags": [
+          "store",
+        ],
+      },
+    ],
+    "path": "/store/order",
+  },
+  {
+    "methods": [
+      {
+        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.",
+        "method": "get",
+        "operationId": "getOrderById",
+        "parameters": [
+          {
+            "description": "ID of order that needs to be fetched",
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+          },
+          "404": {
+            "description": "Order not found",
+          },
+        },
+        "summary": "Find purchase order by ID",
+        "tags": [
+          "store",
+        ],
+      },
+      {
+        "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+        "method": "delete",
+        "operationId": "deleteOrder",
+        "parameters": [
+          {
+            "description": "ID of the order that needs to be deleted",
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer",
+            },
+          },
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied",
+          },
+          "404": {
+            "description": "Order not found",
+          },
+        },
+        "summary": "Delete purchase order by ID",
+        "tags": [
+          "store",
+        ],
+      },
+    ],
+    "path": "/store/order/{orderId}",
+  },
+  {
+    "methods": [
+      {
+        "description": "This can only be done by the logged in user.",
+        "method": "post",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User",
+              },
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User",
+              },
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User",
+              },
+            },
+          },
+          "description": "Created user object",
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+        },
+        "summary": "Create user",
+        "tags": [
+          "user",
+        ],
+      },
+    ],
+    "path": "/user",
+  },
+  {
+    "methods": [
+      {
+        "description": "Creates list of users with given input array",
+        "method": "post",
+        "operationId": "createUsersWithListInput",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/User",
+                },
+                "type": "array",
+              },
+            },
+          },
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "Successful operation",
+          },
+          "default": {
+            "description": "successful operation",
+          },
+        },
+        "summary": "Creates list of users with given input array",
+        "tags": [
+          "user",
+        ],
+      },
+    ],
+    "path": "/user/createWithList",
+  },
+  {
+    "methods": [
+      {
+        "description": "",
+        "method": "get",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "description": "The user name for login",
+            "in": "query",
+            "name": "username",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "The password for login in clear text",
+            "in": "query",
+            "name": "password",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                },
+              },
+            },
+            "description": "successful operation",
+            "headers": {
+              "X-Expires-After": {
+                "description": "date in UTC when token expires",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string",
+                },
+              },
+              "X-Rate-Limit": {
+                "description": "calls per hour allowed by the user",
+                "schema": {
+                  "format": "int32",
+                  "type": "integer",
+                },
+              },
+            },
+          },
+          "400": {
+            "description": "Invalid username/password supplied",
+          },
+        },
+        "summary": "Logs user into the system",
+        "tags": [
+          "user",
+        ],
+      },
+    ],
+    "path": "/user/login",
+  },
+  {
+    "methods": [
+      {
+        "description": "",
+        "method": "get",
+        "operationId": "logoutUser",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+          },
+        },
+        "summary": "Logs out current logged in user session",
+        "tags": [
+          "user",
+        ],
+      },
+    ],
+    "path": "/user/logout",
+  },
+  {
+    "methods": [
+      {
+        "description": "",
+        "method": "get",
+        "operationId": "getUserByName",
+        "parameters": [
+          {
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "successful operation",
+          },
+          "400": {
+            "description": "Invalid username supplied",
+          },
+          "404": {
+            "description": "User not found",
+          },
+        },
+        "summary": "Get user by user name",
+        "tags": [
+          "user",
+        ],
+      },
+      {
+        "description": "This can only be done by the logged in user.",
+        "method": "put",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "description": "name that need to be deleted",
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User",
+              },
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User",
+              },
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User",
+              },
+            },
+          },
+          "description": "Update an existent user in the store",
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+          },
+        },
+        "summary": "Update user",
+        "tags": [
+          "user",
+        ],
+      },
+      {
+        "description": "This can only be done by the logged in user.",
+        "method": "delete",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "description": "The name that needs to be deleted",
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied",
+          },
+          "404": {
+            "description": "User not found",
+          },
+        },
+        "summary": "Delete user",
+        "tags": [
+          "user",
+        ],
+      },
+    ],
+    "path": "/user/{username}",
+  },
+]
+`;
+
+exports[`transformPaths > should match snapshot example 2 1`] = `
+[
+  {
+    "methods": [
+      {
+        "description": "Lists information about all Identity API versions.
+",
+        "method": "get",
+        "operationId": "getVersions-v2",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"versions\\": {
+        \\"values\\": [
+            {
+                \\"status\\": \\"stable\\",
+                \\"updated\\": \\"2013-03-06T00:00:00Z\\",
+                \\"media-types\\": [
+                    {
+                        \\"base\\": \\"application/json\\",
+                        \\"type\\": \\"application/vnd.openstack.identity-v3+json\\"
+                    },
+                    {
+                        \\"base\\": \\"application/xml\\",
+                        \\"type\\": \\"application/vnd.openstack.identity-v3+xml\\"
+                    }
+                ],
+                \\"id\\": \\"v3.0\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"http://192.168.122.176:5000/v3/\\",
+                        \\"rel\\": \\"self\\"
+                    }
+                ]
+            },
+            {
+                \\"status\\": \\"stable\\",
+                \\"updated\\": \\"2014-04-17T00:00:00Z\\",
+                \\"media-types\\": [
+                    {
+                        \\"base\\": \\"application/json\\",
+                        \\"type\\": \\"application/vnd.openstack.identity-v2.0+json\\"
+                    },
+                    {
+                        \\"base\\": \\"application/xml\\",
+                        \\"type\\": \\"application/vnd.openstack.identity-v2.0+xml\\"
+                    }
+                ],
+                \\"id\\": \\"v2.0\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"http://192.168.122.176:5000/v2.0/\\",
+                        \\"rel\\": \\"self\\"
+                    },
+                    {
+                        \\"href\\": \\"http://docs.openstack.org/\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ]
+            }
+        ]
+    }
+}",
+            },
+          },
+        },
+        "summary": "List versions",
+      },
+    ],
+    "path": "/",
+  },
+  {
+    "methods": [
+      {
+        "description": "Shows details for the Identity API v2.0.
+",
+        "method": "get",
+        "operationId": "getVersionInfo-v2.0",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"version\\": {
+        \\"status\\": \\"stable\\",
+        \\"updated\\": \\"2013-03-06T00:00:00Z\\",
+        \\"media-types\\": [
+            {
+                \\"base\\": \\"application/json\\",
+                \\"type\\": \\"application/vnd.openstack.identity-v3+json\\"
+            },
+            {
+                \\"base\\": \\"application/xml\\",
+                \\"type\\": \\"application/vnd.openstack.identity-v3+xml\\"
+            }
+        ],
+        \\"id\\": \\"v3.0\\",
+        \\"links\\": [
+            {
+                \\"href\\": \\"http://23.253.228.211:35357/v3/\\",
+                \\"rel\\": \\"self\\"
+            }
+        ]
+    }
+}",
+            },
+          },
+          "203": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"version\\": {
+        \\"status\\": \\"stable\\",
+        \\"updated\\": \\"2013-03-06T00:00:00Z\\",
+        \\"media-types\\": [
+            {
+                \\"base\\": \\"application/json\\",
+                \\"type\\": \\"application/vnd.openstack.identity-v3+json\\"
+            },
+            {
+                \\"base\\": \\"application/xml\\",
+                \\"type\\": \\"application/vnd.openstack.identity-v3+xml\\"
+            }
+        ],
+        \\"id\\": \\"v3.0\\",
+        \\"links\\": [
+            {
+                \\"href\\": \\"http://23.253.228.211:35357/v3/\\",
+                \\"rel\\": \\"self\\"
+            }
+        ]
+    }
+}",
+            },
+          },
+        },
+        "summary": "Show version details",
+      },
+    ],
+    "path": "/v2.0",
+  },
+  {
+    "methods": [
+      {
+        "description": "Lists available extensions.
+",
+        "method": "get",
+        "operationId": "listExtensions-v2.0",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"extensions\\": {
+        \\"values\\": [
+            {
+                \\"updated\\": \\"2013-07-07T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack S3 API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/s3tokens/v1.0\\",
+                \\"alias\\": \\"s3tokens\\",
+                \\"description\\": \\"OpenStack S3 API.\\"
+            },
+            {
+                \\"updated\\": \\"2013-07-23T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack Keystone Endpoint Filter API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api/blob/master/openstack-identity-api/v3/src/markdown/identity-api-v3-os-ep-filter-ext.md\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-EP-FILTER/v1.0\\",
+                \\"alias\\": \\"OS-EP-FILTER\\",
+                \\"description\\": \\"OpenStack Keystone Endpoint Filter API.\\"
+            },
+            {
+                \\"updated\\": \\"2013-12-17T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack Federation APIs\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-FEDERATION/v1.0\\",
+                \\"alias\\": \\"OS-FEDERATION\\",
+                \\"description\\": \\"OpenStack Identity Providers Mechanism.\\"
+            },
+            {
+                \\"updated\\": \\"2013-07-11T17:14:00-00:00\\",
+                \\"name\\": \\"OpenStack Keystone Admin\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-KSADM/v1.0\\",
+                \\"alias\\": \\"OS-KSADM\\",
+                \\"description\\": \\"OpenStack extensions to Keystone v2.0 API enabling Administrative Operations.\\"
+            },
+            {
+                \\"updated\\": \\"2014-01-20T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack Simple Certificate API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-SIMPLE-CERT/v1.0\\",
+                \\"alias\\": \\"OS-SIMPLE-CERT\\",
+                \\"description\\": \\"OpenStack simple certificate retrieval extension\\"
+            },
+            {
+                \\"updated\\": \\"2013-07-07T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack EC2 API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-EC2/v1.0\\",
+                \\"alias\\": \\"OS-EC2\\",
+                \\"description\\": \\"OpenStack EC2 Credentials backend.\\"
+            }
+        ]
+    }
+}",
+            },
+          },
+          "203": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"extensions\\": {
+        \\"values\\": [
+            {
+                \\"updated\\": \\"2013-07-07T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack S3 API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/s3tokens/v1.0\\",
+                \\"alias\\": \\"s3tokens\\",
+                \\"description\\": \\"OpenStack S3 API.\\"
+            },
+            {
+                \\"updated\\": \\"2013-07-23T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack Keystone Endpoint Filter API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api/blob/master/openstack-identity-api/v3/src/markdown/identity-api-v3-os-ep-filter-ext.md\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-EP-FILTER/v1.0\\",
+                \\"alias\\": \\"OS-EP-FILTER\\",
+                \\"description\\": \\"OpenStack Keystone Endpoint Filter API.\\"
+            },
+            {
+                \\"updated\\": \\"2013-12-17T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack Federation APIs\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-FEDERATION/v1.0\\",
+                \\"alias\\": \\"OS-FEDERATION\\",
+                \\"description\\": \\"OpenStack Identity Providers Mechanism.\\"
+            },
+            {
+                \\"updated\\": \\"2013-07-11T17:14:00-00:00\\",
+                \\"name\\": \\"OpenStack Keystone Admin\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-KSADM/v1.0\\",
+                \\"alias\\": \\"OS-KSADM\\",
+                \\"description\\": \\"OpenStack extensions to Keystone v2.0 API enabling Administrative Operations.\\"
+            },
+            {
+                \\"updated\\": \\"2014-01-20T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack Simple Certificate API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-SIMPLE-CERT/v1.0\\",
+                \\"alias\\": \\"OS-SIMPLE-CERT\\",
+                \\"description\\": \\"OpenStack simple certificate retrieval extension\\"
+            },
+            {
+                \\"updated\\": \\"2013-07-07T12:00:0-00:00\\",
+                \\"name\\": \\"OpenStack EC2 API\\",
+                \\"links\\": [
+                    {
+                        \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                        \\"type\\": \\"text/html\\",
+                        \\"rel\\": \\"describedby\\"
+                    }
+                ],
+                \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/OS-EC2/v1.0\\",
+                \\"alias\\": \\"OS-EC2\\",
+                \\"description\\": \\"OpenStack EC2 Credentials backend.\\"
+            }
+        ]
+    }
+}",
+            },
+          },
+        },
+        "summary": "List extensions",
+      },
+    ],
+    "path": "/v2.0/extensions",
+  },
+  {
+    "methods": [
+      {
+        "description": "Gets detailed information for a specified extension.
+",
+        "method": "get",
+        "operationId": "getExtension-v2.0",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"extension\\": {
+        \\"updated\\": \\"2013-07-07T12:00:0-00:00\\",
+        \\"name\\": \\"OpenStack S3 API\\",
+        \\"links\\": [
+            {
+                \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                \\"type\\": \\"text/html\\",
+                \\"rel\\": \\"describedby\\"
+            }
+        ],
+        \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/s3tokens/v1.0\\",
+        \\"alias\\": \\"s3tokens\\",
+        \\"description\\": \\"OpenStack S3 API.\\"
+    }
+}",
+            },
+          },
+          "203": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"extension\\": {
+        \\"updated\\": \\"2013-07-07T12:00:0-00:00\\",
+        \\"name\\": \\"OpenStack S3 API\\",
+        \\"links\\": [
+            {
+                \\"href\\": \\"https://github.com/openstack/identity-api\\",
+                \\"type\\": \\"text/html\\",
+                \\"rel\\": \\"describedby\\"
+            }
+        ],
+        \\"namespace\\": \\"http://docs.openstack.org/identity/api/ext/s3tokens/v1.0\\",
+        \\"alias\\": \\"s3tokens\\",
+        \\"description\\": \\"OpenStack S3 API.\\"
+    }
+}",
+            },
+          },
+        },
+        "summary": "Get extension details",
+      },
+    ],
+    "path": "/v2.0/extensions/{alias}",
+  },
+  {
+    "methods": [
+      {
+        "description": "Authenticates and generates a token.
+",
+        "method": "post",
+        "operationId": "authenticate-v2.0",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"access\\": {
+        \\"token\\": {
+            \\"issued_at\\": \\"2014-01-30T15:30:58.819584\\",
+            \\"expires\\": \\"2014-01-31T15:30:58Z\\",
+            \\"id\\": \\"aaaaa-bbbbb-ccccc-dddd\\",
+            \\"tenant\\": {
+                \\"enabled\\": true,
+                \\"description\\": null,
+                \\"name\\": \\"demo\\",
+                \\"id\\": \\"fc394f2ab2df4114bde39905f800dc57\\"
+            }
+        },
+        \\"serviceCatalog\\": [
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8774/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8774/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8774/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"2dad48f09e2a447a9bf852bcd93548ef\\"
+                    }
+                ],
+                \\"type\\": \\"compute\\",
+                \\"name\\": \\"nova\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:9696/\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:9696/\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:9696/\\",
+                        \\"id\\": \\"97c526db8d7a4c88bbb8d68db1bdcdb8\\"
+                    }
+                ],
+                \\"type\\": \\"network\\",
+                \\"name\\": \\"neutron\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8776/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8776/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8776/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"93f86dfcbba143a39a33d0c2cd424870\\"
+                    }
+                ],
+                \\"type\\": \\"volumev2\\",
+                \\"name\\": \\"cinder\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8774/v3\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8774/v3\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8774/v3\\",
+                        \\"id\\": \\"3eb274b12b1d47b2abc536038d87339e\\"
+                    }
+                ],
+                \\"type\\": \\"computev3\\",
+                \\"name\\": \\"nova\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:3333\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:3333\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:3333\\",
+                        \\"id\\": \\"957f1e54afc64d33a62099faa5e980a2\\"
+                    }
+                ],
+                \\"type\\": \\"s3\\",
+                \\"name\\": \\"s3\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:9292\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:9292\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:9292\\",
+                        \\"id\\": \\"27d5749f36864c7d96bebf84a5ec9767\\"
+                    }
+                ],
+                \\"type\\": \\"image\\",
+                \\"name\\": \\"glance\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8776/v1/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8776/v1/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8776/v1/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"37c83a2157f944f1972e74658aa0b139\\"
+                    }
+                ],
+                \\"type\\": \\"volume\\",
+                \\"name\\": \\"cinder\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8773/services/Admin\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8773/services/Cloud\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8773/services/Cloud\\",
+                        \\"id\\": \\"289b59289d6048e2912b327e5d3240ca\\"
+                    }
+                ],
+                \\"type\\": \\"ec2\\",
+                \\"name\\": \\"ec2\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8080\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8080/v1/AUTH_fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8080/v1/AUTH_fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"16b76b5e5b7d48039a6e4cc3129545f3\\"
+                    }
+                ],
+                \\"type\\": \\"object-store\\",
+                \\"name\\": \\"swift\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:35357/v2.0\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:5000/v2.0\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:5000/v2.0\\",
+                        \\"id\\": \\"26af053673df4ef3a2340c4239e21ea2\\"
+                    }
+                ],
+                \\"type\\": \\"identity\\",
+                \\"name\\": \\"keystone\\"
+            }
+        ],
+        \\"user\\": {
+            \\"username\\": \\"demo\\",
+            \\"roles_links\\": [],
+            \\"id\\": \\"9a6590b2ab024747bc2167c4e064d00d\\",
+            \\"roles\\": [
+                {
+                    \\"name\\": \\"Member\\"
+                },
+                {
+                    \\"name\\": \\"anotherrole\\"
+                }
+            ],
+            \\"name\\": \\"demo\\"
+        },
+        \\"metadata\\": {
+            \\"is_admin\\": 0,
+            \\"roles\\": [
+                \\"7598ac3c634d4c3da4b9126a5f67ca2b\\",
+                \\"f95c0ab82d6045d9805033ee1fbc80d4\\"
+            ]
+        }
+    }
+}",
+            },
+          },
+          "203": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"access\\": {
+        \\"token\\": {
+            \\"issued_at\\": \\"2014-01-30T15:30:58.819584\\",
+            \\"expires\\": \\"2014-01-31T15:30:58Z\\",
+            \\"id\\": \\"aaaaa-bbbbb-ccccc-dddd\\",
+            \\"tenant\\": {
+                \\"enabled\\": true,
+                \\"description\\": null,
+                \\"name\\": \\"demo\\",
+                \\"id\\": \\"fc394f2ab2df4114bde39905f800dc57\\"
+            }
+        },
+        \\"serviceCatalog\\": [
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8774/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8774/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8774/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"2dad48f09e2a447a9bf852bcd93548ef\\"
+                    }
+                ],
+                \\"type\\": \\"compute\\",
+                \\"name\\": \\"nova\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:9696/\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:9696/\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:9696/\\",
+                        \\"id\\": \\"97c526db8d7a4c88bbb8d68db1bdcdb8\\"
+                    }
+                ],
+                \\"type\\": \\"network\\",
+                \\"name\\": \\"neutron\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8776/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8776/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8776/v2/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"93f86dfcbba143a39a33d0c2cd424870\\"
+                    }
+                ],
+                \\"type\\": \\"volumev2\\",
+                \\"name\\": \\"cinder\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8774/v3\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8774/v3\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8774/v3\\",
+                        \\"id\\": \\"3eb274b12b1d47b2abc536038d87339e\\"
+                    }
+                ],
+                \\"type\\": \\"computev3\\",
+                \\"name\\": \\"nova\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:3333\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:3333\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:3333\\",
+                        \\"id\\": \\"957f1e54afc64d33a62099faa5e980a2\\"
+                    }
+                ],
+                \\"type\\": \\"s3\\",
+                \\"name\\": \\"s3\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:9292\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:9292\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:9292\\",
+                        \\"id\\": \\"27d5749f36864c7d96bebf84a5ec9767\\"
+                    }
+                ],
+                \\"type\\": \\"image\\",
+                \\"name\\": \\"glance\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8776/v1/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8776/v1/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8776/v1/fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"37c83a2157f944f1972e74658aa0b139\\"
+                    }
+                ],
+                \\"type\\": \\"volume\\",
+                \\"name\\": \\"cinder\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8773/services/Admin\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8773/services/Cloud\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8773/services/Cloud\\",
+                        \\"id\\": \\"289b59289d6048e2912b327e5d3240ca\\"
+                    }
+                ],
+                \\"type\\": \\"ec2\\",
+                \\"name\\": \\"ec2\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:8080\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:8080/v1/AUTH_fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:8080/v1/AUTH_fc394f2ab2df4114bde39905f800dc57\\",
+                        \\"id\\": \\"16b76b5e5b7d48039a6e4cc3129545f3\\"
+                    }
+                ],
+                \\"type\\": \\"object-store\\",
+                \\"name\\": \\"swift\\"
+            },
+            {
+                \\"endpoints_links\\": [],
+                \\"endpoints\\": [
+                    {
+                        \\"adminURL\\": \\"http://23.253.72.207:35357/v2.0\\",
+                        \\"region\\": \\"RegionOne\\",
+                        \\"publicURL\\": \\"http://23.253.72.207:5000/v2.0\\",
+                        \\"internalURL\\": \\"http://23.253.72.207:5000/v2.0\\",
+                        \\"id\\": \\"26af053673df4ef3a2340c4239e21ea2\\"
+                    }
+                ],
+                \\"type\\": \\"identity\\",
+                \\"name\\": \\"keystone\\"
+            }
+        ],
+        \\"user\\": {
+            \\"username\\": \\"demo\\",
+            \\"roles_links\\": [],
+            \\"id\\": \\"9a6590b2ab024747bc2167c4e064d00d\\",
+            \\"roles\\": [
+                {
+                    \\"name\\": \\"Member\\"
+                },
+                {
+                    \\"name\\": \\"anotherrole\\"
+                }
+            ],
+            \\"name\\": \\"demo\\"
+        },
+        \\"metadata\\": {
+            \\"is_admin\\": 0,
+            \\"roles\\": [
+                \\"7598ac3c634d4c3da4b9126a5f67ca2b\\",
+                \\"f95c0ab82d6045d9805033ee1fbc80d4\\"
+            ]
+        }
+    }
+}",
+            },
+          },
+        },
+        "summary": "Authenticate",
+      },
+    ],
+    "path": "/v2.0/tokens",
+  },
+  {
+    "methods": [
+      {
+        "description": "Lists tenants to which the specified token has access.
+",
+        "method": "get",
+        "operationId": "listTenants",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"tenants_links\\": [],
+    \\"tenants\\": [
+        {
+            \\"description\\": \\"A description ...\\",
+            \\"enabled\\": true,
+            \\"id\\": \\"1234\\",
+            \\"name\\": \\"ACME Corp\\"
+        },
+        {
+            \\"description\\": \\"A description ...\\",
+            \\"enabled\\": true,
+            \\"id\\": \\"3456\\",
+            \\"name\\": \\"Iron Works\\"
+        }
+    ]
+}",
+            },
+          },
+          "203": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{
+    \\"tenants_links\\": [],
+    \\"tenants\\": [
+        {
+            \\"description\\": \\"A description ...\\",
+            \\"enabled\\": true,
+            \\"id\\": \\"1234\\",
+            \\"name\\": \\"ACME Corp\\"
+        },
+        {
+            \\"description\\": \\"A description ...\\",
+            \\"enabled\\": true,
+            \\"id\\": \\"3456\\",
+            \\"name\\": \\"Iron Works\\"
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "List tenants",
+      },
+    ],
+    "path": "/v2.0/tenants",
+  },
+]
+`;
+
+exports[`transformPaths > should match snapshot example 3 1`] = `
+[
+  {
+    "methods": [
+      {
+        "description": "Lists flavors and includes the access type, which is public or private.
+",
+        "method": "get",
+        "operationId": "detailAccess",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"flavors\\": [
+        {
+            \\"name\\": \\"m1.tiny\\",
+            \\"links\\": [
+                {
+                    \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/1\\",
+                    \\"rel\\": \\"self\\"
+                },
+                {
+                    \\"href\\": \\"http://openstack.example.com/openstack/flavors/1\\",
+                    \\"rel\\": \\"bookmark\\"
+                }
+            ],
+            \\"ram\\": 512,
+            \\"vcpus\\": 1,
+            \\"os-flavor-access:is_public\\": true,
+            \\"disk\\": 1,
+            \\"id\\": \\"1\\"
+        },
+        {
+            \\"name\\": \\"m1.small\\",
+            \\"links\\": [
+                {
+                    \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/2\\",
+                    \\"rel\\": \\"self\\"
+                },
+                {
+                    \\"href\\": \\"http://openstack.example.com/openstack/flavors/2\\",
+                    \\"rel\\": \\"bookmark\\"
+                }
+            ],
+            \\"ram\\": 2048,
+            \\"vcpus\\": 1,
+            \\"os-flavor-access:is_public\\": true,
+            \\"disk\\": 20,
+            \\"id\\": \\"2\\"
+        },
+        {
+            \\"name\\": \\"m1.medium\\",
+            \\"links\\": [
+                {
+                    \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/3\\",
+                    \\"rel\\": \\"self\\"
+                },
+                {
+                    \\"href\\": \\"http://openstack.example.com/openstack/flavors/3\\",
+                    \\"rel\\": \\"bookmark\\"
+                }
+            ],
+            \\"ram\\": 4096,
+            \\"vcpus\\": 2,
+            \\"os-flavor-access:is_public\\": true,
+            \\"disk\\": 40,
+            \\"id\\": \\"3\\"
+        },
+        {
+            \\"name\\": \\"m1.large\\",
+            \\"links\\": [
+                {
+                    \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/4\\",
+                    \\"rel\\": \\"self\\"
+                },
+                {
+                    \\"href\\": \\"http://openstack.example.com/openstack/flavors/4\\",
+                    \\"rel\\": \\"bookmark\\"
+                }
+            ],
+            \\"ram\\": 8192,
+            \\"vcpus\\": 4,
+            \\"os-flavor-access:is_public\\": true,
+            \\"disk\\": 80,
+            \\"id\\": \\"4\\"
+        },
+        {
+            \\"name\\": \\"m1.xlarge\\",
+            \\"links\\": [
+                {
+                    \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/5\\",
+                    \\"rel\\": \\"self\\"
+                },
+                {
+                    \\"href\\": \\"http://openstack.example.com/openstack/flavors/5\\",
+                    \\"rel\\": \\"bookmark\\"
+                }
+            ],
+            \\"ram\\": 16384,
+            \\"vcpus\\": 8,
+            \\"os-flavor-access:is_public\\": true,
+            \\"disk\\": 160,
+            \\"id\\": \\"5\\"
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "List flavors with access type",
+      },
+      {
+        "description": "Creates a private flavor.
+",
+        "method": "post",
+        "operationId": "createAccess",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"flavor\\": {
+        \\"name\\": \\"test_flavor\\",
+        \\"links\\": [
+            {
+                \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/10\\",
+                \\"rel\\": \\"self\\"
+            },
+            {
+                \\"href\\": \\"http://openstack.example.com/openstack/flavors/10\\",
+                \\"rel\\": \\"bookmark\\"
+            }
+        ],
+        \\"ram\\": 1024,
+        \\"vcpus\\": 2,
+        \\"os-flavor-access:is_public\\": false,
+        \\"disk\\": 10,
+        \\"id\\": \\"10\\"
+    }
+}",
+            },
+          },
+        },
+        "summary": "Create private flavor",
+      },
+    ],
+    "path": "/v2/{tenant_id}/flavors",
+  },
+  {
+    "methods": [
+      {
+        "description": "Gets the flavor access type, which is public or private.
+",
+        "method": "get",
+        "operationId": "showAccess",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"flavor\\": {
+        \\"name\\": \\"m1.tiny\\",
+        \\"links\\": [
+            {
+                \\"href\\": \\"http://openstack.example.com/v2/openstack/flavors/1\\",
+                \\"rel\\": \\"self\\"
+            },
+            {
+                \\"href\\": \\"http://openstack.example.com/openstack/flavors/1\\",
+                \\"rel\\": \\"bookmark\\"
+            }
+        ],
+        \\"ram\\": 512,
+        \\"vcpus\\": 1,
+        \\"os-flavor-access:is_public\\": true,
+        \\"disk\\": 1,
+        \\"id\\": \\"1\\"
+    }
+}",
+            },
+          },
+        },
+        "summary": "Show flavor access type",
+      },
+    ],
+    "path": "/v2/{tenant_id}/flavors/{flavor_id}",
+  },
+  {
+    "methods": [
+      {
+        "description": "Lists tenants with access to the specified private flavor.
+",
+        "method": "get",
+        "operationId": "listAccess",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"flavor_access\\": [
+        {
+            \\"tenant_id\\": \\"fake_tenant\\",
+            \\"flavor_id\\": \\"10\\"
+        },
+        {
+            \\"tenant_id\\": \\"openstack\\",
+            \\"flavor_id\\": \\"10\\"
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "List tenants with access to private flavor",
+      },
+    ],
+    "path": "/v2/{tenant_id}/flavors/{flavor_id}/os-flavor-access",
+  },
+  {
+    "methods": [
+      {
+        "description": "Gives a specified tenant access to the specified private flavor.
+",
+        "method": "post",
+        "operationId": "addTenantAccess",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"flavor_access\\": [
+        {
+            \\"tenant_id\\": \\"fake_tenant\\",
+            \\"flavor_id\\": \\"10\\"
+        },
+        {
+            \\"tenant_id\\": \\"openstack\\",
+            \\"flavor_id\\": \\"10\\"
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "Add access to private flavor",
+      },
+      {
+        "description": "Revokes access from the specified tenant for the specified private flavor.
+",
+        "method": "delete",
+        "operationId": "removeTenantAccess",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"flavor_access\\": [
+        {
+            \\"tenant_id\\": \\"openstack\\",
+            \\"flavor_id\\": \\"10\\"
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "Delete access from private flavor",
+      },
+    ],
+    "path": "/v2/{tenant_id}/flavors/{flavor_id}/action",
+  },
+]
+`;
+
+exports[`transformPaths > should match snapshot example 4 1`] = `
+[
+  {
+    "methods": [
+      {
+        "description": "Lists all l3 metering labels that belong to the specified tenant.
+",
+        "method": "get",
+        "operationId": "listMeteringLabels",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"metering_labels\\": [
+        {
+            \\"id\\": \\"a6700594-5b7a-4105-8bfe-723b346ce866\\",
+            \\"tenant_id\\": \\"45345b0ee1ea477fac0f541b2cb79cd4\\",
+            \\"description\\": \\"label1 description\\",
+            \\"name\\": \\"label1\\"
+        },
+        {
+            \\"id\\": \\"e131d186-b02d-4c0b-83d5-0c0725c4f812\\",
+            \\"tenant_id\\": \\"45345b0ee1ea477fac0f541b2cb79cd4\\",
+            \\"description\\": \\"label2 description\\",
+            \\"name\\": \\"label2\\"
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "List metering labels",
+      },
+      {
+        "description": "Creates a l3 metering label.
+",
+        "method": "post",
+        "operationId": "createMeteringLabel",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "201": {
+            "description": "201 response",
+            "examples": {
+              "application/json": "{
+    \\"metering_label\\": {
+        \\"id\\": \\"bc91b832-8465-40a7-a5d8-ba87de442266\\",
+        \\"tenant_id\\": \\"45345b0ee1ea477fac0f541b2cb79cd4\\",
+        \\"description\\": \\"description of label1\\",
+        \\"name\\": \\"label1\\"
+    }
+}",
+            },
+          },
+        },
+        "summary": "Create metering label",
+      },
+    ],
+    "path": "/v2.0/metering/metering-labels",
+  },
+  {
+    "methods": [
+      {
+        "description": "Shows informations for a specified metering label.
+",
+        "method": "get",
+        "operationId": "getMeteringLabel",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"metering_label\\": {
+        \\"id\\": \\"a6700594-5b7a-4105-8bfe-723b346ce866\\",
+        \\"tenant_id\\": \\"45345b0ee1ea477fac0f541b2cb79cd4\\",
+        \\"description\\": \\"label1 description\\",
+        \\"name\\": \\"label1\\"
+    }
+}",
+            },
+          },
+        },
+        "summary": "Show metering label",
+      },
+      {
+        "description": "Deletes a l3 metering label.
+",
+        "method": "delete",
+        "operationId": "deleteMeteringLabel",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "204": {
+            "description": "204 response",
+            "examples": {},
+          },
+        },
+        "summary": "Delete metering label",
+      },
+    ],
+    "path": "/v2.0/metering/metering-labels/{metering_label_id}",
+  },
+  {
+    "methods": [
+      {
+        "description": "Lists a summary of all l3 metering label rules belonging to the specified tenant.
+",
+        "method": "get",
+        "operationId": "listMeteringLabelRules",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"metering_label_rules\\": [
+        {
+            \\"remote_ip_prefix\\": \\"20.0.0.0/24\\",
+            \\"direction\\": \\"ingress\\",
+            \\"metering_label_id\\": \\"e131d186-b02d-4c0b-83d5-0c0725c4f812\\",
+            \\"id\\": \\"9536641a-7d14-4dc5-afaf-93a973ce0eb8\\",
+            \\"excluded\\": false
+        },
+        {
+            \\"remote_ip_prefix\\": \\"10.0.0.0/24\\",
+            \\"direction\\": \\"ingress\\",
+            \\"metering_label_id\\": \\"e131d186-b02d-4c0b-83d5-0c0725c4f812\\",
+            \\"id\\": \\"ffc6fd15-40de-4e7d-b617-34d3f7a93aec\\",
+            \\"excluded\\": false
+        }
+    ]
+}",
+            },
+          },
+        },
+        "summary": "List metering label rules",
+      },
+      {
+        "description": "Creates a l3 metering label rule.
+",
+        "method": "post",
+        "operationId": "createMeteringLabelRule",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "201": {
+            "description": "201 response",
+            "examples": {
+              "application/json": "{
+    \\"metering_label_rule\\": {
+        \\"remote_ip_prefix\\": \\"10.0.1.0/24\\",
+        \\"direction\\": \\"ingress\\",
+        \\"metering_label_id\\": \\"e131d186-b02d-4c0b-83d5-0c0725c4f812\\",
+        \\"id\\": \\"00e13b58-b4f2-4579-9c9c-7ac94615f9ae\\",
+        \\"excluded\\": false
+    }
+}",
+            },
+          },
+        },
+        "summary": "Create metering label rule",
+      },
+    ],
+    "path": "/v2.0/metering/metering-label-rules",
+  },
+  {
+    "methods": [
+      {
+        "description": "Shows detailed informations for a specified metering label rule.
+",
+        "method": "get",
+        "operationId": "getMeteringLabelRule",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "examples": {
+              "application/json": "{
+    \\"metering_label_rule\\": {
+        \\"remote_ip_prefix\\": \\"20.0.0.0/24\\",
+        \\"direction\\": \\"ingress\\",
+        \\"metering_label_id\\": \\"e131d186-b02d-4c0b-83d5-0c0725c4f812\\",
+        \\"id\\": \\"9536641a-7d14-4dc5-afaf-93a973ce0eb8\\",
+        \\"excluded\\": false
+    }
+}",
+            },
+          },
+        },
+        "summary": "Show metering label rule",
+      },
+      {
+        "description": "Deletes a specified l3 metering label rule.
+",
+        "method": "delete",
+        "operationId": "deleteMeteringLabelRule",
+        "produces": [
+          "application/json",
+        ],
+        "responses": {
+          "204": {
+            "description": "204 response",
+            "examples": {},
+          },
+        },
+        "summary": "Delete metering label rule",
+      },
+    ],
+    "path": "/v2.0/metering/metering-label-rules/{metering-label-rule-id}",
+  },
+]
+`;
