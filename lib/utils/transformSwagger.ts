@@ -1,4 +1,5 @@
 import type { ExtendedOperation, Method, Paths, TransformedPath } from "../types/Swagger";
+import { methods as methodsArray } from "../types/Swagger";
 
 /** 
  * @description Transforms the paths object from the swagger file into a more usable format
@@ -9,11 +10,14 @@ export function transformPaths(paths: Paths): TransformedPath[] {
         const endpoint = paths[pathString];
         const methods = new Set<ExtendedOperation>()
         endpoint && Object.keys(endpoint).forEach((method) => {
-            const operation = endpoint[method as Method];
-            operation && methods.add({
-                method: method as Method,
-                ...operation
-            });
+            if (methodsArray.includes(method as Method)) {
+                const operation = endpoint[method as Method];
+                operation && methods.add({
+                    method: method as Method,
+                    ...operation
+                });
+            }
+
         });
         trasnformedPaths.add({
             path: pathString,
