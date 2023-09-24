@@ -1,6 +1,6 @@
 {
   "name": "@openchatai/copilot-flows-editor",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": false,
   "description": "OpenChat Flow Builder for openCopilot",
   "type": "module",
