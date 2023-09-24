@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.1.0
+
+### Minor Changes
+
+- 1aa80aa: updated styles.
+
 ## 1.0.0
 
 ### Major Changes
