@@ -11,7 +11,7 @@ function Header() {
     <header className="h-14 w-full bg-neutral-100">
       <div className="w-full h-full flex items-center justify-between lg:px-4 px-2">
         <div className="select-none align-middle flex items-center">
-          <h1 className="text-xl font-bold text-slate-800">Flow Editor</h1>
+          <h1 className="text-slate-800 text-2xl font-bold">Flow Editor</h1>
           {activeFlow && (
             <>
               <span className="text-2xl font-bold mx-1">/</span>
@@ -29,9 +29,9 @@ function Header() {
                 reset();
               }
             }}
-            className="text-sm px-2 py-1 text-white font-medium rounded bg-rose-500"
+            className="btn danger small"
           >
-            <span>reset</span>
+            <span>Reset</span>
             <ResetIcon className="inline-block ml-1" />
           </button>
           <a
@@ -53,7 +53,7 @@ export default function FlowBuilder() {
         console.log(state);
       }}
     >
-      <div className="w-full h-screen relative flex items-start flex-col font-openSans overflow-hidden">
+      <div className="h-screen flex items-start flex-col font-openSans overflow-hidden">
         <Header />
         <div className="flex items-start justify-between relative w-full flex-1 overflow-hidden">
           <FlowArena />

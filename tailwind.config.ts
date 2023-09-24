@@ -5,6 +5,7 @@ export default {
     "./src/**/*.tsx",
     "./lib/**/*.tsx",
   ],
+  darkMode: 'class',
   theme: {
     container: {
       center: true,

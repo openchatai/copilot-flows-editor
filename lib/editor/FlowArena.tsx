@@ -91,7 +91,7 @@ export function FlowArena() {
         <div className="flex-1 h-full relative">
           {empty && (
             <div
-              className="absolute inset-0 z-40 bg-black/10 group select-none"
+              className="absolute inset-0 z-10  bg-black/10 group select-none"
               data-container="empty-state"
             >
               <div className="flex items-center justify-center h-full">

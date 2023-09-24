@@ -24,7 +24,7 @@ export const MethodBtn = forwardRef<
     {...props}
     ref={_ref}
     className={cn(
-      "rounded-sm px-2 py-1 flex items-center justify-center font-medium text-white text-sm",
+      "btn small flex items-center justify-center font-semibold text-white text-sm",
       methodStyles(method),
       className
     )}

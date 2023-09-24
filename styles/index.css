@@ -15,5 +15,21 @@
 
 .btn,
 .a {
-  @apply px-2 py-1 rounded text-sm font-semibold text-slate-500 bg-stone-200 hover:bg-stone-300 hover:text-slate-600 transition;
+  @apply rounded text-sm border outline-none relative focus:outline-none whitespace-nowrap [&:active:not(:disabled)]:opacity-90 [&:active:not(:disabled)]:scale-[0.98] border-transparent transition duration-150 ease-in-out font-medium inline-flex items-center justify-center leading-5 shadow-sm disabled:cursor-not-allowed disabled:text-slate-400 disabled:bg-slate-100 disabled:border-slate-200 dark:disabled:border-slate-600 data-[loading=true]:text-slate-400 data-[loading=true]:bg-slate-100 data-[loading=true]:border-slate-200 disabled:shadow-none dark:disabled:bg-slate-800 dark:disabled:text-slate-600;
+}
+.small {
+  @apply px-2 py-1;
+}
+.large {
+  @apply px-4 py-3;
+}
+.danger {
+  @apply text-white bg-rose-500 hover:bg-opacity-80 hover:border-opacity-80;
+}
+.secondary {
+  @apply hover:border-opacity-80 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-indigo-500;
+}
+/* wrapper */
+.wrapper{
+  @apply border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 rounded-sm border shadow-lg;
 }

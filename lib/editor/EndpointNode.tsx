@@ -76,11 +76,11 @@ function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
             <AlertDialogFooter>
               <AlertDialogAction
                 onClick={deleteNode}
-                className="font-semibold text-white bg-rose-500 px-1.5 py-1 text-sm rounded"
+                className="btn small danger"
               >
                 Yup!
               </AlertDialogAction>
-              <AlertDialogCancel className=" font-semibold px-1.5 py-1 text-slate-500 border border-stone-500 text-sm rounded">
+              <AlertDialogCancel className="btn small secondary">
                 Nope!
               </AlertDialogCancel>
             </AlertDialogFooter>

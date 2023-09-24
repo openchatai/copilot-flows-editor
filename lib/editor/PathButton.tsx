@@ -81,7 +81,7 @@ export function PathButton({ path }: { path: TransformedPath }) {
 
   return (
     <div className="animate-in fade-in">
-      <div className="text-start h-full p-3 rounded hover:bg-stone-100 transition-colors w-full border border-stone-200">
+      <div className="wrapper text-start h-full p-3 !shadow-none hover:bg-slate-50">
         <span className="text-black/80 text-lg font-medium">{path.path}</span>
         <span className="flex w-full items-center gap-1 mt-2">
           <TooltipProvider>
