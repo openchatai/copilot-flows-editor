@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.1.2
+
+### Patch Changes
+
+- be13f38: fixes
+
 ## 1.1.1
 
 ### Patch Changes
