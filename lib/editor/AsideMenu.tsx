@@ -51,7 +51,7 @@ export function AsideMenu() {
   return (
     <aside
       className={cn(
-        "h-full z-20 max-h-full absolute translate-x-0 max-w-sm w-full transition-transform overflow-hidden ease-in-out origin-right bg-white border-r-4 border-neutral-100 shadow-lg"
+        "h-full z-20 max-h-full absolute max-w-sm w-full overflow-hidden ease-in-out origin-right bg-white border-r-4 border-neutral-100 shadow-lg"
       )}
     >
       <div className="w-full h-full py-2">

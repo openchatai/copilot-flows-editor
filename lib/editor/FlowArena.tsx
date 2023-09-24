@@ -86,9 +86,9 @@ export function FlowArena() {
   }, [activeNodes, activeFlowId]);
   return (
     <>
-      <div className="flex-1 h-full flex items-center overflow-hidden relative">
+      <div className="w-full h-full overflow-hidden relative">
         <AsideMenu />
-        <div className="flex-1 h-full relative">
+        <div className="h-full relative">
           {empty && (
             <div
               className="absolute inset-0 z-10  bg-black/10 group select-none"
@@ -115,7 +115,7 @@ export function FlowArena() {
                 edge: edge,
               });
             }}
-            className="transition-all duration-300 origin-center flex-1"
+            className="transition-all duration-300 origin-center w-full h-full"
             edgeTypes={edgeTypes}
             maxZoom={BUILDER_SCALE}
             minZoom={BUILDER_SCALE}
