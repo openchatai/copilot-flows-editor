@@ -10,28 +10,10 @@ import { EmptyState } from "../components";
 import { cn, parse, transformPaths } from "../utils";
 import { useSettings } from "../stores/Config";
 
-export function AsideMenu() {
-  const { standalone } = useSettings();
-  const {
-    state: { paths },
-    loadPaths,
-  } = useController();
-
-  const { mode, isEdit } = useMode();
-
-  const [search, setSearch] = useState("");
-
+function UploadSwagger() {
   const [file, setFile] = useState<FileList | null>(null);
-
-  const renderedPaths = useMemo(
-    () =>
-      search.trim().length > 0
-        ? paths.filter((path) => path.path.includes(search.trim()))
-        : paths,
-    [search, paths]
-  );
+  const { loadPaths } = useController();
   useEffect(() => {
-    console.log(file, "file");
     if (file && file.length > 0) {
       const $file = file.item(0);
       if ($file) {
@@ -49,6 +31,48 @@ export function AsideMenu() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
+  return (
+    <EmptyState>
+      <input
+        type="file"
+        className="hidden"
+        id="swagger-file-input"
+        multiple={false}
+        accept="application/json"
+        onChange={(ev) => setFile(ev.target.files)}
+      />
+      <div className="mt-4">
+        <label
+          htmlFor="swagger-file-input"
+          role="button"
+          className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
+        >
+          <span>Load from Swagger</span>
+          <PlusIcon className="inline" />
+        </label>
+      </div>
+    </EmptyState>
+  );
+}
+
+export function AsideMenu() {
+  const { standalone } = useSettings();
+  const {
+    state: { paths },
+    loadPaths,
+  } = useController();
+
+  const { mode, isEdit } = useMode();
+
+  const [search, setSearch] = useState("");
+
+  const renderedPaths = useMemo(
+    () =>
+      search.trim().length > 0
+        ? paths.filter((path) => path.path.includes(search.trim()))
+        : paths,
+    [search, paths]
+  );
 
   return (
     <aside
@@ -92,28 +116,7 @@ export function AsideMenu() {
                   ))}
                 </>
               ) : (
-                standalone && (
-                  <EmptyState>
-                    <input
-                      type="file"
-                      className="hidden"
-                      id="swagger-file-input"
-                      multiple={false}
-                      accept="application/json"
-                      onChange={(ev) => setFile(ev.target.files)}
-                    />
-                    <div className="mt-4">
-                      <label
-                        htmlFor="swagger-file-input"
-                        role="button"
-                        className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
-                      >
-                        <span>Load from Swagger</span>
-                        <PlusIcon className="inline" />
-                      </label>
-                    </div>
-                  </EmptyState>
-                )
+                standalone && <UploadSwagger />
               )}
             </ul>
           </div>

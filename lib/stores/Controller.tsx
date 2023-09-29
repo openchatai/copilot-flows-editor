@@ -112,7 +112,7 @@ function Controller({
 } & Settings) {
   const [state, dispatch] = useReducer(
     stateReducer,
-    initialState ?? initialStateValue
+    initialState ? initialState : initialStateValue
   );
 
   useEffect(() => {

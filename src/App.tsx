@@ -50,6 +50,18 @@ export default function FlowBuilder() {
   return (
     <Controller
       standalone
+      initialState={{
+        flows: [
+          {
+            id: "flow-1",
+            name: "Flow 1",
+            description: "This is a flow",
+            createdAt: Date.now(),
+            steps: [],
+          },
+        ],
+        paths: [],
+      }}
       onChange={(state) => {
         console.log(state);
       }}
