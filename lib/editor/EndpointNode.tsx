@@ -113,14 +113,14 @@ function EndpointNode({ data, zIndex }: NodeProps<NodeData>) {
               : "border-slate-200 hover:shadow"
           )}
         >
-          <div className="p-2 space-y-1">
+          <div className="p-1.5 gap-1 w-full flex flex-col">
             <code className="block text-sm text-slate-800">{data.path}</code>
             <p className="text-xs ms-2 text-slate-600 font-medium line-clamp-2">
               {data.description}
             </p>
             <MethodBtn
               method={data.method}
-              className="uppercase text-[10px] font-bold py-0.5 px-1 ms-auto cursor-default"
+              className="uppercase ms-auto !text-xs font-bold !py-0.5 !px-1 cursor-default"
             >
               {data.method}
             </MethodBtn>
