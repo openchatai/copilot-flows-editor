@@ -13,6 +13,8 @@ import { createSafeContext } from "../utils/create-safe-context";
 import { genId } from "../utils";
 import { ReactFlowProvider } from "reactflow";
 import { EndpointNodeType } from "../types/Flow";
+import { SettingsProvider } from "./Config";
+import { Settings } from "../types/Config";
 
 type StateShape = {
   paths: TransformedPath[];
@@ -99,12 +101,13 @@ function stateReducer(state: StateShape, action: ActionType) {
 function Controller({
   children,
   onChange,
-  initilState,
+  initialState,
+  ...settings
 }: {
   children: ReactNode;
-  initilState?: StateShape;
+  initialState?: StateShape;
   onChange?: (state: StateShape) => void;
-}) {
+} & Settings) {
   const [state, dispatch] = useReducer(stateReducer, initialStateValue);
 
   useEffect(() => {
@@ -151,21 +154,23 @@ function Controller({
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
   return (
     <ReactFlowProvider>
-      <ModeProvider>
-        <SafeProvider
-          value={{
-            loadPaths,
-            state,
-            createFlow,
-            setActiveFlow,
-            activeNodes,
-            setNodes,
-            reset,
-          }}
-        >
-          {children}
-        </SafeProvider>
-      </ModeProvider>
+      <SettingsProvider value={settings}>
+        <ModeProvider>
+          <SafeProvider
+            value={{
+              loadPaths,
+              state,
+              createFlow,
+              setActiveFlow,
+              activeNodes,
+              setNodes,
+              reset,
+            }}
+          >
+            {children}
+          </SafeProvider>
+        </ModeProvider>
+      </SettingsProvider>
     </ReactFlowProvider>
   );
 }

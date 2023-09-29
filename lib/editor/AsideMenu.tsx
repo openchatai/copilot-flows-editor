@@ -8,8 +8,10 @@ import { FlowsList } from "./FlowsList";
 import { useController } from "../stores/Controller";
 import { EmptyState } from "../components";
 import { cn, parse, transformPaths } from "../utils";
+import { useSettings } from "../stores/Config";
 
 export function AsideMenu() {
+  const { standalone } = useSettings();
   const {
     state: { paths },
     loadPaths,
@@ -90,26 +92,28 @@ export function AsideMenu() {
                   ))}
                 </>
               ) : (
-                <EmptyState>
-                  <input
-                    type="file"
-                    className="hidden"
-                    id="swagger-file-input"
-                    multiple={false}
-                    accept="application/json"
-                    onChange={(ev) => setFile(ev.target.files)}
-                  />
-                  <div className="mt-4">
-                    <label
-                      htmlFor="swagger-file-input"
-                      role="button"
-                      className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
-                    >
-                      <span>Load from Swagger</span>
-                      <PlusIcon className="inline" />
-                    </label>
-                  </div>
-                </EmptyState>
+                standalone && (
+                  <EmptyState>
+                    <input
+                      type="file"
+                      className="hidden"
+                      id="swagger-file-input"
+                      multiple={false}
+                      accept="application/json"
+                      onChange={(ev) => setFile(ev.target.files)}
+                    />
+                    <div className="mt-4">
+                      <label
+                        htmlFor="swagger-file-input"
+                        role="button"
+                        className="bg-indigo-500 rounded px-2 cursor-pointer py-1 space-x-1 text-white"
+                      >
+                        <span>Load from Swagger</span>
+                        <PlusIcon className="inline" />
+                      </label>
+                    </div>
+                  </EmptyState>
+                )
               )}
             </ul>
           </div>

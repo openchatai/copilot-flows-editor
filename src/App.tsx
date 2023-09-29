@@ -49,6 +49,7 @@ function Header() {
 export default function FlowBuilder() {
   return (
     <Controller
+      standalone
       onChange={(state) => {
         console.log(state);
       }}
