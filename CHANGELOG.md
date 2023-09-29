@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.3.2
+
+### Patch Changes
+
+- 424a35d: trial 1
+
 ## 1.3.1
 
 ### Patch Changes
