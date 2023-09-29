@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.2.0
+
+### Minor Changes
+
+- aed06ee: standalone and non standalone mode, for more control over the editor
+
 ## 1.1.3
 
 ### Patch Changes
