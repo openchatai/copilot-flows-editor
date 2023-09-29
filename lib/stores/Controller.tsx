@@ -20,11 +20,12 @@ type StateShape = {
   paths: TransformedPath[];
   activeFlowId?: string;
   flows: {
+    id: string;
     name: string;
     description?: string;
     createdAt: number;
+    updatedAt?: number;
     steps: EndpointNodeType[];
-    id: string;
   }[];
 };
 
@@ -90,6 +91,7 @@ function stateReducer(state: StateShape, action: ActionType) {
           const flow = draft.flows.find((f) => f.id === state.activeFlowId);
           if (!flow) return;
           flow.steps = action.payload;
+          flow.updatedAt = Date.now();
         }
         break;
       default:
@@ -108,7 +110,10 @@ function Controller({
   initialState?: StateShape;
   onChange?: (state: StateShape) => void;
 } & Settings) {
-  const [state, dispatch] = useReducer(stateReducer, initialStateValue);
+  const [state, dispatch] = useReducer(
+    stateReducer,
+    initialState ?? ({} as StateShape)
+  );
 
   useEffect(() => {
     onChange?.(state);
