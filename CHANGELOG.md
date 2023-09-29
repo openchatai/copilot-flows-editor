@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.3.0
+
+### Minor Changes
+
+- ac72030: we can pass initialState to the controller.
+
 ## 1.2.0
 
 ### Minor Changes
