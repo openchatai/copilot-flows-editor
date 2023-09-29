@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.1.3
+
+### Patch Changes
+
+- f21312b: styling issues with the Api Nodes styles.
+
 ## 1.1.2
 
 ### Patch Changes
