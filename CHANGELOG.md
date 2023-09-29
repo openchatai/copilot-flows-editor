@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.3.4
+
+### Patch Changes
+
+- e806091: making some of path keys optional
+
 ## 1.3.3
 
 ### Patch Changes
