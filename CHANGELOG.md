@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.3.6
+
+### Patch Changes
+
+- 66397d0: export `transformPaths`.
+
 ## 1.3.5
 
 ### Patch Changes
