@@ -9,3 +9,4 @@ export {
   transformaEndpointToNode,
   trasnformEndpointNodesData,
 } from "./utils/transformEndpointNodes";
+export { transformPaths } from "./utils/transformSwagger";
