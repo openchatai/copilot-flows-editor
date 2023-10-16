@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.4.0
+
+### Minor Changes
+
+- 5c82878: no need for tailwind reset in lib mode, some code formatting.
+
 ## 1.3.6
 
 ### Patch Changes
