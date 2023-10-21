@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.5.2
+
+### Patch Changes
+
+- 66a5e9b: FIXED: `maxFlows` bug.
+
 ## 1.5.1
 
 ### Patch Changes
