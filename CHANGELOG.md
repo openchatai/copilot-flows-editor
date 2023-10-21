@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.5.1
+
+### Patch Changes
+
+- 391eab8: bump version
+
 ## 1.5.0
 
 ### Minor Changes
