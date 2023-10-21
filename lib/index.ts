@@ -1,4 +1,4 @@
-import "../styles/index.css";
+import "./index.css";
 export { FlowArena } from "./editor/FlowArena";
 export { CodePreview } from "./editor/CodePreview";
 export { Controller, useController } from "./stores/Controller";

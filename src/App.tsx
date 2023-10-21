@@ -50,6 +50,7 @@ export default function FlowBuilder() {
   return (
     <Controller
       standalone
+      maxFlows={2}
       initialState={{
         flows: [
           {
@@ -61,9 +62,6 @@ export default function FlowBuilder() {
           },
         ],
         paths: [],
-      }}
-      onChange={(state) => {
-        console.log(state);
       }}
     >
       <div className="h-screen flex items-start flex-col font-openSans overflow-hidden">

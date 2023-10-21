@@ -13,8 +13,7 @@ import { createSafeContext } from "../utils/create-safe-context";
 import { genId } from "../utils";
 import { ReactFlowProvider } from "reactflow";
 import { EndpointNodeType } from "../types/Flow";
-import { SettingsProvider } from "./Config";
-import { Settings } from "../types/Config";
+import { Settings, SettingsProvider } from "./Config";
 
 type StateShape = {
   paths: TransformedPath[];
@@ -37,6 +36,7 @@ type ControllerContextType = {
   setActiveFlow: (id: string) => void;
   setNodes: (nodes: Node[]) => void;
   reset: () => void;
+  deleteFlow: (id: string) => void;
 };
 
 type ActionType =
@@ -51,6 +51,10 @@ type ActionType =
         createdAt: number;
         focus: boolean;
       };
+    }
+  | {
+      type: "delete-flow";
+      pyload: string;
     }
   | { type: "set-flows"; pyload: StateShape["flows"] }
   | { type: "set-nodes"; payload: Node[] };
@@ -94,6 +98,12 @@ function stateReducer(state: StateShape, action: ActionType) {
           flow.updatedAt = Date.now();
         }
         break;
+      case "delete-flow":
+        draft.flows = draft.flows.filter((f) => f.id !== action.pyload);
+        if (draft.activeFlowId === action.pyload) {
+          draft.activeFlowId = undefined;
+        }
+        break;
       default:
         break;
     }
@@ -127,6 +137,7 @@ function Controller({
     []
   );
   const createFlow = useCallback((data: CreateFlowPayload) => {
+    if (settings.maxFlows && state.flows.length >= settings.maxFlows) return;
     dispatch({
       type: "create-flow",
       pyload: data,
@@ -155,6 +166,14 @@ function Controller({
       }),
     []
   );
+  const deleteFlow = useCallback(
+    (id: string) =>
+      dispatch({
+        type: "delete-flow",
+        pyload: id,
+      }),
+    []
+  );
   // TODO: @bug: when we reset, the nodes(in the arena) are not reset
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
   return (
@@ -169,6 +188,7 @@ function Controller({
               setActiveFlow,
               activeNodes,
               setNodes,
+              deleteFlow,
               reset,
             }}
           >

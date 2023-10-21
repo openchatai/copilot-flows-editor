@@ -1,5 +1,9 @@
 import { createSafeContext } from "../utils/create-safe-context";
-import type { Settings } from "../types/Config";
+export type Settings = {
+  standalone?: boolean;
+  maxFlows?: number;
+};
+
 const [SettingsProvider, useSettings] = createSafeContext<Settings>(
   {} as Settings
 );

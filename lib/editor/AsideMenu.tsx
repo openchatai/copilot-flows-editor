@@ -59,7 +59,6 @@ export function AsideMenu() {
   const { standalone } = useSettings();
   const {
     state: { paths },
-    loadPaths,
   } = useController();
 
   const { mode, isEdit } = useMode();

@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { ChevronRightIcon, CubeIcon, PlusIcon } from "@radix-ui/react-icons";
+import {
+  ChevronRightIcon,
+  CubeIcon,
+  Pencil1Icon,
+  PlusIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import { useController } from "../stores/Controller";
 import { useMode } from "../stores/ModeProvider";
 import {
@@ -10,17 +16,20 @@ import {
   EmptyState,
 } from "../components";
 import { cn } from "../utils";
+import { useSettings } from "../stores/Config";
 
 export function FlowsList() {
   const [flowsPanelOpened, setFlowsPanel] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { reset } = useMode();
-
+  const { maxFlows } = useSettings();
   const {
     createFlow,
     state: { flows, activeFlowId },
     setActiveFlow,
+    deleteFlow,
   } = useController();
+  console.log(flows.length);
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -30,13 +39,17 @@ export function FlowsList() {
       data.get("focus"),
     ];
     if (name && description) {
-      createFlow({
-        createdAt: Date.now(),
-        name: name.toString(),
-        description: description.toString(),
-        focus: focus === "on" ? true : false,
-      });
-      setModalOpen(false);
+      if (maxFlows && flows.length <= maxFlows) {
+        createFlow({
+          createdAt: Date.now(),
+          name: name.toString(),
+          description: description.toString(),
+          focus: focus === "on" ? true : false,
+        });
+        setModalOpen(false);
+      } else {
+        alert("You have reached the maximum number of flows");
+      }
     }
   }
   return (
@@ -122,25 +135,41 @@ export function FlowsList() {
             {flows?.map((flow, i) => {
               const isActive = flow.id === activeFlowId;
               return (
-                <li
-                  key={flow.id}
-                  data-flow-id={flow.id}
-                  title={flow.description}
-                >
-                  <button
+                <li key={flow.id} data-flow-id={flow.id}>
+                  <div
                     className={cn(
-                      "space-x-2 text-base block rounded-md w-full text-left font-semibold p-2 transition-all duration-300 ease-in-out hover:bg-slate-100",
+                      "flex items-center text-base rounded-md w-full text-left justify-between font-semibold p-2 transition-all duration-300 ease-in-out hover:bg-slate-100",
                       isActive ? "bg-slate-100" : ""
                     )}
-                    onClick={() => {
-                      if (isActive) return;
-                      setActiveFlow(flow.id);
-                      reset();
-                    }}
                   >
-                    <CubeIcon className="inline" />
-                    <span>{flow.name}</span>
-                  </button>
+                    <div className="flex items-center gap-2">
+                      <CubeIcon className="inline" />
+                      <span>{flow.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-lg">
+                      <button
+                        title="edit this flow"
+                        onClick={() => {
+                          if (isActive) return;
+                          setActiveFlow(flow.id);
+                          reset();
+                        }}
+                        className="text-slate-500"
+                      >
+                        <Pencil1Icon />
+                      </button>
+                      <button
+                        className="text-rose-500"
+                        onClick={() => {
+                          confirm(
+                            "Are you sure you want to delete this flow?"
+                          ) && deleteFlow(flow.id);
+                        }}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  </div>
                 </li>
               );
             })}
