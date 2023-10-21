@@ -39,17 +39,13 @@ export function FlowsList() {
       data.get("focus"),
     ];
     if (name && description) {
-      if (maxFlows && flows.length <= maxFlows) {
-        createFlow({
-          createdAt: Date.now(),
-          name: name.toString(),
-          description: description.toString(),
-          focus: focus === "on" ? true : false,
-        });
-        setModalOpen(false);
-      } else {
-        alert("You have reached the maximum number of flows");
-      }
+      createFlow({
+        createdAt: Date.now(),
+        name: name.toString(),
+        description: description.toString(),
+        focus: focus === "on" ? true : false,
+      });
+      setModalOpen(false);
     }
   }
   return (
@@ -67,7 +63,7 @@ export function FlowsList() {
           />
           <span>flows</span>
         </button>
-        <Dialog open={modalOpen} onOpenChange={(e) => setModalOpen(e)}>
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
           <DialogContent className="h-fit">
             <DialogHeader className="text-lg font-semibold">
               New Flow
@@ -113,7 +109,16 @@ export function FlowsList() {
               </div>
             </form>
           </DialogContent>
-          <DialogTrigger asChild>
+          <DialogTrigger
+            asChild
+            onClick={(ev) => {
+              if (maxFlows && flows.length >= maxFlows) {
+                alert(`You can only have ${maxFlows} flows at a time.`);
+                ev.preventDefault();
+                return;
+              }
+            }}
+          >
             <button>
               <PlusIcon className="text-base" />
             </button>
