@@ -1,6 +1,6 @@
 {
   "name": "@openchatai/copilot-flows-editor",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "private": false,
   "description": "OpenChat Flow Builder for openCopilot",
   "type": "module",
@@ -29,13 +29,14 @@
     "cs:v": "changeset version"
   },
   "peerDependencies": {
-    "react": "^18.x",
-    "react-dom": "^18.x",
-    "@radix-ui/react-tooltip": "^1.0.6",
     "@radix-ui/react-alert-dialog": "^1.0.4",
-    "@radix-ui/react-dialog": "^1.0.4"
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.6",
+    "react": "^18.x",
+    "react-dom": "^18.x"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@codemirror/autocomplete": "^6.9.0",
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/lint": "^6.4.1",
@@ -72,13 +73,12 @@
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
     "vite-plugin-dts": "^3.5.4",
-    "vitest": "^0.34.5",
-    "@changesets/cli": "^2.26.2"
+    "vitest": "^0.34.5"
   },
   "dependencies": {
-    "@radix-ui/react-tooltip": "^1.0.6",
     "@radix-ui/react-alert-dialog": "^1.0.4",
-    "@radix-ui/react-dialog": "^1.0.4"
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.6"
   },
   "files": [
     "dist"

@@ -1,5 +1,11 @@
 # @openchatai/copilot-flows-editor
 
+## 1.6.0
+
+### Minor Changes
+
+- 5bd5285: added `getData` function to the controller in order to get standard opencopilot flow definition
+
 ## 1.5.2
 
 ### Patch Changes
