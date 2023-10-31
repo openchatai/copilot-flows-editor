@@ -12,20 +12,14 @@ import { TransformedPath } from "../types/Swagger";
 import { createSafeContext } from "../utils/create-safe-context";
 import { genId } from "../utils";
 import { ReactFlowProvider } from "reactflow";
-import { EndpointNodeType } from "../types/Flow";
+import { EndpointNodeType, FlowSchema, FlowType } from "../types/Flow";
 import { Settings, SettingsProvider } from "./Config";
+import { getDef } from "../utils/getDef";
 
 type StateShape = {
   paths: TransformedPath[];
   activeFlowId?: string;
-  flows: {
-    id: string;
-    name: string;
-    description?: string;
-    createdAt: number;
-    updatedAt?: number;
-    steps: EndpointNodeType[];
-  }[];
+  flows: FlowType[];
 };
 
 type ControllerContextType = {
@@ -37,6 +31,7 @@ type ControllerContextType = {
   setNodes: (nodes: Node[]) => void;
   reset: () => void;
   deleteFlow: (id: string) => void;
+  getData: () => ReturnType<typeof getDef>;
 };
 
 type ActionType =
@@ -176,6 +171,8 @@ function Controller({
   );
   // TODO: @bug: when we reset, the nodes(in the arena) are not reset
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
+  const getData = useCallback(() => getDef(state.flows), [state]);
+
   return (
     <ReactFlowProvider>
       <SettingsProvider value={settings}>
@@ -190,6 +187,7 @@ function Controller({
               setNodes,
               deleteFlow,
               reset,
+              getData,
             }}
           >
             {children}

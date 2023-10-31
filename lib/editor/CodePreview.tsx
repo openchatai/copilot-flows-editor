@@ -112,42 +112,18 @@ export function CodePreview() {
   // this will preview the whole code for the flows.
   const {
     state: { flows },
+    getData,
   } = useController();
   const [code, $setCode] = useState("{}");
   const [codeExpanded, setCodeExpanded] = useState(false);
   const setCode = useCallback(() => {
-    const $flows = flows.map((flow) => {
-      return {
-        name: flow.name,
-        description: flow.description,
-        requires_confirmation: true,
-        steps: flow.steps.map((step) => {
-          const $step = step.data;
-          // TODO: add support for other operations
-          // TODO: better error handling for missing operationId
-          return {
-            operation: "call",
-            stepId: step.id,
-            open_api_operation_id: $step.operationId,
-            parameters: $step.parameters,
-          };
-        }),
-      };
-    });
-    const $code = {
-      opencopilot: "0.1",
-      info: {
-        title: "My OpenCopilot definition",
-        version: "1.0.0",
-      },
-      flows: $flows,
-    };
+    const $code = getData();
     const $codeString = js(JSON.stringify($code), {
       indent_size: 1,
     });
     $setCode($codeString);
     validate($code);
-  }, [flows]);
+  }, [getData]);
 
   const [barOpen, setBarOpen] = useState(false);
   return (

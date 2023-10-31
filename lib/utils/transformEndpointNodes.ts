@@ -1,11 +1,14 @@
 import { Y } from "../editor/consts";
 import type { EndpointNodeType } from "../types/Flow";
 import { genId } from "./genId";
-
-export function trasnformEndpointNodesData(
-  nodes: EndpointNodeType[]
-): EndpointNodeType["data"][] {
-  return nodes.map((node) => node.data);
+export function trasnformEndpointNodesData(nodes: EndpointNodeType[]) {
+  return nodes
+    .map((node) => node.data)
+    .map((data) => ({
+      operation: "call",
+      stepId: data.operationId,
+      open_api_operation_id: data.operationId,
+    }));
 }
 // the reverse of the above function
 export function transformaEndpointToNode(
